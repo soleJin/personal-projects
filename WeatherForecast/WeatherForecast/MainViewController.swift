@@ -19,7 +19,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CityTableViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CityListCell", for: indexPath)
         return cell
     }
 }
