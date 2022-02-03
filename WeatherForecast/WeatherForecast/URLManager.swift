@@ -9,8 +9,8 @@ import Foundation
 import CoreLocation
 
 struct URLManager {
-    static func getRequestUrl(weatherUrl: String, _ cityName: String? = nil, _ location: CLLocation? = nil ) -> URL? {
-        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/\(weatherUrl)?")
+    static func getRequestUrl(_ apiType: String, _ cityName: String? = nil, _ location: CLLocation? = nil ) -> URL? {
+        var urlComponents = URLComponents(string: apiType)
         let appIdQuery = URLQueryItem(name: "appid", value: "179f9f1734b59fcdd8627cb64e9fae5d")
         let languageQuery = URLQueryItem(name: "lang", value: "kr")
         let cityNameQuery = URLQueryItem(name: "q", value: cityName)
