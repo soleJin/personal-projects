@@ -16,6 +16,7 @@
 		FD3A9A9027AC712B005C7A05 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */; };
 		FD3A9A9827AC7245005C7A05 /* CityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A9727AC7245005C7A05 /* CityListCell.swift */; };
 		FD3A9A9B27AC7495005C7A05 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A9A27AC7495005C7A05 /* MainViewModel.swift */; };
+		FD3A9AA227AC7E46005C7A05 /* URLManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9AA127AC7E46005C7A05 /* URLManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		FD3A9A9727AC7245005C7A05 /* CityListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListCell.swift; sourceTree = "<group>"; };
 		FD3A9A9A27AC7495005C7A05 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		FD3A9AA127AC7E46005C7A05 /* URLManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				FD3A9A6F27AC57A8005C7A05 /* AppDelegate.swift */,
 				FD3A9A7127AC57A8005C7A05 /* SceneDelegate.swift */,
 				FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */,
+				FD3A9AA127AC7E46005C7A05 /* URLManager.swift */,
 				FD3A9A9727AC7245005C7A05 /* CityListCell.swift */,
 				FD3A9A8727AC6947005C7A05 /* MainViewController.swift */,
 				FD3A9A9A27AC7495005C7A05 /* MainViewModel.swift */,
@@ -152,6 +155,7 @@
 				FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */,
 				FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */,
 				FD3A9A9B27AC7495005C7A05 /* MainViewModel.swift in Sources */,
+				FD3A9AA227AC7E46005C7A05 /* URLManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
