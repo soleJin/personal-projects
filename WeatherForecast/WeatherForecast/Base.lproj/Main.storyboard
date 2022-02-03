@@ -106,7 +106,7 @@
                                 <rect key="frame" x="30" y="379" width="364" height="483"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityListCell" id="cWh-Ml-qiO">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityListCell" id="cWh-Ml-qiO" customClass="CityListCell" customModule="WeatherForecast" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="364" height="40"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cWh-Ml-qiO" id="2eU-IG-t0t">
@@ -154,6 +154,12 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="cityNameLabel" destination="DsV-zl-Sah" id="DVQ-Ap-gd9"/>
+                                            <outlet property="currentHumidityLabel" destination="sRs-la-UMI" id="GUk-n9-AUF"/>
+                                            <outlet property="currentTemperatureLabel" destination="bAk-gY-FXl" id="AFb-Pq-MoO"/>
+                                            <outlet property="currentWeatherIcon" destination="CaM-eY-jIP" id="W3z-XC-5AK"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

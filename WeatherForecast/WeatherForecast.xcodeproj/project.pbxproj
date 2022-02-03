@@ -14,6 +14,7 @@
 		FD3A9A7C27AC57B4005C7A05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD3A9A7A27AC57B4005C7A05 /* LaunchScreen.storyboard */; };
 		FD3A9A8827AC6947005C7A05 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A8727AC6947005C7A05 /* MainViewController.swift */; };
 		FD3A9A9027AC712B005C7A05 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */; };
+		FD3A9A9827AC7245005C7A05 /* CityListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A9727AC7245005C7A05 /* CityListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		FD3A9A7D27AC57B4005C7A05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD3A9A8727AC6947005C7A05 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
+		FD3A9A9727AC7245005C7A05 /* CityListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				FD3A9A6F27AC57A8005C7A05 /* AppDelegate.swift */,
 				FD3A9A7127AC57A8005C7A05 /* SceneDelegate.swift */,
 				FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */,
+				FD3A9A9727AC7245005C7A05 /* CityListCell.swift */,
 				FD3A9A8727AC6947005C7A05 /* MainViewController.swift */,
 				FD3A9A7527AC57A8005C7A05 /* Main.storyboard */,
 				FD3A9A7827AC57B4005C7A05 /* Assets.xcassets */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD3A9A9827AC7245005C7A05 /* CityListCell.swift in Sources */,
 				FD3A9A8827AC6947005C7A05 /* MainViewController.swift in Sources */,
 				FD3A9A9027AC712B005C7A05 /* CurrentWeather.swift in Sources */,
 				FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */,
