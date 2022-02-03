@@ -8,6 +8,9 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    
+    var mainViewModel = MainViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -15,11 +18,12 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        mainViewModel.numberOfCurrentWeatherList
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CityListCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityListCell", for: indexPath) as? CityListCell else { return UITableViewCell() }
+        cell.update(data: mainViewModel.sortedWeather(at: indexPath.row))
         return cell
     }
 }
