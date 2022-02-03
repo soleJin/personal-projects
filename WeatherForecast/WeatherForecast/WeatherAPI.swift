@@ -8,12 +8,6 @@
 import Foundation
 import CoreLocation
 
-enum APIType {
-    static let currentWeather = "https://api.openweathermap.org/data/2.5/weather?"
-    static let forecastHourly = "https://api.openweathermap.org/data/2.5/forecast/hourly"
-    static let forecastDaily = "https://api.openweathermap.org/data/2.5/forecast/daily"
-}
-
 struct WeatherAPI {
     static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ location: CLLocation?, completion: @escaping (T) -> Void) {
         let session = URLSession(configuration: .default)
