@@ -8,6 +8,7 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
+    let coord: Coord?
     let additionalInformation: [Weather]?
     let weather: Main?
     let wind: Wind?
@@ -16,8 +17,17 @@ struct CurrentWeather: Decodable {
     enum CodingKeys: String, CodingKey {
         case additionalInformation = "weather"
         case weather = "main"
-        case wind
+        case wind, coord
         case cityName = "name"
+    }
+}
+
+struct Coord: Decodable {
+    let longitude, latitude: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case longitude = "lon"
+        case latitude = "lat"
     }
 }
 
