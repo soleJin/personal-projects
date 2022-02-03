@@ -12,3 +12,14 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
     }
 }
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CityTableViewCell", for: indexPath)
+        return cell
+    }
+}
