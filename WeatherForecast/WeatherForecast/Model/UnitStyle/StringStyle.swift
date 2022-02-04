@@ -36,4 +36,5 @@ enum APIType {
     static let currentWeather = "https://api.openweathermap.org/data/2.5/weather?"
     static let forecastHourly = "https://api.openweathermap.org/data/2.5/forecast/hourly"
     static let forecastDaily = "https://api.openweathermap.org/data/2.5/forecast/daily"
+    static let weatherIcon = "https://openweathermap.org/img/w/"
 }

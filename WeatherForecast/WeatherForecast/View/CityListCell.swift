@@ -26,7 +26,9 @@ class CityListCell: UITableViewCell {
         guard let temperature = data.weather?.temperature,
            let humidity = data.weather?.humidity,
            let iconPath = data.additionalInformation?.first?.iconPath else { return }
-        currentWeatherIcon.image = UIImage(named: iconPath)
+        ImageManager.getImage(iconPath, completion: { icon in
+            self.currentWeatherIcon.image = icon
+        })
         currentHumidityLabel.text = "\(humidity)%"
         currentTemperatureLabel.text = "\(round((temperature-273.15)*10)/10)º"
     }
