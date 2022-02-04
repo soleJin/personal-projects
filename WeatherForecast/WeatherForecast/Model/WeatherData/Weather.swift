@@ -8,11 +8,11 @@
 import Foundation
 
 struct CurrentWeather: Decodable {
-    let coord: Coord?
-    let additionalInformation: [Weather]?
-    var weather: Main?
-    let wind: Wind?
-    let cityName: String?
+    let coord: Coord
+    let additionalInformation: [Weather]
+    var weather: Main
+    let wind: Wind
+    let cityName: String
     
     enum CodingKeys: String, CodingKey {
         case additionalInformation = "weather"
@@ -32,8 +32,8 @@ struct Coord: Decodable {
 }
 
 struct Main: Decodable {
-    var temperature, feelsLike, minimumTemperature, maximumTemperature: Double?
-    let pressure, humidity: Int?
+    var temperature, feelsLike, minimumTemperature, maximumTemperature: Double
+    let pressure, humidity: Int
 
     enum CodingKeys: String, CodingKey {
         case temperature = "temp"
@@ -45,7 +45,7 @@ struct Main: Decodable {
 }
 
 struct Weather: Decodable {
-    let description, iconPath: String?
+    let description, iconPath: String
     
     enum CodingKeys: String, CodingKey {
         case description
@@ -54,5 +54,5 @@ struct Weather: Decodable {
 }
 
 struct Wind: Decodable {
-    let speed: Double?
+    let speed: Double
 }

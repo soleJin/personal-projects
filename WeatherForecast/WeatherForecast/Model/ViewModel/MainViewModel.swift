@@ -11,7 +11,7 @@ class MainViewModel {
     var currentWeatherList = [CurrentWeather]()
     var sortedWeatherList: [CurrentWeather] {
         let sortedList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.cityName ?? "" < nextWeather.cityName ?? ""
+            return prevWeather.cityName < nextWeather.cityName 
         }.compactMap { $0 }
         return sortedList
     }
@@ -30,15 +30,13 @@ class MainViewModel {
     
     func convertTemperatureUnitFtoC() {
         for index in 0...numberOfCurrentWeatherList-1 {
-            guard let temerature = currentWeatherList[index].weather?.temperature else { return }
-            currentWeatherList[index].weather?.temperature = temerature - 273.15
+            currentWeatherList[index].weather.temperature -= 273.15
         }
     }
     
     func convertTemperatureUnitCtoF() {
         for index in 0...numberOfCurrentWeatherList-1 {
-            guard let temerature = currentWeatherList[index].weather?.temperature else { return }
-            currentWeatherList[index].weather?.temperature = temerature + 273.15
+            currentWeatherList[index].weather.temperature += 273.15
         }
     }
 }
