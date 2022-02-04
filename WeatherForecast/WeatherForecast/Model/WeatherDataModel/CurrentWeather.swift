@@ -10,7 +10,7 @@ import Foundation
 struct CurrentWeather: Decodable {
     let coord: Coord?
     let additionalInformation: [Weather]?
-    let weather: Main?
+    var weather: Main?
     let wind: Wind?
     let cityName: String?
     
@@ -32,7 +32,7 @@ struct Coord: Decodable {
 }
 
 struct Main: Decodable {
-    let temperature, feelsLike, minimumTemperature, maximumTemperature: Double?
+    var temperature, feelsLike, minimumTemperature, maximumTemperature: Double?
     let pressure, humidity: Int?
 
     enum CodingKeys: String, CodingKey {

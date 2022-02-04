@@ -27,4 +27,19 @@ class MainViewModel {
     func append(_ currentWeather: CurrentWeather) {
         currentWeatherList.append(currentWeather)
     }
+    
+    func convertTemperatureUnitFtoC() {
+        for index in 0...numberOfCurrentWeatherList-1 {
+            guard let temerature = currentWeatherList[index].weather?.temperature else { return }
+            currentWeatherList[index].weather?.temperature = temerature - 273.15
+        }
+    }
+    
+    func convertTemperatureUnitCtoF() {
+        for index in 0...numberOfCurrentWeatherList-1 {
+            guard let temerature = currentWeatherList[index].weather?.temperature else { return }
+            currentWeatherList[index].weather?.temperature = temerature + 273.15
+        }
+    }
 }
+
