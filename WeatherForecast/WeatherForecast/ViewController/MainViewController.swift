@@ -9,15 +9,21 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var cityTableView: UITableView!
     @IBOutlet weak var temeratureSegmentControl: UISegmentedControl!
     var mainViewModel = MainViewModel()
     var temperatureUnit: TemperatureUnit = .C
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        searchBar.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadEachCurrentWeather()
         temeratureSegmentControl.selectedSegmentIndex = 1
+        loadEachCurrentWeather()
+        setUpSearchBar()
     }
     
     private func loadEachCurrentWeather() {
@@ -29,6 +35,12 @@ class MainViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func setUpSearchBar() {
+        searchBar.showsCancelButton = true
+        searchBar.tintColor = UIColor.darkGray
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "도시 이름을 검색하세요!", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
@@ -55,5 +67,33 @@ extension MainViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityListCell", for: indexPath) as? CityListCell else { return UITableViewCell() }
         cell.update(data: mainViewModel.sortedWeather(at: indexPath.row))
         return cell
+    }
+}
+
+extension MainViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        guard let cityName = searchBar.text else { return }
+        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self] (currentWeather: CurrentWeather) in
+            self?.mainViewModel.currentWeatherList = []
+            self?.mainViewModel.append(currentWeather)
+            DispatchQueue.main.async {
+                self?.cityTableView.reloadData()
+            }
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+        mainViewModel.currentWeatherList = []
+        loadEachCurrentWeather()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText == "" {
+            mainViewModel.currentWeatherList = []
+            loadEachCurrentWeather()
+        }
     }
 }

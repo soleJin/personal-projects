@@ -20,12 +20,15 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="Q87-Qa-jNZ">
                                 <rect key="frame" x="0.0" y="-6" width="414" height="918"/>
                             </imageView>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="lDu-vr-v2C">
-                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="도시명을 검색해주세요" translatesAutoresizingMaskIntoConstraints="NO" id="lDu-vr-v2C">
+                                <rect key="frame" x="25" y="44" width="364" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Qua-Qf-k5U"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="OlH-HM-C7c"/>
+                                </connections>
                             </searchBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MD8-eu-ToN">
                                 <rect key="frame" x="0.0" y="99" width="414" height="190"/>
@@ -185,13 +188,13 @@
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="top" secondItem="zfS-Ap-mip" secondAttribute="bottom" id="2QH-cb-TJt"/>
                             <constraint firstItem="keE-02-Mbd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="4vZ-4s-IS4"/>
                             <constraint firstItem="ipj-R6-jwf" firstAttribute="trailing" secondItem="vtg-hS-dtZ" secondAttribute="trailing" id="6eF-KL-vj7"/>
-                            <constraint firstItem="lDu-vr-v2C" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="D1v-HM-lHN"/>
+                            <constraint firstItem="lDu-vr-v2C" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-25" id="D1v-HM-lHN"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="50" id="G0F-lK-eU9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JvG-ow-TFq" secondAttribute="trailing" constant="20" id="O00-Bh-Jby"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="O0u-fA-u1w"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Oc6-6d-4KZ"/>
                             <constraint firstItem="MD8-eu-ToN" firstAttribute="top" secondItem="lDu-vr-v2C" secondAttribute="bottom" constant="5" id="WYy-c7-oGt"/>
-                            <constraint firstItem="lDu-vr-v2C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ZQU-iE-b4e"/>
+                            <constraint firstItem="lDu-vr-v2C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="ZQU-iE-b4e"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="top" secondItem="MD8-eu-ToN" secondAttribute="bottom" constant="50" id="e2a-4Z-Hpf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q87-Qa-jNZ" secondAttribute="trailing" id="fQZ-co-ngn"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zfS-Ap-mip" secondAttribute="trailing" constant="40" id="ovI-4l-adJ"/>
@@ -205,6 +208,7 @@
                     </view>
                     <connections>
                         <outlet property="cityTableView" destination="JvG-ow-TFq" id="evK-oh-2dj"/>
+                        <outlet property="searchBar" destination="lDu-vr-v2C" id="8jH-h5-JtQ"/>
                         <outlet property="temeratureSegmentControl" destination="ipj-R6-jwf" id="0oG-jq-ksf"/>
                     </connections>
                 </viewController>
