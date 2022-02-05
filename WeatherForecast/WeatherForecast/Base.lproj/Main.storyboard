@@ -84,6 +84,9 @@
                                             <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <imageReference key="image" image="chevron.up" catalog="system" symbolScale="default"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapLabelButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="P53-AG-g2c"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7IJ-6L-9EZ">
                                         <rect key="frame" x="194" y="9" width="70" height="22"/>
@@ -94,6 +97,9 @@
                                         <state key="normal" title="습도" image="chevron.up" catalog="system">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapLabelButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D8X-PD-Naw"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W6K-yM-kxx">
                                         <rect key="frame" x="264" y="9" width="70" height="22"/>
@@ -104,6 +110,9 @@
                                         <state key="normal" title="온도" image="chevron.up" catalog="system">
                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapLabelButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zpH-NO-4yE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -218,10 +227,13 @@
                     </view>
                     <connections>
                         <outlet property="addressLabel" destination="U1x-cP-Fur" id="4BR-mj-TJ2"/>
+                        <outlet property="cityNameButton" destination="AWd-Ed-aAe" id="HoN-em-bSh"/>
                         <outlet property="cityTableView" destination="JvG-ow-TFq" id="evK-oh-2dj"/>
                         <outlet property="descriptionLabel" destination="7Pm-JE-06j" id="muc-4E-6Pa"/>
+                        <outlet property="humidityButton" destination="7IJ-6L-9EZ" id="IJn-yn-6af"/>
                         <outlet property="searchBar" destination="lDu-vr-v2C" id="8jH-h5-JtQ"/>
                         <outlet property="temeratureSegmentControl" destination="ipj-R6-jwf" id="0oG-jq-ksf"/>
+                        <outlet property="temperatureButton" destination="W6K-yM-kxx" id="DSm-uW-fXG"/>
                         <outlet property="temperatureLabel" destination="Djc-Dv-IF5" id="KNF-I7-o6h"/>
                         <outlet property="weatherIconImageView" destination="HHi-eQ-twn" id="HbH-mB-yJA"/>
                     </connections>

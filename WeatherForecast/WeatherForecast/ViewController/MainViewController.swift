@@ -9,16 +9,19 @@ import UIKit
 import CoreLocation
 
 class MainViewController: UIViewController {
+    @IBOutlet weak var searchBar: UISearchBar!
     
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherIconImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var cityTableView: UITableView!
     @IBOutlet weak var temeratureSegmentControl: UISegmentedControl!
-    
+    @IBOutlet weak var cityNameButton: UIButton!
+    @IBOutlet weak var humidityButton: UIButton!
+    @IBOutlet weak var temperatureButton: UIButton!
+    @IBOutlet weak var cityTableView: UITableView!
+
     var mainViewModel = MainViewModel()
     var temperatureUnit: TemperatureUnit = .C
     let locationManager = CLLocationManager()
@@ -39,6 +42,7 @@ class MainViewController: UIViewController {
         for cityName in CityName.nameList {
             WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self](currentWeather: CurrentWeather) in
                 self?.mainViewModel.append(currentWeather)
+                self?.mainViewModel.sortedWeatherList.append(currentWeather)
                 DispatchQueue.main.async {
                     self?.cityTableView.reloadData()
                 }
@@ -50,6 +54,34 @@ class MainViewController: UIViewController {
         searchBar.showsCancelButton = true
         searchBar.tintColor = UIColor.darkGray
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "도시 이름을 검색하세요!", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+    }
+    
+    @IBAction func tapLabelButton(_ sender: UIButton) {
+        cityNameButton.tintColor = .darkGray
+        humidityButton.tintColor = .darkGray
+        temperatureButton.tintColor = .darkGray
+        sender.tintColor = .black
+        
+        if sender.currentImage == UIImage(systemName: "chevron.up") {
+            sender.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+            if sender == cityNameButton {
+                mainViewModel.descendingOrderCityName()
+            } else if sender == humidityButton {
+                mainViewModel.descendingOrderHumidity()
+            } else {
+                mainViewModel.descendingOrderTemperature()
+            }
+        } else {
+            sender.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+            if sender == cityNameButton {
+                mainViewModel.ascendingOrderCityName()
+            } else if sender == humidityButton {
+                mainViewModel.ascendingOrderHumidity()
+            } else {
+                mainViewModel.ascendingOrderTemperature()
+            }
+        }
+        cityTableView.reloadData()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {

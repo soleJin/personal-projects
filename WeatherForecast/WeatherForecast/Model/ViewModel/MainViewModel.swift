@@ -9,12 +9,7 @@ import Foundation
 
 class MainViewModel {
     var currentWeatherList = [CurrentWeather]()
-//    var sortedWeatherList: [CurrentWeather] {
-//        let sortedList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
-//            return prevWeather.cityName < nextWeather.cityName
-//        }.compactMap { $0 }
-//        return sortedList
-//    }
+    var sortedWeatherList = [CurrentWeather]()
     
     var locationWeather: CurrentWeather?
     
@@ -37,11 +32,47 @@ class MainViewModel {
     }
 
     func currentWeather(at index: Int) -> CurrentWeather {
-        return currentWeatherList[index]
+        return sortedWeatherList[index]
     }
     
     func append(_ currentWeather: CurrentWeather) {
         currentWeatherList.append(currentWeather)
+    }
+    
+    func descendingOrderCityName() {
+        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+            return prevWeather.cityName < nextWeather.cityName
+        }
+    }
+    
+    func descendingOrderHumidity() {
+        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+            return prevWeather.weather.humidity < nextWeather.weather.humidity
+        }
+    }
+    
+    func descendingOrderTemperature() {
+        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+            return prevWeather.weather.temperature < nextWeather.weather.temperature
+        }
+    }
+    
+    func ascendingOrderCityName() {
+        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+            return prevWeather.cityName > nextWeather.cityName
+        }
+    }
+    
+    func ascendingOrderHumidity() {
+        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+            return prevWeather.weather.humidity > nextWeather.weather.humidity
+        }
+    }
+    
+    func ascendingOrderTemperature() {
+        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+            return prevWeather.weather.temperature > nextWeather.weather.temperature
+        }
     }
     
     func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {
