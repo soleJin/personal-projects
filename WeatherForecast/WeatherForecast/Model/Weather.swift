@@ -12,7 +12,7 @@ struct CurrentWeather: Decodable {
     let additionalInformation: [Weather]
     var weather: Main
     let wind: Wind
-    let cityName: String
+    var cityName: String
     
     enum CodingKeys: String, CodingKey {
         case additionalInformation = "weather"

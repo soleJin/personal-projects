@@ -69,10 +69,14 @@ class MainViewController: UIViewController {
     private func loadEachCurrentWeather() {
         for cityName in CityName.nameList {
             WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self](currentWeather: CurrentWeather) in
-                self?.mainViewModel.append(currentWeather)
-                self?.mainViewModel.currentWeatherList.sort {( $0.cityName < $1.cityName )}
-                DispatchQueue.main.async {
-                    self?.cityTableView.reloadData()
+                var weather = currentWeather
+                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coord.latitude, longtitude: currentWeather.coord.longitude) { (updateCityName) in
+                    weather.cityName = updateCityName
+                    self?.mainViewModel.append(weather)
+                    self?.mainViewModel.currentWeatherList.sort {( $0.cityName < $1.cityName )}
+                    DispatchQueue.main.async {
+                        self?.cityTableView.reloadData()
+                    }
                 }
             }
         }
@@ -148,14 +152,17 @@ extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let cityName = searchBar.text else { return }
-        mainViewModel.currentWeatherList.removeAll { (currentWeather) -> Bool in
-            cityName == currentWeather.cityName
-        }
-        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self] (currentWeather: CurrentWeather) in
-            self?.mainViewModel.append(currentWeather)
-            DispatchQueue.main.async {
-                searchBar.text = nil
-                self?.cityTableView.reloadData()
+        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self](currentWeather: CurrentWeather) in
+            var weather = currentWeather
+            AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coord.latitude, longtitude: currentWeather.coord.longitude) { (updateCityName) in
+                weather.cityName = updateCityName
+                self?.mainViewModel.currentWeatherList.removeAll { (currentWeather) -> Bool in
+                    cityName == currentWeather.cityName
+                }
+                self?.mainViewModel.append(weather)
+                DispatchQueue.main.async {
+                    self?.cityTableView.reloadData()
+                }
             }
         }
     }

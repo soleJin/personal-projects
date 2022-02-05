@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import CoreLocation
 
 class MainViewModel {
     var currentWeatherList = [CurrentWeather]()
-    
+
     var locationWeather: CurrentWeather?
     
     var locationDescription: String {
@@ -60,6 +61,15 @@ class MainViewModel {
     
     func ascendingOrderTemperature() {
         currentWeatherList.sort {( $0.weather.temperature > $1.weather.temperature )}
+    }
+    
+    func convertCityNameInKorean() {
+        for index in 0...numberOfCurrentWeatherList-1 {
+            let coordinate = currentWeatherList[index].coord
+            AddressManager.convertCityNameEnglishToKoreanSimply(latitude: coordinate.latitude, longtitude: coordinate.longitude) { (updateCityName) in
+                self.currentWeatherList[index].cityName = updateCityName
+            }
+        }
     }
     
     func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {
