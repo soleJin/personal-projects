@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -76,30 +77,34 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zfS-Ap-mip">
                                 <rect key="frame" x="40" y="324" width="334" height="40"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="100" verticalHuggingPriority="251" text="도시이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nHf-Gp-F5N">
-                                        <rect key="frame" x="0.0" y="8.5" width="214" height="23"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="습도" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k67-nI-8kA">
-                                        <rect key="frame" x="214" y="8.5" width="50" height="23"/>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWd-Ed-aAe">
+                                        <rect key="frame" x="0.0" y="9" width="194" height="22"/>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="도시이름">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <imageReference key="image" image="chevron.up" catalog="system" symbolScale="default"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7IJ-6L-9EZ">
+                                        <rect key="frame" x="194" y="9" width="70" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="QqI-gw-IBp"/>
+                                            <constraint firstAttribute="width" constant="70" id="LsJ-xi-baX"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="온도" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtg-hS-dtZ">
-                                        <rect key="frame" x="264" y="8.5" width="70" height="23"/>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="습도" image="chevron.up" catalog="system">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W6K-yM-kxx">
+                                        <rect key="frame" x="264" y="9" width="70" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="70" id="3bF-cg-Hy2"/>
+                                            <constraint firstAttribute="width" constant="70" id="hGQ-Ab-hCu"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                        <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="온도" image="chevron.up" catalog="system">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dFx-hm-qqO"/>
@@ -192,12 +197,12 @@
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="09o-Rx-8A9"/>
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="top" secondItem="zfS-Ap-mip" secondAttribute="bottom" id="2QH-cb-TJt"/>
                             <constraint firstItem="keE-02-Mbd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="4vZ-4s-IS4"/>
-                            <constraint firstItem="ipj-R6-jwf" firstAttribute="trailing" secondItem="vtg-hS-dtZ" secondAttribute="trailing" id="6eF-KL-vj7"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-25" id="D1v-HM-lHN"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="50" id="G0F-lK-eU9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JvG-ow-TFq" secondAttribute="trailing" constant="20" id="O00-Bh-Jby"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="O0u-fA-u1w"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Oc6-6d-4KZ"/>
+                            <constraint firstItem="ipj-R6-jwf" firstAttribute="trailing" secondItem="W6K-yM-kxx" secondAttribute="trailing" id="RSp-LR-PyG"/>
                             <constraint firstItem="MD8-eu-ToN" firstAttribute="top" secondItem="lDu-vr-v2C" secondAttribute="bottom" constant="10" id="WYy-c7-oGt"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="ZQU-iE-b4e"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="top" secondItem="MD8-eu-ToN" secondAttribute="bottom" constant="50" id="e2a-4Z-Hpf"/>
@@ -228,6 +233,7 @@
     </scenes>
     <resources>
         <image name="background" width="580" height="1031"/>
+        <image name="chevron.up" catalog="system" width="128" height="72"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -9,12 +9,13 @@ import Foundation
 
 class MainViewModel {
     var currentWeatherList = [CurrentWeather]()
-    var sortedWeatherList: [CurrentWeather] {
-        let sortedList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.cityName < nextWeather.cityName 
-        }.compactMap { $0 }
-        return sortedList
-    }
+//    var sortedWeatherList: [CurrentWeather] {
+//        let sortedList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+//            return prevWeather.cityName < nextWeather.cityName
+//        }.compactMap { $0 }
+//        return sortedList
+//    }
+    
     var locationWeather: CurrentWeather?
     
     var locationDescription: String {
@@ -35,14 +36,14 @@ class MainViewModel {
         return currentWeatherList.count
     }
 
-    func sortedWeather(at index: Int) -> CurrentWeather {
-        return sortedWeatherList[index]
+    func currentWeather(at index: Int) -> CurrentWeather {
+        return currentWeatherList[index]
     }
     
     func append(_ currentWeather: CurrentWeather) {
         currentWeatherList.append(currentWeather)
     }
-
+    
     func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {
         for index in 0...numberOfCurrentWeatherList-1 {
             let temperature = currentWeatherList[index].weather.temperature
