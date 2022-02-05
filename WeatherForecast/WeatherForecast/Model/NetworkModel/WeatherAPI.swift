@@ -9,6 +9,7 @@ import Foundation
 import CoreLocation
 
 struct WeatherAPI {
+    
     static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ location: CLLocation?, completion: @escaping (T) -> Void) {
         let session = URLSession(configuration: .default)
         

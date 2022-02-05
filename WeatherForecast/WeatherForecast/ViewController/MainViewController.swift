@@ -27,7 +27,7 @@ class MainViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        searchBar.endEditing(true)
+        searchBar.resignFirstResponder()
     }
     
     override func viewDidLoad() {
@@ -36,12 +36,41 @@ class MainViewController: UIViewController {
 //        configureCurrentLocationWeather()
         loadEachCurrentWeather()
         setUpSearchBar()
+        initRefresh()
+        setUpButton()
+    }
+    
+    private func initRefresh() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(updateUI(refresh:)), for: .valueChanged)
+        refresh.attributedTitle = NSAttributedString(string: "새로고침")
+        cityTableView.refreshControl = refresh
+    }
+    
+    @objc func updateUI(refresh: UIRefreshControl) {
+        refresh.endRefreshing()
+        mainViewModel.currentWeatherList.sort {( $0.cityName < $1.cityName )}
+        setUpButton()
+        cityTableView.reloadData()
+    }
+    
+    private func setUpButton() {
+        setUpButtonColor()
+        cityNameButton.tintColor = .black
+        cityNameButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+    }
+    
+    private func setUpButtonColor() {
+        cityNameButton.tintColor = .darkGray
+        humidityButton.tintColor = .darkGray
+        temperatureButton.tintColor = .darkGray
     }
     
     private func loadEachCurrentWeather() {
         for cityName in CityName.nameList {
             WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self](currentWeather: CurrentWeather) in
                 self?.mainViewModel.append(currentWeather)
+                self?.mainViewModel.currentWeatherList.sort {( $0.cityName < $1.cityName )}
                 DispatchQueue.main.async {
                     self?.cityTableView.reloadData()
                 }
@@ -53,6 +82,7 @@ class MainViewController: UIViewController {
         searchBar.showsCancelButton = true
         searchBar.tintColor = .darkGray
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "도시 이름을 검색하세요!", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        
     }
     
     @IBAction func tapLabelButton(_ sender: UIButton) {
@@ -140,6 +170,5 @@ extension MainViewController: UISearchBarDelegate {
             cityTableView.reloadData()
         }
     }
-    
-    
 }
+

@@ -39,39 +39,27 @@ class MainViewModel {
     }
     
     func descendingOrderCityName() {
-        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.cityName < nextWeather.cityName
-        }
+        currentWeatherList.sort {( $0.cityName < $1.cityName )}
     }
     
     func descendingOrderHumidity() {
-        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.weather.humidity < nextWeather.weather.humidity
-        }
+        currentWeatherList.sort {( $0.weather.humidity < $1.weather.humidity )}
     }
     
     func descendingOrderTemperature() {
-        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.weather.temperature < nextWeather.weather.temperature
-        }
+        currentWeatherList.sort {( $0.weather.temperature < $1.weather.temperature )}
     }
     
     func ascendingOrderCityName() {
-        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.cityName > nextWeather.cityName
-        }
+        currentWeatherList.sort {( $0.cityName > $1.cityName )}
     }
     
     func ascendingOrderHumidity() {
-        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.weather.humidity > nextWeather.weather.humidity
-        }
+        currentWeatherList.sort {( $0.weather.humidity > $1.weather.humidity )}
     }
     
     func ascendingOrderTemperature() {
-        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
-            return prevWeather.weather.temperature > nextWeather.weather.temperature
-        }
+        currentWeatherList.sort {( $0.weather.temperature > $1.weather.temperature )}
     }
     
     func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {
