@@ -6,14 +6,22 @@
 //
 
 import UIKit
+//import CoreLocation
 
 class MainViewController: UIViewController {
+    
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var weatherIconImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var cityTableView: UITableView!
     @IBOutlet weak var temeratureSegmentControl: UISegmentedControl!
+    
     var mainViewModel = MainViewModel()
     var temperatureUnit: TemperatureUnit = .C
+//    let locationManager = CLLocationManager()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         searchBar.endEditing(true)
@@ -22,6 +30,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         temeratureSegmentControl.selectedSegmentIndex = 1
+//        configureCurrentLocationWeather()
         loadEachCurrentWeather()
         setUpSearchBar()
     }
@@ -49,11 +58,13 @@ class MainViewController: UIViewController {
             temperatureUnit = .F
             mainViewModel.convertTemperatureUnitCtoF()
             cityTableView.reloadData()
+            temperatureLabel.text = temperatureLabel.text?.convertTemperatureUnitFtoCString()
         } else {
             guard temperatureUnit == .F else { return }
             temperatureUnit = .C
             mainViewModel.convertTemperatureUnitFtoC()
             cityTableView.reloadData()
+            temperatureLabel.text = temperatureLabel.text?.convertTemperatureUnitCtoFString()
         }
     }
 }

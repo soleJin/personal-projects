@@ -96,7 +96,7 @@
 		FD3A9AAB27AD13B7005C7A05 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FD3A9AB027AD143D005C7A05 /* WeatherData */,
+				FD3A9A8F27AC712A005C7A05 /* Weather.swift */,
 				FD3A9AAE27AD13FD005C7A05 /* UnitStyle */,
 				FD3A9AAD27AD13C8005C7A05 /* NetworkModel */,
 				FD3A9AAC27AD13BE005C7A05 /* ViewModel */,
@@ -137,14 +137,6 @@
 				FD3A9A9727AC7245005C7A05 /* CityListCell.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		FD3A9AB027AD143D005C7A05 /* WeatherData */ = {
-			isa = PBXGroup;
-			children = (
-				FD3A9A8F27AC712A005C7A05 /* Weather.swift */,
-			);
-			path = WeatherData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

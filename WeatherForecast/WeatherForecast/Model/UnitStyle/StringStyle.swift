@@ -38,3 +38,15 @@ enum APIType {
     static let forecastDaily = "https://api.openweathermap.org/data/2.5/forecast/daily"
     static let weatherIcon = "https://openweathermap.org/img/w/"
 }
+
+extension String {
+    func convertTemperatureUnitCtoFString() -> String? {
+        guard let selfDouble = Double(self) else { return nil }
+        return String(round((selfDouble - 273.15)*10)/10)
+    }
+    
+    func convertTemperatureUnitFtoCString() -> String? {
+        guard let selfDouble = Double(self) else { return nil }
+        return String(round((selfDouble + 273.15)*10)/10)
+    }
+}
