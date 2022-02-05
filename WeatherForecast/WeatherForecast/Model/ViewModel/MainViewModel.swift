@@ -9,7 +9,6 @@ import Foundation
 
 class MainViewModel {
     var currentWeatherList = [CurrentWeather]()
-    var sortedWeatherList = [CurrentWeather]()
     
     var locationWeather: CurrentWeather?
     
@@ -32,45 +31,45 @@ class MainViewModel {
     }
 
     func currentWeather(at index: Int) -> CurrentWeather {
-        return sortedWeatherList[index]
+        return currentWeatherList[index]
     }
     
     func append(_ currentWeather: CurrentWeather) {
-        currentWeatherList.append(currentWeather)
+        currentWeatherList.insert(currentWeather, at: 0)
     }
     
     func descendingOrderCityName() {
-        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
             return prevWeather.cityName < nextWeather.cityName
         }
     }
     
     func descendingOrderHumidity() {
-        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
             return prevWeather.weather.humidity < nextWeather.weather.humidity
         }
     }
     
     func descendingOrderTemperature() {
-        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
             return prevWeather.weather.temperature < nextWeather.weather.temperature
         }
     }
     
     func ascendingOrderCityName() {
-        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
             return prevWeather.cityName > nextWeather.cityName
         }
     }
     
     func ascendingOrderHumidity() {
-        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
             return prevWeather.weather.humidity > nextWeather.weather.humidity
         }
     }
     
     func ascendingOrderTemperature() {
-        sortedWeatherList = currentWeatherList.sorted { (prevWeather, nextWeather) -> Bool in
+        currentWeatherList.sort { (prevWeather, nextWeather) -> Bool in
             return prevWeather.weather.temperature > nextWeather.weather.temperature
         }
     }

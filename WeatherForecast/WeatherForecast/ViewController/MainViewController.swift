@@ -42,7 +42,6 @@ class MainViewController: UIViewController {
         for cityName in CityName.nameList {
             WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self](currentWeather: CurrentWeather) in
                 self?.mainViewModel.append(currentWeather)
-                self?.mainViewModel.sortedWeatherList.append(currentWeather)
                 DispatchQueue.main.async {
                     self?.cityTableView.reloadData()
                 }
@@ -52,7 +51,7 @@ class MainViewController: UIViewController {
     
     private func setUpSearchBar() {
         searchBar.showsCancelButton = true
-        searchBar.tintColor = UIColor.darkGray
+        searchBar.tintColor = .darkGray
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "도시 이름을 검색하세요!", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
     }
     
@@ -119,10 +118,13 @@ extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         guard let cityName = searchBar.text else { return }
+        mainViewModel.currentWeatherList.removeAll { (currentWeather) -> Bool in
+            cityName == currentWeather.cityName
+        }
         WeatherAPI.fetchWeather(APIType.currentWeather, cityName, nil) { [weak self] (currentWeather: CurrentWeather) in
-            self?.mainViewModel.currentWeatherList = []
             self?.mainViewModel.append(currentWeather)
             DispatchQueue.main.async {
+                searchBar.text = nil
                 self?.cityTableView.reloadData()
             }
         }
@@ -131,14 +133,13 @@ extension MainViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.resignFirstResponder()
-        mainViewModel.currentWeatherList = []
-        loadEachCurrentWeather()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText == "" {
-            mainViewModel.currentWeatherList = []
-            loadEachCurrentWeather()
+            cityTableView.reloadData()
         }
     }
+    
+    
 }
