@@ -6,7 +6,7 @@
 //
 
 import UIKit
-//import CoreLocation
+import CoreLocation
 
 class MainViewController: UIViewController {
     
@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     
     var mainViewModel = MainViewModel()
     var temperatureUnit: TemperatureUnit = .C
-//    let locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         searchBar.endEditing(true)
@@ -56,15 +56,17 @@ class MainViewController: UIViewController {
         if sender.selectedSegmentIndex == 0 {
             guard temperatureUnit == .C else { return }
             temperatureUnit = .F
-            mainViewModel.convertTemperatureUnitCtoF()
+            mainViewModel.convertTemperatureUnitCtoF {
+                temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+            }
             cityTableView.reloadData()
-            temperatureLabel.text = temperatureLabel.text?.convertTemperatureUnitFtoCString()
         } else {
             guard temperatureUnit == .F else { return }
             temperatureUnit = .C
-            mainViewModel.convertTemperatureUnitFtoC()
+            mainViewModel.convertTemperatureUnitFtoC {
+                temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+            }
             cityTableView.reloadData()
-            temperatureLabel.text = temperatureLabel.text?.convertTemperatureUnitCtoFString()
         }
     }
 }

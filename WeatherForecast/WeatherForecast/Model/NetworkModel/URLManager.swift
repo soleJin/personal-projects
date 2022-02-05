@@ -14,16 +14,16 @@ struct URLManager {
         let appIdQuery = URLQueryItem(name: "appid", value: "179f9f1734b59fcdd8627cb64e9fae5d")
         let languageQuery = URLQueryItem(name: "lang", value: "kr")
         let cityNameQuery = URLQueryItem(name: "q", value: cityName)
+        let unitsQuery = URLQueryItem(name: "units", value: "metric")
         guard let latitudeValue = location?.coordinate.latitude,
               let lontitudeValue = location?.coordinate.longitude else {
-            urlComponents?.queryItems?.append(contentsOf: [cityNameQuery, languageQuery, appIdQuery])
+            urlComponents?.queryItems?.append(contentsOf: [cityNameQuery, languageQuery, appIdQuery, unitsQuery])
             let requesturl = urlComponents?.url
             return requesturl
         }
-        print(String(latitudeValue))
         let latitudeQuery = URLQueryItem(name: "lat", value: "\(String(latitudeValue))")
         let longitudeQuery = URLQueryItem(name: "lon", value: "\(String(lontitudeValue))")
-        urlComponents?.queryItems?.append(contentsOf: [appIdQuery, languageQuery, latitudeQuery, longitudeQuery])
+        urlComponents?.queryItems?.append(contentsOf: [appIdQuery, languageQuery, latitudeQuery, longitudeQuery, unitsQuery])
         let requesturl = urlComponents?.url
         return requesturl
     }

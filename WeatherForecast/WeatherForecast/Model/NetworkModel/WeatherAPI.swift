@@ -14,7 +14,6 @@ struct WeatherAPI {
         
         let requestUrl = URLManager.getRequestUrl(apiType, cityName, location)
         guard let url = requestUrl else { return }
-        print(url)
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             guard error == nil,
                   let response = response as? HTTPURLResponse,

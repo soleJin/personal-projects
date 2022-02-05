@@ -16,14 +16,16 @@ class MainViewModel {
         return sortedList
     }
     var locationWeather: CurrentWeather?
-    var locationTemperature: Double {
-        guard let temperature = locationWeather?.weather.temperature else { return 0.0 }
-        return temperature
-    }
+    
     var locationDescription: String {
         guard let description = locationWeather?.additionalInformation.first?.description else { return "" }
         return description
     }
+    var locationTemperature: Double {
+        guard let temperature = locationWeather?.weather.temperature else { return 0.0 }
+        return temperature
+    }
+    
     var locationIconPath: String {
         guard let iconPath = locationWeather?.additionalInformation.first?.iconPath else { return "" }
         return iconPath
@@ -41,16 +43,26 @@ class MainViewModel {
         currentWeatherList.append(currentWeather)
     }
 
-    func convertTemperatureUnitFtoC() {
+    func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {
         for index in 0...numberOfCurrentWeatherList-1 {
-            currentWeatherList[index].weather.temperature -= 273.15
+            let temperature = currentWeatherList[index].weather.temperature
+            currentWeatherList[index].weather.temperature = temperature.convertTemperatureFtoC()
         }
+        guard let temperture = locationWeather?.weather.temperature else {
+            return }
+        locationWeather?.weather.temperature = temperture.convertTemperatureFtoC()
+        updateTemperature()
     }
     
-    func convertTemperatureUnitCtoF() {
+    func convertTemperatureUnitCtoF(_ temperature: () -> Void) {
         for index in 0...numberOfCurrentWeatherList-1 {
-            currentWeatherList[index].weather.temperature += 273.15
+            let temperature = currentWeatherList[index].weather.temperature
+            currentWeatherList[index].weather.temperature = temperature.convertTemperatureCtoF()
         }
+        guard let temperture = locationWeather?.weather.temperature else {
+            return }
+        locationWeather?.weather.temperature = temperture.convertTemperatureCtoF()
+        temperature()
     }
 }
 
