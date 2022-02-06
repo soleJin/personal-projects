@@ -17,17 +17,13 @@ struct AddressManager {
             guard let placemark: [CLPlacemark] = placemarks,
                   let address = placemark.last?.administrativeArea,
                   let siAddress = placemark.last?.locality else { return }
-            var resultSiAddress = String(siAddress)
-            var resultAddress = String(address)
-            print(resultAddress)
-            resultSiAddress.removeAll { (cityName) -> Bool in
-                cityName == "시"
-            }
             
-//            resultAddress.removeAll { (adress) -> Bool in
-//                adress == "특별시"
-//            }
-            completion(resultSiAddress)
+            var resultAddress = String(address).components(separatedBy: ["특", "별", "시", "광", "역", "남", "북"]).joined()
+            if resultAddress == "주" {
+                resultAddress.insert("광", at: resultAddress.startIndex)
+            }
+            let resultSiAddress = String(siAddress).trimmingCharacters(in: ["시"])
+            completion("\(resultAddress) \(resultSiAddress)")
         }
     }
     

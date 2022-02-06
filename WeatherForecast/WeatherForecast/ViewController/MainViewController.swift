@@ -158,10 +158,11 @@ extension MainViewController: UISearchBarDelegate {
                 weather.cityName = updateCityName
                 self?.mainViewModel.currentWeatherList.removeAll { (currentWeather) -> Bool in
                     cityName == currentWeather.cityName
-                }
+                } // 안지워짐 
                 self?.mainViewModel.append(weather)
                 DispatchQueue.main.async {
                     self?.cityTableView.reloadData()
+                    searchBar.text = nil
                 }
             }
         }
