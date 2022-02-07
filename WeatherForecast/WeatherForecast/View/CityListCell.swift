@@ -22,7 +22,10 @@ class CityListCell: UITableViewCell {
     }
     
     func update(data: CurrentWeather) {
-        cityNameLabel.text = data.cityName
+        cityNameLabel.text = data.cityNameInKorean
+        if data.cityNameInKorean == nil {
+            cityNameLabel.text = data.cityName
+        }
         guard let iconPath = data.additionalInformation.first?.iconPath else { return }
         ImageManager.getImage(iconPath, completion: { icon in
             self.currentWeatherIcon.image = icon

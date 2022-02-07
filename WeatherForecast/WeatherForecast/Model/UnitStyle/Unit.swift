@@ -37,7 +37,6 @@ extension String {
 
 
 extension Double {
-    
     func convertTemperatureFtoC() -> Double {
         return (self - 32) * 5/9
     }

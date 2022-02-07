@@ -13,6 +13,11 @@ class MainViewModel {
 
     var locationWeather: CurrentWeather?
     
+    var locationCityName: String {
+        guard let cityName = locationWeather?.cityNameInKorean else { return "" }
+        return cityName
+    }
+    
     var locationDescription: String {
         guard let description = locationWeather?.additionalInformation.first?.description else { return "" }
         return description
@@ -36,11 +41,12 @@ class MainViewModel {
     }
     
     func append(_ currentWeather: CurrentWeather) {
-        currentWeatherList.insert(currentWeather, at: 0)
+        currentWeatherList.append(currentWeather)
     }
     
-    func descendingOrderCityName() {
-        currentWeatherList.sort {( $0.cityName < $1.cityName )}
+    func descendingOrderCityNameInKorean() {
+        currentWeatherList.sort {( $0.cityNameInKorean ?? ""
+                                    < $1.cityNameInKorean ?? "" )}
     }
     
     func descendingOrderHumidity() {
@@ -51,8 +57,8 @@ class MainViewModel {
         currentWeatherList.sort {( $0.weather.temperature < $1.weather.temperature )}
     }
     
-    func ascendingOrderCityName() {
-        currentWeatherList.sort {( $0.cityName > $1.cityName )}
+    func ascendingOrderCityNameInKorean() {
+        currentWeatherList.sort {( $0.cityNameInKorean ?? "" > $1.cityNameInKorean ?? "" )}
     }
     
     func ascendingOrderHumidity() {
@@ -61,15 +67,6 @@ class MainViewModel {
     
     func ascendingOrderTemperature() {
         currentWeatherList.sort {( $0.weather.temperature > $1.weather.temperature )}
-    }
-    
-    func convertCityNameInKorean() {
-        for index in 0...numberOfCurrentWeatherList-1 {
-            let coordinate = currentWeatherList[index].coord
-            AddressManager.convertCityNameEnglishToKoreanSimply(latitude: coordinate.latitude, longtitude: coordinate.longitude) { (updateCityName) in
-                self.currentWeatherList[index].cityName = updateCityName
-            }
-        }
     }
     
     func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {

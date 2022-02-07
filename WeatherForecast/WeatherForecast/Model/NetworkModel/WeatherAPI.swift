@@ -10,10 +10,10 @@ import CoreLocation
 
 struct WeatherAPI {
     
-    static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ location: CLLocation?, completion: @escaping (T) -> Void) {
+    static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ latitude: Double?, _ longitude: Double?, completion: @escaping (T) -> Void) {
         let session = URLSession(configuration: .default)
         
-        let requestUrl = URLManager.getRequestUrl(apiType, cityName, location)
+        let requestUrl = URLManager.getRequestUrl(apiType, cityName, latitude, longitude)
         guard let url = requestUrl else { return }
         let dataTask = session.dataTask(with: url) { (data, response, error) in
             guard error == nil,

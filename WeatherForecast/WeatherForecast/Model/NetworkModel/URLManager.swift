@@ -9,20 +9,20 @@ import Foundation
 import CoreLocation
 
 struct URLManager {
-    static func getRequestUrl(_ apiType: String, _ cityName: String? = nil, _ location: CLLocation? = nil ) -> URL? {
+    static func getRequestUrl(_ apiType: String, _ cityName: String? = nil, _ latitude: Double? = nil, _ longitude: Double? = nil) -> URL? {
         var urlComponents = URLComponents(string: apiType)
         let appIdQuery = URLQueryItem(name: "appid", value: "179f9f1734b59fcdd8627cb64e9fae5d")
         let languageQuery = URLQueryItem(name: "lang", value: "kr")
         let cityNameQuery = URLQueryItem(name: "q", value: cityName)
         let unitsQuery = URLQueryItem(name: "units", value: "metric")
-        guard let latitudeValue = location?.coordinate.latitude,
-              let lontitudeValue = location?.coordinate.longitude else {
+        guard let latitude = latitude,
+              let longtitude = longitude else {
             urlComponents?.queryItems?.append(contentsOf: [cityNameQuery, languageQuery, appIdQuery, unitsQuery])
             let requesturl = urlComponents?.url
             return requesturl
         }
-        let latitudeQuery = URLQueryItem(name: "lat", value: "\(String(latitudeValue))")
-        let longitudeQuery = URLQueryItem(name: "lon", value: "\(String(lontitudeValue))")
+        let latitudeQuery = URLQueryItem(name: "lat", value: "\(String(latitude))")
+        let longitudeQuery = URLQueryItem(name: "lon", value: "\(String(longtitude))")
         urlComponents?.queryItems?.append(contentsOf: [appIdQuery, languageQuery, latitudeQuery, longitudeQuery, unitsQuery])
         let requesturl = urlComponents?.url
         return requesturl

@@ -8,7 +8,7 @@
 import Foundation
 
 enum CityName {
-    static let nameList: [String] = [
+    static var nameList: [String] = [
         "Busan",
         "Cheonan",
         "Cheongju",
