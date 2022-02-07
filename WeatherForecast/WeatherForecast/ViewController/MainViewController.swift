@@ -35,8 +35,9 @@ class MainViewController: UIViewController {
         temeratureSegmentControl.selectedSegmentIndex = 1
         loadEachCurrentWeather()
         setUpSearchBar()
-        setUpButtonColor()
+        setUpButton()
         configureCurrentLocation()
+        initRefresh()
     }
     
     private func initRefresh() {
@@ -53,35 +54,39 @@ class MainViewController: UIViewController {
     }
     
     private func setUpButton() {
-        setUpButtonColor()
-        cityNameButton.tintColor = .black
-        cityNameButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-    }
-    
-    private func setUpButtonColor() {
         cityNameButton.tintColor = .darkGray
         humidityButton.tintColor = .darkGray
         temperatureButton.tintColor = .darkGray
+        cityNameButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+        humidityButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
+        temperatureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
     }
-
+    
     private func loadEachCurrentWeather() {
         for cityName in CityName.nameList {
             self.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { weather in
+                self.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                    currentWeather.cityName == weather.cityName
+                })
                 self.mainViewModel.append(weather)
-                self.mainViewModel.locationWeather = weather
             }
         }
     }
     
     private func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
-        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { [weak self] (currentWeather: CurrentWeather) in
-            var weather = currentWeather
-            AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coord.latitude, longtitude: currentWeather.coord.longitude) { (updateCityName) in
-                weather.cityNameInKorean = updateCityName
-                DispatchQueue.main.async {
-                    self?.cityTableView.reloadData()
+        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeather, APIError>) in
+            switch result {
+            case .success(let currentWeather):
+                var weather = currentWeather
+                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coord.latitude, longtitude: currentWeather.coord.longitude) { [weak self] (updateCityName) in
+                    weather.cityNameInKorean = updateCityName
+                    DispatchQueue.main.async {
+                        self?.cityTableView.reloadData()
+                    }
+                    completion(weather)
                 }
-                completion(weather)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
@@ -101,21 +106,25 @@ class MainViewController: UIViewController {
         
         if sender.currentImage == UIImage(systemName: "chevron.up") {
             sender.setImage(UIImage(systemName: "chevron.down"), for: .normal)
-            if sender == cityNameButton {
+            switch sender {
+            case cityNameButton:
                 mainViewModel.descendingOrderCityNameInKorean()
-            } else if sender == humidityButton {
+            case humidityButton:
                 mainViewModel.descendingOrderHumidity()
-            } else {
+            case temperatureButton:
                 mainViewModel.descendingOrderTemperature()
+            default: break
             }
         } else {
             sender.setImage(UIImage(systemName: "chevron.up"), for: .normal)
-            if sender == cityNameButton {
+            switch sender {
+            case cityNameButton:
                 mainViewModel.ascendingOrderCityNameInKorean()
-            } else if sender == humidityButton {
+            case humidityButton:
                 mainViewModel.ascendingOrderHumidity()
-            } else {
+            case temperatureButton:
                 mainViewModel.ascendingOrderTemperature()
+            default: break
             }
         }
         cityTableView.reloadData()
@@ -154,14 +163,16 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
         guard let cityName = searchBar.text else { return }
+        searchBar.text = "\(cityName) 조회중.."
+        searchBar.searchTextField.textColor = .systemYellow
         loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self] weather in
             self?.mainViewModel.currentWeatherList.removeAll { (currentWeather) -> Bool in
                 cityName == currentWeather.cityName
             }
             self?.mainViewModel.currentWeatherList.insert(weather, at: 0)
             searchBar.text = nil
+            searchBar.resignFirstResponder()
         }
     }
     
@@ -171,6 +182,7 @@ extension MainViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchBar.searchTextField.textColor = .systemYellow
         if searchText == "" {
             cityTableView.reloadData()
         }

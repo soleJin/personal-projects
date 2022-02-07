@@ -6,48 +6,61 @@
 //
 
 import Foundation
-import CoreLocation
 
 struct WeatherAPI {
     
-    static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ latitude: Double?, _ longitude: Double?, completion: @escaping (T) -> Void) {
+    static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ latitude: Double?, _ longitude: Double?, completion: @escaping (Result<T, APIError>) -> Void) {
         let session = URLSession(configuration: .default)
         
         let requestUrl = URLManager.getRequestUrl(apiType, cityName, latitude, longitude)
-        guard let url = requestUrl else { return }
+        guard let url = requestUrl else {
+            completion(Result.failure(.invalidURL))
+            return }
+        
         let dataTask = session.dataTask(with: url) { (data, response, error) in
-            guard error == nil,
-                  let response = response as? HTTPURLResponse,
-                  let safeData = data,
-                  let currentWeather = try? JSONDecoder().decode(T.self, from: safeData) else {
-                print("---------------->Error: \(String(describing: error?.localizedDescription))")
+            guard error == nil else {
+                completion(Result.failure(.error))
                 return
             }
-            checkResponseStatusCode(response)
-            completion(currentWeather)
+            if let responseError = checkResponseStatusCode(response as! HTTPURLResponse) {
+                completion(Result.failure(responseError as! APIError))
+                return
+            }
+            guard let safeData = data else {
+                completion(Result.failure(.noData))
+                return
+            }
+            guard let currentWeather = try? JSONDecoder().decode(T.self, from: safeData) else {
+                completion(Result.failure(.dataDecodingError))
+                return
+            }
+            completion(Result.success(currentWeather))
         }
         dataTask.resume()
     }
     
-    private static func checkResponseStatusCode(_ response: HTTPURLResponse) {
+    private static func checkResponseStatusCode(_ response: HTTPURLResponse) -> Error? {
         switch response.statusCode {
-        case (200...299): // 성공
-            break
-        case (400...499):// 클라이언트에러
+        case (200...299):
+            return nil
+        case (400...499):
             print("""
                 Error: Client Error \(response.statusCode)
                 Response: \(response)
             """)
-        case (500...599): // 서버에러
+            return APIError.clientError
+        case (500...599):
             print("""
                 Error: Server Error \(response.statusCode)
                 Response: \(response)
             """)
+            return APIError.ServerError
         default:
             print("""
                 Error: \(response.statusCode)
                 Response: \(response)
             """)
+            return APIError.unknwon
         }
     }
 }

@@ -22,6 +22,7 @@
 		FD3A9AB227AD1468005C7A05 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9AB127AD1468005C7A05 /* Unit.swift */; };
 		FD3A9AB627AD155E005C7A05 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9AB527AD155E005C7A05 /* ImageManager.swift */; };
 		FD3A9AD227AF19C3005C7A05 /* AddressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */; };
+		FD65A20827B1D06B00E09316 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A20727B1D06B00E09316 /* Error.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		FD3A9AB127AD1468005C7A05 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
 		FD3A9AB527AD155E005C7A05 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManager.swift; sourceTree = "<group>"; };
+		FD65A20727B1D06B00E09316 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */,
+				FD65A20727B1D06B00E09316 /* Error.swift */,
 				FD3A9A8F27AC712A005C7A05 /* Weather.swift */,
 				FD3A9AAE27AD13FD005C7A05 /* UnitStyle */,
 				FD3A9AAD27AD13C8005C7A05 /* NetworkModel */,
@@ -215,6 +218,7 @@
 				FD3A9A9827AC7245005C7A05 /* CityListCell.swift in Sources */,
 				FD3A9A8827AC6947005C7A05 /* MainViewController.swift in Sources */,
 				FD3A9A9027AC712B005C7A05 /* Weather.swift in Sources */,
+				FD65A20827B1D06B00E09316 /* Error.swift in Sources */,
 				FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */,
 				FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */,
 				FD3A9AB227AD1468005C7A05 /* Unit.swift in Sources */,
