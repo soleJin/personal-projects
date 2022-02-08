@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CityName {
+enum City {
     static var nameList: [String] = [
         "Busan",
         "Cheonan",

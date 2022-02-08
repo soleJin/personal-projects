@@ -63,12 +63,15 @@ class MainViewController: UIViewController {
     }
     
     private func loadEachCurrentWeather() {
-        for cityName in CityName.nameList {
+        City.nameList.forEach { (cityName) in
             self.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { weather in
                 self.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
                     currentWeather.cityName == weather.cityName
                 })
                 self.mainViewModel.append(weather)
+                DispatchQueue.main.async {
+                    self.cityTableView.reloadData()
+                }
             }
         }
     }
@@ -78,11 +81,8 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let currentWeather):
                 var weather = currentWeather
-                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { [weak self] (updateCityName) in
+                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { (updateCityName) in
                     weather.cityNameInKorean = updateCityName
-                    DispatchQueue.main.async {
-                        self?.cityTableView.reloadData()
-                    }
                     completion(weather)
                 }
             case .failure(let error):
@@ -95,7 +95,6 @@ class MainViewController: UIViewController {
         searchBar.showsCancelButton = true
         searchBar.tintColor = .darkGray
         searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "도시 이름을 검색하세요!", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        
     }
 
     @IBAction func tapLabelButton(_ sender: UIButton) {
@@ -169,6 +168,7 @@ extension MainViewController: UISearchBarDelegate, SendErrorMessage {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        WeatherAPI.delegate = self
         guard let cityName = searchBar.text else { return }
         searchBar.text = "\(cityName) 조회중.."
         searchBar.searchTextField.textColor = .systemYellow
@@ -177,10 +177,10 @@ extension MainViewController: UISearchBarDelegate, SendErrorMessage {
                 cityName == currentWeather.cityName
             }
             self?.mainViewModel.currentWeatherList.insert(weather, at: 0)
+            self?.cityTableView.reloadData()
             searchBar.text = nil
             searchBar.resignFirstResponder()
         }
-        WeatherAPI.delegate = self
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -190,9 +190,6 @@ extension MainViewController: UISearchBarDelegate, SendErrorMessage {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         searchBar.searchTextField.textColor = .systemYellow
-        if searchText == "" {
-            cityTableView.reloadData()
-        }
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
