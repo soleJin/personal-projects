@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WeatherAPI {
-    
+class WeatherAPI {
+
     static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ latitude: Double?, _ longitude: Double?, completion: @escaping (Result<T, APIError>) -> Void) {
         let session = URLSession(configuration: .default)
         

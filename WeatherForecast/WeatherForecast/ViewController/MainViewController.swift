@@ -162,6 +162,7 @@ extension MainViewController: UITableViewDataSource {
 }
 
 extension MainViewController: UISearchBarDelegate {
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let cityName = searchBar.text else { return }
         searchBar.text = "\(cityName) 조회중.."
@@ -218,7 +219,7 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .denied, .restricted:
-            promptForAuthorization()
+            present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
             loadCurrentWeather(cityName: nil, latitude: 37.62746, longtitude: 126.98547) { [weak self] weather in
                 self?.mainViewModel.locationWeather = weather
                 DispatchQueue.main.async {
@@ -230,18 +231,6 @@ extension MainViewController: CLLocationManagerDelegate {
         default:
             print("LocationManager didChangeAuthorization")
         }
-    }
-    
-    private func promptForAuthorization() {
-        let alert = UIAlertController(title: "현재 위치의 날씨정보를\n조회하기 위해\n위치접근 허용이 필요합니다.", message: "위치접근을 허용해주세요!", preferredStyle: .alert)
-        let settingsAction = UIAlertAction(title: "Settings", style: .default) { _IOFBF in
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel , handler: nil)
-        alert.addAction(cancelAction)
-        alert.addAction(settingsAction)
-        alert.preferredAction = settingsAction
-        present(alert, animated: true, completion: nil)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
