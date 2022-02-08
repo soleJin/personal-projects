@@ -161,8 +161,13 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
-extension MainViewController: UISearchBarDelegate {
-
+extension MainViewController: UISearchBarDelegate, SendErrorMessage {
+    func sendErrorMessage() {
+        DispatchQueue.main.async {
+            self.present(AlertManager.promptForWrongCityName(), animated: true, completion: nil)
+        }
+    }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let cityName = searchBar.text else { return }
         searchBar.text = "\(cityName) 조회중.."
@@ -175,6 +180,7 @@ extension MainViewController: UISearchBarDelegate {
             searchBar.text = nil
             searchBar.resignFirstResponder()
         }
+        WeatherAPI.delegate = self
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -187,6 +193,10 @@ extension MainViewController: UISearchBarDelegate {
         if searchText == "" {
             cityTableView.reloadData()
         }
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.text = nil
     }
 }
 
