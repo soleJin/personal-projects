@@ -5,7 +5,7 @@
 //  Created by sole on 2022/02/04.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 class MainViewModel {
@@ -19,7 +19,7 @@ class MainViewModel {
     }
     
     var locationDescription: String {
-        guard let description = locationWeather?.additionalInformation.first?.description else { return "" }
+        guard let description = locationWeather?.weatherDescription else { return String() }
         return description
     }
     var locationTemperature: Double {
@@ -27,9 +27,9 @@ class MainViewModel {
         return temperature
     }
     
-    var locationIconPath: String {
-        guard let iconPath = locationWeather?.additionalInformation.first?.iconPath else { return "" }
-        return iconPath
+    var locationIcon: UIImage {
+        guard let icon = locationWeather?.weatherIcon else { return UIImage() }
+        return icon
     }
     
     var numberOfCurrentWeatherList: Int {

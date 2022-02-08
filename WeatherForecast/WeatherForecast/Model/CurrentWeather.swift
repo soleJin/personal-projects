@@ -5,27 +5,34 @@
 //  Created by sole on 2022/02/04.
 //
 
-import Foundation
+import UIKit
 
 struct CurrentWeather: Decodable {
-    let coord: Coord
-    let additionalInformation: [Weather]
+    let coordinate: Coordinate
+    private let additionalInformation: [Weather]
     var weather: Main
-    let wind: Wind
     let cityName: String
     var cityNameInKorean: String?
-    
-    
+    var weatherIcon: UIImage {
+        guard let iconPath = additionalInformation.first?.iconPath else { return UIImage() }
+        let icon = ImageManager.getImage(iconPath)
+        return icon
+    }
+    var weatherDescription: String {
+        guard let description = additionalInformation.first?.description else { return String() }
+        return description
+    }
+
     enum CodingKeys: String, CodingKey {
         case additionalInformation = "weather"
         case weather = "main"
-        case wind, coord
+        case coordinate = "coord"
         case cityName = "name"
         case cityNameInKorean
     }
 }
 
-struct Coord: Decodable {
+struct Coordinate: Decodable {
     let longitude, latitude: Double
     
     enum CodingKeys: String, CodingKey {
@@ -35,15 +42,14 @@ struct Coord: Decodable {
 }
 
 struct Main: Decodable {
-    var temperature, feelsLike, minimumTemperature, maximumTemperature: Double
-    let pressure, humidity: Int
+    var temperature, minimumTemperature, maximumTemperature: Double
+    let humidity: Int
 
     enum CodingKeys: String, CodingKey {
         case temperature = "temp"
-        case feelsLike = "feels_like"
         case minimumTemperature = "temp_min"
         case maximumTemperature = "temp_max"
-        case pressure, humidity
+        case humidity
     }
 }
 
@@ -54,8 +60,4 @@ struct Weather: Decodable {
         case description
         case iconPath = "icon"
     }
-}
-
-struct Wind: Decodable {
-    let speed: Double
 }

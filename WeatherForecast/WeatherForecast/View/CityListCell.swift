@@ -26,10 +26,7 @@ class CityListCell: UITableViewCell {
         if data.cityNameInKorean == nil {
             cityNameLabel.text = data.cityName
         }
-        guard let iconPath = data.additionalInformation.first?.iconPath else { return }
-        ImageManager.getImage(iconPath, completion: { icon in
-            self.currentWeatherIcon.image = icon
-        })
+        currentWeatherIcon.image = data.weatherIcon
         currentHumidityLabel.text = "\(data.weather.humidity) \(WeatherSymbols.humidity)"
         currentTemperatureLabel.text = "\(round(data.weather.temperature*10)/10) \(WeatherSymbols.temperature)"
     }

@@ -78,7 +78,7 @@ class MainViewController: UIViewController {
             switch result {
             case .success(let currentWeather):
                 var weather = currentWeather
-                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coord.latitude, longtitude: currentWeather.coord.longitude) { [weak self] (updateCityName) in
+                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { [weak self] (updateCityName) in
                     weather.cityNameInKorean = updateCityName
                     DispatchQueue.main.async {
                         self?.cityTableView.reloadData()
@@ -211,12 +211,8 @@ extension MainViewController: CLLocationManagerDelegate {
     private func updateCurrentLocationUI(weather: CurrentWeather) {
         addressLabel.text = weather.cityNameInKorean
         temperatureLabel.text = "\(round(weather.weather.temperature*10/10)) \(WeatherSymbols.temperature)"
-        guard let iconPath = weather.additionalInformation.first?.iconPath,
-              let weatherDescription = weather.additionalInformation.first?.description else { return }
-        descriptionLabel.text = weatherDescription
-        ImageManager.getImage(iconPath) { (icon) in
-            self.weatherIconImageView.image = icon
-        }
+        descriptionLabel.text = weather.weatherDescription
+        self.weatherIconImageView.image = weather.weatherIcon
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
