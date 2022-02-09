@@ -19,6 +19,7 @@ class WeatherAPI {
         
         let requestUrl = URLManager.getRequestUrl(apiType, cityName, latitude, longitude)
         guard let url = requestUrl else {
+            print("-----------------url안됨")
             completion(Result.failure(.invalidURL))
             return }
         
