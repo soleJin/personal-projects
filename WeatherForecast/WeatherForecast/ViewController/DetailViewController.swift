@@ -8,10 +8,12 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    let coord: Coordinate? = nil
+    var coord: Coordinate? = nil
+    let daiyWeather: DailyWeather? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dump(coord)
     }
 }
 

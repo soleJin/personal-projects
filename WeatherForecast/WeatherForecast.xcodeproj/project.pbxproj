@@ -114,7 +114,6 @@
 		FD3A9AAB27AD13B7005C7A05 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */,
 				FD65A20C27B272E800E09316 /* AlertManager.swift */,
 				FD65A20727B1D06B00E09316 /* Error.swift */,
 				FD65A21D27B37DA800E09316 /* WeatherData */,
@@ -138,6 +137,7 @@
 			children = (
 				FD3A9AA127AC7E46005C7A05 /* URLManager.swift */,
 				FD3A9AA427AC7F3D005C7A05 /* WeatherAPI.swift */,
+				FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */,
 				FD3A9AB527AD155E005C7A05 /* ImageManager.swift */,
 			);
 			path = NetworkModel;

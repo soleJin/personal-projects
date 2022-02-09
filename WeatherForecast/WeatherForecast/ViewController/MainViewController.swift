@@ -30,6 +30,13 @@ class MainViewController: UIViewController {
         searchBar.resignFirstResponder()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "showDetailInButton" || segue.identifier == "showDetailInCell",
+              let location = sender as? Coordinate else { return }
+        let detailViewController = segue.destination as? DetailViewController
+        detailViewController?.coord = location
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         temperatureSegmentControl.selectedSegmentIndex = 1
