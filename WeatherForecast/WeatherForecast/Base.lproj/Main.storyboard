@@ -120,7 +120,7 @@
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JvG-ow-TFq">
-                                <rect key="frame" x="20" y="339" width="384" height="523"/>
+                                <rect key="frame" x="20" y="339" width="384" height="483"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityListCell" id="cWh-Ml-qiO" customClass="CityListCell" customModule="WeatherForecast" customModuleProvider="target">
@@ -199,6 +199,18 @@
                                     <action selector="tapSegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="poy-rJ-GUv"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Is1-q4-6Gj">
+                                <rect key="frame" x="271" y="832" width="113" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="사용자 정렬 ">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="line.horizontal.3" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="tapSortButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Q1g-gQ-5ZK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -207,6 +219,7 @@
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="top" secondItem="zfS-Ap-mip" secondAttribute="bottom" id="2QH-cb-TJt"/>
                             <constraint firstItem="keE-02-Mbd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="4vZ-4s-IS4"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-25" id="D1v-HM-lHN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Is1-q4-6Gj" secondAttribute="trailing" constant="30" id="EUK-zh-sDS"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="50" id="G0F-lK-eU9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JvG-ow-TFq" secondAttribute="trailing" constant="10" id="O00-Bh-Jby"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="O0u-fA-u1w"/>
@@ -216,8 +229,10 @@
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="ZQU-iE-b4e"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="top" secondItem="MD8-eu-ToN" secondAttribute="bottom" constant="50" id="e2a-4Z-Hpf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q87-Qa-jNZ" secondAttribute="trailing" id="fQZ-co-ngn"/>
+                            <constraint firstItem="Is1-q4-6Gj" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="10" id="hne-LC-EO9"/>
+                            <constraint firstItem="Is1-q4-6Gj" firstAttribute="top" secondItem="JvG-ow-TFq" secondAttribute="bottom" constant="10" id="nxc-Nk-S0s"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zfS-Ap-mip" secondAttribute="trailing" constant="40" id="ovI-4l-adJ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JvG-ow-TFq" secondAttribute="bottom" id="tO4-XG-2bi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JvG-ow-TFq" secondAttribute="bottom" constant="40" id="tO4-XG-2bi"/>
                             <constraint firstItem="MD8-eu-ToN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tQP-So-Kx8"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="uFC-Xp-eSr"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="top" secondItem="ipj-R6-jwf" secondAttribute="bottom" id="wDf-a7-hgE"/>
@@ -246,6 +261,7 @@
     <resources>
         <image name="background" width="580" height="1031"/>
         <image name="chevron.up" catalog="system" width="128" height="72"/>
+        <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

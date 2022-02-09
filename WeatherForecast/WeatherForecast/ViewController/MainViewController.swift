@@ -118,6 +118,14 @@ class MainViewController: UIViewController {
             self.cityTableView.reloadData()
         }
     }
+    
+    @IBAction func tapSortButton(_ sender: UIButton) {
+        if cityTableView.isEditing {
+            cityTableView.isEditing = false
+        } else {
+            cityTableView.isEditing = true
+        }
+    }
 }
 
 extension MainViewController: DataUpdatable {
@@ -144,6 +152,14 @@ extension MainViewController: UITableViewDataSource {
             mainViewModel.delete(at: indexPath.row)
             cityTableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        mainViewModel.currentWeatherList.swapAt(sourceIndexPath.row, destinationIndexPath.row)
     }
 }
 
