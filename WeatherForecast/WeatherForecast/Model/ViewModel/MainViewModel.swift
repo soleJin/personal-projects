@@ -43,6 +43,10 @@ class MainViewModel {
         currentWeatherList.append(currentWeather)
     }
     
+    func delete(at index: Int) {
+        currentWeatherList.remove(at: index)
+    }
+    
     func descendingOrderCityNameInKorean() {
         currentWeatherList.sort {( $0.cityNameInKorean ?? ""
                                     < $1.cityNameInKorean ?? "" )}

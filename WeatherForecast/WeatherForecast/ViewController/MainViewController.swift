@@ -53,9 +53,7 @@ class MainViewController: UIViewController {
     @objc private func updateUI(refresh: UIRefreshControl) {
         refresh.endRefreshing()
         setUpButton()
-//        mainViewModel.loadEachCurrentWeather {
-//            self.cityTableView.reloadData()
-//        }
+        loadViewModelsEachCurrentWeather()
     }
     
     private func setUpButton() {
@@ -152,6 +150,19 @@ extension MainViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityListCell", for: indexPath) as? CityListCell else { return UITableViewCell() }
         cell.update(data: mainViewModel.currentWeather(at: indexPath.row))
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            mainViewModel.delete(at: indexPath.row)
+            cityTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+}
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .delete
     }
 }
 
