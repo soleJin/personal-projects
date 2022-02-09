@@ -16,7 +16,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var weatherIconImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     
-    @IBOutlet weak var temeratureSegmentControl: UISegmentedControl!
+    @IBOutlet weak var temperatureSegmentControl: UISegmentedControl!
     @IBOutlet weak var cityNameButton: UIButton!
     @IBOutlet weak var humidityButton: UIButton!
     @IBOutlet weak var temperatureButton: UIButton!
@@ -32,13 +32,17 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainViewModel.delegate = self
-        temeratureSegmentControl.selectedSegmentIndex = 1
-        mainViewModel.loadEachCurrentWeather()
+        temperatureSegmentControl.selectedSegmentIndex = 1
+        setUpMainViewModel()
         setUpSearchBar()
         setUpButton()
         configureCurrentLocation()
         initRefresh()
+    }
+    
+    private func setUpMainViewModel() {
+        mainViewModel.delegate = self
+        mainViewModel.loadEachCurrentWeather()
     }
     
     private func initRefresh() {
@@ -51,7 +55,7 @@ class MainViewController: UIViewController {
     @objc private func updateUI(refresh: UIRefreshControl) {
         refresh.endRefreshing()
         setUpButton()
-//        loadEachCurrentWeather()
+        mainViewModel.loadEachCurrentWeather()
     }
     
     private func setUpButton() {
@@ -119,6 +123,10 @@ class MainViewController: UIViewController {
         }
     }
     
+    @IBAction func tapLocationWeatherButton(_ sender: UIButton) {
+        performSegue(withIdentifier: "showDetailInButton", sender: mainViewModel.locationWeather?.coordinate)
+    }
+    
     @IBAction func tapSortButton(_ sender: UIButton) {
         if cityTableView.isEditing {
             cityTableView.isEditing = false
@@ -166,5 +174,9 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .delete
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetailInCell", sender: mainViewModel.currentWeatherList[indexPath.row].coordinate)
     }
 }

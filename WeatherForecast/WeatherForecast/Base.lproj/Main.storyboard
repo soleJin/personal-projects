@@ -119,11 +119,11 @@
                                     <constraint firstAttribute="height" constant="40" id="dFx-hm-qqO"/>
                                 </constraints>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JvG-ow-TFq">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JvG-ow-TFq">
                                 <rect key="frame" x="20" y="339" width="384" height="483"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityListCell" id="cWh-Ml-qiO" customClass="CityListCell" customModule="WeatherForecast" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CityListCell" id="cWh-Ml-qiO" customClass="CityListCell" customModule="WeatherForecast" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="384" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cWh-Ml-qiO" id="2eU-IG-t0t">
@@ -211,6 +211,16 @@
                                     <action selector="tapSortButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Q1g-gQ-5ZK"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vb-b2-bER">
+                                <rect key="frame" x="0.0" y="104" width="414" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="dSs-Oe-5ZE"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="tapLocationWeatherButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xny-yr-Eea"/>
+                                    <segue destination="be1-kK-h5r" kind="presentation" identifier="showDetailInButton" id="rdi-cY-Yby"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -218,9 +228,11 @@
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="09o-Rx-8A9"/>
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="top" secondItem="zfS-Ap-mip" secondAttribute="bottom" id="2QH-cb-TJt"/>
                             <constraint firstItem="keE-02-Mbd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="4vZ-4s-IS4"/>
+                            <constraint firstItem="0vb-b2-bER" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="A0S-jB-peF"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-25" id="D1v-HM-lHN"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Is1-q4-6Gj" secondAttribute="trailing" constant="30" id="EUK-zh-sDS"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="50" id="G0F-lK-eU9"/>
+                            <constraint firstItem="0vb-b2-bER" firstAttribute="top" secondItem="lDu-vr-v2C" secondAttribute="bottom" constant="10" id="H4s-xO-0C9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JvG-ow-TFq" secondAttribute="trailing" constant="10" id="O00-Bh-Jby"/>
                             <constraint firstItem="lDu-vr-v2C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="O0u-fA-u1w"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Oc6-6d-4KZ"/>
@@ -235,6 +247,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JvG-ow-TFq" secondAttribute="bottom" constant="40" id="tO4-XG-2bi"/>
                             <constraint firstItem="MD8-eu-ToN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tQP-So-Kx8"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="uFC-Xp-eSr"/>
+                            <constraint firstItem="0vb-b2-bER" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="udF-Dr-ucF"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="top" secondItem="ipj-R6-jwf" secondAttribute="bottom" id="wDf-a7-hgE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MD8-eu-ToN" secondAttribute="trailing" id="wll-Mc-1JW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="Q87-Qa-jNZ" secondAttribute="top" constant="50" id="xoG-rN-OGZ"/>
@@ -247,17 +260,47 @@
                         <outlet property="descriptionLabel" destination="7Pm-JE-06j" id="muc-4E-6Pa"/>
                         <outlet property="humidityButton" destination="7IJ-6L-9EZ" id="IJn-yn-6af"/>
                         <outlet property="searchBar" destination="lDu-vr-v2C" id="8jH-h5-JtQ"/>
-                        <outlet property="temeratureSegmentControl" destination="ipj-R6-jwf" id="0oG-jq-ksf"/>
                         <outlet property="temperatureButton" destination="W6K-yM-kxx" id="DSm-uW-fXG"/>
                         <outlet property="temperatureLabel" destination="Djc-Dv-IF5" id="KNF-I7-o6h"/>
+                        <outlet property="temperatureSegmentControl" destination="ipj-R6-jwf" id="0oG-jq-ksf"/>
                         <outlet property="weatherIconImageView" destination="HHi-eQ-twn" id="HbH-mB-yJA"/>
+                        <segue destination="be1-kK-h5r" kind="presentation" identifier="showDetailInCell" id="K4k-Gw-bP5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="302.89855072463769" y="77.678571428571431"/>
         </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="gi5-ly-vmd">
+            <objects>
+                <viewController id="be1-kK-h5r" customClass="DetailViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="acL-sT-Dfr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="rPb-Q9-Y6e">
+                                <rect key="frame" x="0.0" y="-50" width="414" height="942"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Jsb-Rc-uXy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="rPb-Q9-Y6e" firstAttribute="top" secondItem="acL-sT-Dfr" secondAttribute="top" constant="-50" id="JGV-a8-vB0"/>
+                            <constraint firstItem="rPb-Q9-Y6e" firstAttribute="leading" secondItem="Jsb-Rc-uXy" secondAttribute="leading" id="MHc-QU-p5o"/>
+                            <constraint firstAttribute="bottom" secondItem="rPb-Q9-Y6e" secondAttribute="bottom" constant="-50" id="TIW-G9-03e"/>
+                            <constraint firstItem="rPb-Q9-Y6e" firstAttribute="trailing" secondItem="Jsb-Rc-uXy" secondAttribute="trailing" id="TXO-Ga-bWl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AgS-Ho-Brm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1294" y="78"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="K4k-Gw-bP5"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="580" height="1031"/>
         <image name="chevron.up" catalog="system" width="128" height="72"/>

@@ -28,6 +28,7 @@ class MainViewModel {
         guard let temperature = locationWeather?.weather.temperature else { return 0.0 }
         return temperature
     }
+
     var numberOfCurrentWeatherList: Int {
         return currentWeatherList.count
     }

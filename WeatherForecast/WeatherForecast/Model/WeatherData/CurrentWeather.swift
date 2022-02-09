@@ -42,13 +42,11 @@ struct Coordinate: Decodable {
 }
 
 struct Main: Decodable {
-    var temperature, minimumTemperature, maximumTemperature: Double
+    var temperature: Double
     let humidity: Int
 
     enum CodingKeys: String, CodingKey {
         case temperature = "temp"
-        case minimumTemperature = "temp_min"
-        case maximumTemperature = "temp_max"
         case humidity
     }
 }
