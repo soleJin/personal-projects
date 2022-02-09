@@ -19,23 +19,6 @@ enum WeatherSymbols {
     static let windSpeed = "m/s"
 }
 
-extension String {
-    func convertTemperatureCtoFString() -> String? {
-        let array = self.components(separatedBy: " ")
-        guard let value = array.first,
-              let valueDouble = Double(value) else { return nil }
-        return "\(valueDouble.convertTemperatureFtoC()) \(WeatherSymbols.temperature)"
-    }
-    
-    func convertTemperatureFtoCString() -> String? {
-        let array = self.components(separatedBy: " ")
-        guard let value = array.first,
-              let valueDouble = Double(value) else { return nil }
-        return "\(valueDouble.convertTemperatureFtoC()) \(WeatherSymbols.temperature)"
-    }
-}
-
-
 extension Double {
     func convertTemperatureFtoC() -> Double {
         return (self - 32) * 5/9

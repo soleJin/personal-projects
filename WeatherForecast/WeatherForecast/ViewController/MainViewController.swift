@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var humidityButton: UIButton!
     @IBOutlet weak var temperatureButton: UIButton!
     @IBOutlet weak var cityTableView: UITableView!
-
+    
     var mainViewModel = MainViewModel()
     var temperatureUnit: TemperatureUnit = .C
     let locationManager = CLLocationManager()
@@ -32,12 +32,15 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainViewModel.setUserDefaults()
         temeratureSegmentControl.selectedSegmentIndex = 1
-        loadEachCurrentWeather()
+        loadViewModelsEachCurrentWeather()
         setUpSearchBar()
         setUpButton()
         configureCurrentLocation()
         initRefresh()
+        mainViewModel.delegate = self
+        
     }
     
     private func initRefresh() {
@@ -50,7 +53,9 @@ class MainViewController: UIViewController {
     @objc private func updateUI(refresh: UIRefreshControl) {
         refresh.endRefreshing()
         setUpButton()
-        loadEachCurrentWeather()
+//        mainViewModel.loadEachCurrentWeather {
+//            self.cityTableView.reloadData()
+//        }
     }
     
     private func setUpButton() {
@@ -62,31 +67,13 @@ class MainViewController: UIViewController {
         temperatureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
     }
     
-    private func loadEachCurrentWeather() {
+    private func loadViewModelsEachCurrentWeather() {
         City.nameList.forEach { (cityName) in
-            self.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { weather in
+            mainViewModel.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
                 self.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
                     currentWeather.cityName == weather.cityName
                 })
                 self.mainViewModel.append(weather)
-                DispatchQueue.main.async {
-                    self.cityTableView.reloadData()
-                }
-            }
-        }
-    }
-    
-    private func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
-        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeather, APIError>) in
-            switch result {
-            case .success(let currentWeather):
-                var weather = currentWeather
-                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { (updateCityName) in
-                    weather.cityNameInKorean = updateCityName
-                    completion(weather)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
             }
         }
     }
@@ -126,7 +113,6 @@ class MainViewController: UIViewController {
             default: break
             }
         }
-        cityTableView.reloadData()
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
@@ -136,14 +122,23 @@ class MainViewController: UIViewController {
             mainViewModel.convertTemperatureUnitCtoF {
                 temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
             }
-            cityTableView.reloadData()
         } else {
             guard temperatureUnit == .F else { return }
             temperatureUnit = .C
             mainViewModel.convertTemperatureUnitFtoC {
                 temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
             }
-            cityTableView.reloadData()
+        }
+        DispatchQueue.main.async {
+            self.cityTableView.reloadData()
+        }
+    }
+}
+
+extension MainViewController: DataUpdatable {
+    func reloadData() {
+        DispatchQueue.main.async {
+            self.cityTableView.reloadData()
         }
     }
 }
@@ -172,12 +167,11 @@ extension MainViewController: UISearchBarDelegate, SendErrorMessage {
         guard let cityName = searchBar.text else { return }
         searchBar.text = "\(cityName) 조회중.."
         searchBar.searchTextField.textColor = .systemYellow
-        loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self] weather in
-            self?.mainViewModel.currentWeatherList.removeAll { (currentWeather) -> Bool in
-                cityName == currentWeather.cityName
-            }
+        mainViewModel.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self ](weather) in
+            self?.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                currentWeather.cityName == weather.cityName
+            })
             self?.mainViewModel.currentWeatherList.insert(weather, at: 0)
-            self?.cityTableView.reloadData()
             searchBar.text = nil
             searchBar.resignFirstResponder()
         }
@@ -208,7 +202,7 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         locationManager.stopUpdatingLocation()
-        loadCurrentWeather(cityName: nil, latitude: location.coordinate.latitude, longtitude: location.coordinate.longitude) { [weak self] weather in
+        mainViewModel.loadCurrentWeather(cityName: nil, latitude: location.coordinate.latitude, longtitude: location.coordinate.longitude) { [weak self](weather) in
             self?.mainViewModel.locationWeather = weather
             DispatchQueue.main.async {
                 self?.updateCurrentLocationUI(weather: weather)
@@ -227,8 +221,7 @@ extension MainViewController: CLLocationManagerDelegate {
         switch status {
         case .denied, .restricted:
             present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
-            loadCurrentWeather(cityName: nil, latitude: 37.62746, longtitude: 126.98547) { [weak self] weather in
-                self?.mainViewModel.locationWeather = weather
+            mainViewModel.loadCurrentWeather(cityName: nil, latitude: 37.62746, longtitude: 126.98547) { [weak self] (weather) in
                 DispatchQueue.main.async {
                     self?.updateCurrentLocationUI(weather: weather)
                 }

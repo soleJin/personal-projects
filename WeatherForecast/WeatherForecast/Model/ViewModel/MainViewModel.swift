@@ -8,32 +8,31 @@
 import UIKit
 import CoreLocation
 
-class MainViewModel {
-    var currentWeatherList = [CurrentWeather]()
+protocol DataUpdatable: class {
+    func reloadData()
+}
 
+class MainViewModel {
+    weak var delegate: DataUpdatable?
+    let cityNameList = City.nameList
+    let userDefaults = UserDefaults.standard
+    var currentWeatherList = [CurrentWeather]() {
+        didSet {
+            delegate?.reloadData()
+        }
+    }
     var locationWeather: CurrentWeather?
-    
-    var locationCityName: String {
-        guard let cityName = locationWeather?.cityNameInKorean else { return "" }
-        return cityName
-    }
-    
-    var locationDescription: String {
-        guard let description = locationWeather?.weatherDescription else { return String() }
-        return description
-    }
+
     var locationTemperature: Double {
         guard let temperature = locationWeather?.weather.temperature else { return 0.0 }
         return temperature
     }
-    
-    var locationIcon: UIImage {
-        guard let icon = locationWeather?.weatherIcon else { return UIImage() }
-        return icon
-    }
-    
     var numberOfCurrentWeatherList: Int {
         return currentWeatherList.count
+    }
+    
+    func setUserDefaults() {
+        userDefaults.setValue(cityNameList, forKey: "cityNameList")
     }
 
     func currentWeather(at index: Int) -> CurrentWeather {
@@ -89,6 +88,22 @@ class MainViewModel {
             return }
         locationWeather?.weather.temperature = temperture.convertTemperatureCtoF()
         temperature()
+    }
+    
+    
+    func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
+        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeather, APIError>) in
+            switch result {
+            case .success(let currentWeather):
+                var weather = currentWeather
+                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { (updateCityName) in
+                    weather.cityNameInKorean = updateCityName
+                    completion(weather)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
