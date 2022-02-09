@@ -32,15 +32,13 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainViewModel.setUserDefaults()
+        mainViewModel.delegate = self
         temeratureSegmentControl.selectedSegmentIndex = 1
-        loadViewModelsEachCurrentWeather()
+        mainViewModel.loadEachCurrentWeather()
         setUpSearchBar()
         setUpButton()
         configureCurrentLocation()
         initRefresh()
-        mainViewModel.delegate = self
-        
     }
     
     private func initRefresh() {
@@ -53,7 +51,7 @@ class MainViewController: UIViewController {
     @objc private func updateUI(refresh: UIRefreshControl) {
         refresh.endRefreshing()
         setUpButton()
-        loadViewModelsEachCurrentWeather()
+//        loadEachCurrentWeather()
     }
     
     private func setUpButton() {
@@ -63,17 +61,6 @@ class MainViewController: UIViewController {
         cityNameButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
         humidityButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
         temperatureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
-    }
-    
-    private func loadViewModelsEachCurrentWeather() {
-        City.nameList.forEach { (cityName) in
-            mainViewModel.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                self.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                    currentWeather.cityName == weather.cityName
-                })
-                self.mainViewModel.append(weather)
-            }
-        }
     }
     
     private func setUpSearchBar() {
@@ -163,88 +150,5 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .delete
-    }
-}
-
-extension MainViewController: UISearchBarDelegate, SendErrorMessage {
-    func sendErrorMessage() {
-        DispatchQueue.main.async {
-            self.present(AlertManager.promptForWrongCityName(), animated: true, completion: nil)
-        }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        WeatherAPI.delegate = self
-        guard let cityName = searchBar.text else { return }
-        searchBar.text = "\(cityName) 조회중.."
-        searchBar.searchTextField.textColor = .systemYellow
-        mainViewModel.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self ](weather) in
-            self?.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                currentWeather.cityName == weather.cityName
-            })
-            self?.mainViewModel.currentWeatherList.insert(weather, at: 0)
-            searchBar.text = nil
-            searchBar.resignFirstResponder()
-        }
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchBar.searchTextField.textColor = .systemYellow
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-    }
-}
-
-extension MainViewController: CLLocationManagerDelegate {
-    private func configureCurrentLocation() {
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        locationManager.stopUpdatingLocation()
-        mainViewModel.loadCurrentWeather(cityName: nil, latitude: location.coordinate.latitude, longtitude: location.coordinate.longitude) { [weak self](weather) in
-            self?.mainViewModel.locationWeather = weather
-            DispatchQueue.main.async {
-                self?.updateCurrentLocationUI(weather: weather)
-            }
-        }
-    }
-    
-    private func updateCurrentLocationUI(weather: CurrentWeather) {
-        addressLabel.text = weather.cityNameInKorean
-        temperatureLabel.text = "\(round(weather.weather.temperature*10/10)) \(WeatherSymbols.temperature)"
-        descriptionLabel.text = weather.weatherDescription
-        self.weatherIconImageView.image = weather.weatherIcon
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .denied, .restricted:
-            present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
-            mainViewModel.loadCurrentWeather(cityName: nil, latitude: 37.62746, longtitude: 126.98547) { [weak self] (weather) in
-                DispatchQueue.main.async {
-                    self?.updateCurrentLocationUI(weather: weather)
-                }
-            }
-        case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
-            locationManager.startUpdatingLocation()
-        default:
-            print("LocationManager didChangeAuthorization")
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("LocationManager didFailError \(error.localizedDescription)")
     }
 }

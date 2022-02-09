@@ -14,11 +14,12 @@ protocol DataUpdatable: class {
 
 class MainViewModel {
     weak var delegate: DataUpdatable?
-    let cityNameList = City.nameList
     let userDefaults = UserDefaults.standard
     var currentWeatherList = [CurrentWeather]() {
         didSet {
             delegate?.reloadData()
+            let cityNameList = currentWeatherList.map { $0.cityName }
+            userDefaults.setValue(cityNameList, forKey: "cityNameList")
         }
     }
     var locationWeather: CurrentWeather?
@@ -31,10 +32,6 @@ class MainViewModel {
         return currentWeatherList.count
     }
     
-    func setUserDefaults() {
-        userDefaults.setValue(cityNameList, forKey: "cityNameList")
-    }
-
     func currentWeather(at index: Int) -> CurrentWeather {
         return currentWeatherList[index]
     }
@@ -94,6 +91,27 @@ class MainViewModel {
         temperature()
     }
     
+    func loadEachCurrentWeather() {
+        if (userDefaults.array(forKey: "cityNameList") as? [String])?.count == 0 {
+            City.nameList.forEach { (cityName) in
+                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
+                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                        currentWeather.cityName == weather.cityName
+                    })
+                    self.append(weather)
+                }
+            }
+        } else {
+            (userDefaults.array(forKey: "cityNameList") as? [String])?.forEach({ (cityName) in
+                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
+                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                        currentWeather.cityName == weather.cityName
+                    })
+                    self.append(weather)
+                }
+            })
+        }
+    }
     
     func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeather, APIError>) in

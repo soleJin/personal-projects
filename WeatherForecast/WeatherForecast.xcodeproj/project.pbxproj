@@ -24,6 +24,8 @@
 		FD3A9AD227AF19C3005C7A05 /* AddressManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */; };
 		FD65A20827B1D06B00E09316 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A20727B1D06B00E09316 /* Error.swift */; };
 		FD65A20D27B272E800E09316 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A20C27B272E800E09316 /* AlertManager.swift */; };
+		FD65A21527B34B2600E09316 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21427B34B2600E09316 /* SearchBar.swift */; };
+		FD65A21827B34B7000E09316 /* CLLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21727B34B7000E09316 /* CLLocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		FD3A9AD127AF19C3005C7A05 /* AddressManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressManager.swift; sourceTree = "<group>"; };
 		FD65A20727B1D06B00E09316 /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		FD65A20C27B272E800E09316 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		FD65A21427B34B2600E09316 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		FD65A21727B34B7000E09316 /* CLLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,7 @@
 		FD3A9AAA27AD13AE005C7A05 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				FD65A21A27B34B8E00E09316 /* Extension */,
 				FD3A9A8727AC6947005C7A05 /* MainViewController.swift */,
 			);
 			path = ViewController;
@@ -146,6 +151,15 @@
 				FD3A9A9727AC7245005C7A05 /* CityListCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		FD65A21A27B34B8E00E09316 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FD65A21727B34B7000E09316 /* CLLocationManager.swift */,
+				FD65A21427B34B2600E09316 /* SearchBar.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,6 +238,7 @@
 				FD65A20827B1D06B00E09316 /* Error.swift in Sources */,
 				FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */,
 				FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */,
+				FD65A21827B34B7000E09316 /* CLLocationManager.swift in Sources */,
 				FD3A9AB227AD1468005C7A05 /* Unit.swift in Sources */,
 				FD3A9AA827AC827E005C7A05 /* StringStyle.swift in Sources */,
 				FD3A9AA527AC7F3D005C7A05 /* WeatherAPI.swift in Sources */,
@@ -231,6 +246,7 @@
 				FD3A9AD227AF19C3005C7A05 /* AddressManager.swift in Sources */,
 				FD3A9AB627AD155E005C7A05 /* ImageManager.swift in Sources */,
 				FD65A20D27B272E800E09316 /* AlertManager.swift in Sources */,
+				FD65A21527B34B2600E09316 /* SearchBar.swift in Sources */,
 				FD3A9AA227AC7E46005C7A05 /* URLManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
