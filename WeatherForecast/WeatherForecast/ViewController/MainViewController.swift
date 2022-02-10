@@ -131,7 +131,7 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func tapLocationWeatherButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "showDetailInButton", sender: mainViewModel.locationWeather?.coordinate)
+        performSegue(withIdentifier: "showDetailInButton", sender: mainViewModel.locationCoordinate)
     }
     
     @IBAction func tapSortButton(_ sender: UIButton) {

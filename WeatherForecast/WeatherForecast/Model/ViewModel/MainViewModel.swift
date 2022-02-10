@@ -23,6 +23,11 @@ class MainViewModel {
         }
     }
     var locationWeather: CurrentWeather?
+    
+    var locationCoordinate: Coordinate? {
+        guard let coordinate = locationWeather?.coordinate else { return nil }
+        return coordinate
+    }
 
     var locationTemperature: Double {
         guard let temperature = locationWeather?.weather.temperature else { return 0.0 }
@@ -93,26 +98,16 @@ class MainViewModel {
     }
     
     func loadEachCurrentWeather() {
-        if (userDefaults.array(forKey: "cityNameList") as? [String])?.count == 0 {
-            City.nameList.forEach { (cityName) in
-                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                        currentWeather.cityName == weather.cityName
-                    })
-                    self.append(weather)
-                }
+        (userDefaults.array(forKey: "cityNameList") as? [String])?.forEach({ (cityName) in
+            loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
+                self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                    currentWeather.cityName == weather.cityName
+                })
+                self.append(weather)
             }
-        } else {
-            (userDefaults.array(forKey: "cityNameList") as? [String])?.forEach({ (cityName) in
-                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                        currentWeather.cityName == weather.cityName
-                    })
-                    self.append(weather)
-                }
-            })
-        }
+        })
     }
+    
     
     func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeather, APIError>) in

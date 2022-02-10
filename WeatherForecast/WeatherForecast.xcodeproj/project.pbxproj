@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD0BDF6B27B499510041A966 /* HourlyGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0BDF6A27B499510041A966 /* HourlyGridCell.swift */; };
 		FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A6F27AC57A8005C7A05 /* AppDelegate.swift */; };
 		FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A7127AC57A8005C7A05 /* SceneDelegate.swift */; };
 		FD3A9A7727AC57A8005C7A05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD3A9A7527AC57A8005C7A05 /* Main.storyboard */; };
@@ -27,11 +28,12 @@
 		FD65A20D27B272E800E09316 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A20C27B272E800E09316 /* AlertManager.swift */; };
 		FD65A21527B34B2600E09316 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21427B34B2600E09316 /* SearchBar.swift */; };
 		FD65A21827B34B7000E09316 /* CLLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21727B34B7000E09316 /* CLLocationManager.swift */; };
-		FD65A21F27B37DC400E09316 /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21E27B37DC400E09316 /* DailyWeather.swift */; };
+		FD65A21F27B37DC400E09316 /* DetailWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21E27B37DC400E09316 /* DetailWeather.swift */; };
 		FD65A22327B3817600E09316 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A22227B3817600E09316 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FD0BDF6A27B499510041A966 /* HourlyGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyGridCell.swift; sourceTree = "<group>"; };
 		FD3A9A6C27AC57A8005C7A05 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD3A9A6F27AC57A8005C7A05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD3A9A7127AC57A8005C7A05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,7 +56,7 @@
 		FD65A20C27B272E800E09316 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		FD65A21427B34B2600E09316 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		FD65A21727B34B7000E09316 /* CLLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationManager.swift; sourceTree = "<group>"; };
-		FD65A21E27B37DC400E09316 /* DailyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
+		FD65A21E27B37DC400E09316 /* DetailWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeather.swift; sourceTree = "<group>"; };
 		FD65A22227B3817600E09316 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				FD3A9A9727AC7245005C7A05 /* CityListCell.swift */,
+				FD0BDF6A27B499510041A966 /* HourlyGridCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -174,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				FD3A9A8F27AC712A005C7A05 /* CurrentWeather.swift */,
-				FD65A21E27B37DC400E09316 /* DailyWeather.swift */,
+				FD65A21E27B37DC400E09316 /* DetailWeather.swift */,
 			);
 			path = WeatherData;
 			sourceTree = "<group>";
@@ -251,7 +254,7 @@
 			files = (
 				FD3A9A9827AC7245005C7A05 /* CityListCell.swift in Sources */,
 				FD3A9A8827AC6947005C7A05 /* MainViewController.swift in Sources */,
-				FD65A21F27B37DC400E09316 /* DailyWeather.swift in Sources */,
+				FD65A21F27B37DC400E09316 /* DetailWeather.swift in Sources */,
 				FD3A9A9027AC712B005C7A05 /* CurrentWeather.swift in Sources */,
 				FD65A20827B1D06B00E09316 /* Error.swift in Sources */,
 				FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */,
@@ -265,6 +268,7 @@
 				FD3A9AD227AF19C3005C7A05 /* AddressManager.swift in Sources */,
 				FD3A9AB627AD155E005C7A05 /* ImageManager.swift in Sources */,
 				FD55DA2027B3C5230076B75D /* IntStyle.swift in Sources */,
+				FD0BDF6B27B499510041A966 /* HourlyGridCell.swift in Sources */,
 				FD65A20D27B272E800E09316 /* AlertManager.swift in Sources */,
 				FD65A21527B34B2600E09316 /* SearchBar.swift in Sources */,
 				FD3A9AA227AC7E46005C7A05 /* URLManager.swift in Sources */,

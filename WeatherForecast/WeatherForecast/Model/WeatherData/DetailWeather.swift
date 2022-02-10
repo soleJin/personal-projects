@@ -7,11 +7,11 @@
 
 import UIKit
 
-struct DailyWeather: Decodable {
+struct DetailWeather: Decodable {
     let latitude, longitude: Double
-    let current: Current
-    let hourly: [Current]
-    let daily: [Daily]
+    let current: HourlyWeather
+    let hourly: [HourlyWeather]
+    let daily: [DailyWeather]
     var address: String?
     
     enum CodingKeys: String, CodingKey {
@@ -21,13 +21,14 @@ struct DailyWeather: Decodable {
     }
 }
 
-struct Current: Decodable {
+struct HourlyWeather: Decodable {
     let dt: Int
     let temp: Double
     let pressure: Int
     let humidity: Int
     let wind_speed: Double
     let weather: [Weather]
+    let feels_like: Double
     var weatherDescription: String {
         return weather.description
     }
@@ -37,7 +38,7 @@ struct Current: Decodable {
     }
 }
 
-struct Daily: Decodable {
+struct DailyWeather: Decodable {
     let dateTime: Int
     let temperature: Temperature
     let weather: [Weather]
