@@ -15,26 +15,34 @@ struct DetailWeather: Decodable {
     var address: String?
     
     enum CodingKeys: String, CodingKey {
-            case latitude = "lat"
-            case longitude = "lon"
-            case current, hourly, daily
+        case latitude = "lat"
+        case longitude = "lon"
+        case current, hourly, daily
     }
 }
 
 struct HourlyWeather: Decodable {
-    let dt: Int
-    let temp: Double
+    let dateTime: Int
+    let temperature: Double
     let pressure: Int
     let humidity: Int
-    let wind_speed: Double
-    let weather: [Weather]
-    let feels_like: Double
+    let windSpeed: Double
+    private let weather: [Weather]
+    let feelsLike: Double
     var weatherDescription: String {
         return weather.description
     }
     var icon: UIImage {
         guard let iconPath = weather.first?.iconPath else { return UIImage() }
         return ImageManager.getImage(iconPath)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case dateTime = "dt"
+        case temperature = "temp"
+        case windSpeed = "wind_speed"
+        case feelsLike = "feels_like"
+        case pressure, humidity, weather
     }
 }
 
@@ -48,9 +56,9 @@ struct DailyWeather: Decodable {
     }
     
     enum CodingKeys: String, CodingKey {
-            case dateTime = "dt"
-            case temperature = "temp"
-            case weather
+        case dateTime = "dt"
+        case temperature = "temp"
+        case weather
     }
 }
 
@@ -59,7 +67,7 @@ struct Temperature: Decodable {
     let maximum: Double
     
     enum CodingKeys: String, CodingKey {
-            case minimum = "min"
-            case maximum = "max"
+        case minimum = "min"
+        case maximum = "max"
     }
 }

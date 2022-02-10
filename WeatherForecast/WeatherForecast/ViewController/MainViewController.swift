@@ -35,6 +35,7 @@ class MainViewController: UIViewController {
               let location = sender as? Coordinate else { return }
         let detailViewController = segue.destination as? DetailViewController
         detailViewController?.coord = location
+        dump(detailViewController?.coord)
     }
     
     override func viewDidLoad() {

@@ -26,7 +26,31 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dump(coord)
+        dump("===================viewdidload=========\(coord)")
+        guard let coord = coord else { return }
+        WeatherAPI.fetchWeather(APIType.dailyWeather, nil, coord.latitude, coord.longitude) { (result: Result<DetailWeather, APIError>) in
+            switch result {
+            case .success(let dailyWeatherData):
+                self.currentWeather = dailyWeatherData.current
+                self.hourlyWeatherList = dailyWeatherData.hourly
+                self.dailyWeatherList = dailyWeatherData.daily
+                guard let current = self.currentWeather else { return }
+                DispatchQueue.main.async {
+                    self.temperatureLabel.text = "\(round(current.temperature*10)/10) \(WeatherSymbols.temperature)"
+                    self.feelsLikeTemperatureLabel.text = "\(round(current.feelsLike*10)/10) \(WeatherSymbols.temperature)"
+                    self.pressureLabel.text = "\(current.pressure) \(WeatherSymbols.pressure)"
+                    self.humidityLabel.text = "\(current.humidity) \(WeatherSymbols.humidity)"
+                    self.windSpeedLabel.text = "\(round(current.windSpeed*10)/10) \(WeatherSymbols.windSpeed)"
+                    self.hourlyCollectionView.reloadData()
+                    self.dailyTableView.reloadData()
+                }
+            case .failure(let error):
+                print("--------Error--------\(error.localizedDescription)")
+            }
+        }
+        AddressManager.convertCityNameEnglishToKoreanInDetail(latitude: coord.latitude, longtitude: coord.longitude) { (adress) in
+            self.addressLabel.text = adress
+        }
     }
 }
 
@@ -59,5 +83,4 @@ extension DetailViewController: UITableViewDataSource {
         return cell
     }
 }
-
 
