@@ -19,7 +19,6 @@ class WeatherAPI {
         
         let requestUrl = URLManager.getRequestUrl(apiType, cityName, latitude, longitude)
         guard let url = requestUrl else {
-            print("-----------------url안됨")
             completion(Result.failure(.invalidURL))
             return }
         
@@ -50,23 +49,14 @@ class WeatherAPI {
         case (200...299):
             return nil
         case (400...499):
-            print("""
-                Error: Client Error \(response.statusCode)
-                Response: \(response)
-            """)
+            print("Response: \(response)")
             delegate?.sendErrorMessage()
             return APIError.clientError
         case (500...599):
-            print("""
-                Error: Server Error \(response.statusCode)
-                Response: \(response)
-            """)
+            print("Response: \(response)")
             return APIError.ServerError
         default:
-            print("""
-                Error: \(response.statusCode)
-                Response: \(response)
-            """)
+            print("Response: \(response)")
             return APIError.unknwon
         }
     }
