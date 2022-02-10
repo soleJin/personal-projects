@@ -23,7 +23,6 @@ class MainViewController: UIViewController {
     @IBOutlet weak var cityTableView: UITableView!
     
     var mainViewModel = MainViewModel()
-    var temperatureUnit: TemperatureUnit = .C
     let locationManager = CLLocationManager()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -113,21 +112,19 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
+        guard let weather = mainViewModel.currentWeatherList.first else { return }
         if sender.selectedSegmentIndex == 0 {
-            guard temperatureUnit == .C else { return }
-            temperatureUnit = .F
-            mainViewModel.convertTemperatureUnitCtoF {
-                temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+            if weather.temperatureUnit == .C {
+                mainViewModel.convertTemperatureUnitCtoF {
+                    temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+                }
             }
         } else {
-            guard temperatureUnit == .F else { return }
-            temperatureUnit = .C
-            mainViewModel.convertTemperatureUnitFtoC {
-                temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+            if weather.temperatureUnit == .F {
+                mainViewModel.convertTemperatureUnitFtoC {
+                    temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+                }
             }
-        }
-        DispatchQueue.main.async {
-            self.cityTableView.reloadData()
         }
     }
     

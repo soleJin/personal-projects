@@ -22,6 +22,7 @@ struct CurrentWeather: Decodable {
         guard let description = additionalInformation.first?.description else { return String() }
         return description
     }
+    var temperatureUnit: TemperatureUnit = .C
 
     enum CodingKeys: String, CodingKey {
         case additionalInformation = "weather"

@@ -75,37 +75,56 @@ class MainViewModel {
         currentWeatherList.sort {( $0.weather.temperature > $1.weather.temperature )}
     }
     
-    func convertTemperatureUnitFtoC(_ updateTemperature: () -> Void) {
-        for index in 0...numberOfCurrentWeatherList-1 {
-            let temperature = currentWeatherList[index].weather.temperature
-            currentWeatherList[index].weather.temperature = temperature.convertTemperatureFtoC()
+    func convertTemperatureUnitFtoC(_ updateTemperature: (() -> Void)) {
+        if let weather = currentWeatherList.first,
+              weather.temperatureUnit == .F {
+            for index in 0...numberOfCurrentWeatherList-1 {
+                currentWeatherList[index].temperatureUnit = .C
+                let temperature = currentWeatherList[index].weather.temperature
+                currentWeatherList[index].weather.temperature = temperature.convertTemperatureFtoC()
+            }
+            guard let temperture = locationWeather?.weather.temperature else {
+                return }
+            locationWeather?.weather.temperature = temperture.convertTemperatureFtoC()
+            updateTemperature()
         }
-        guard let temperture = locationWeather?.weather.temperature else {
-            return }
-        locationWeather?.weather.temperature = temperture.convertTemperatureFtoC()
-        updateTemperature()
     }
     
-    func convertTemperatureUnitCtoF(_ temperature: () -> Void) {
-        for index in 0...numberOfCurrentWeatherList-1 {
-            let temperature = currentWeatherList[index].weather.temperature
-            currentWeatherList[index].weather.temperature = temperature.convertTemperatureCtoF()
+    func convertTemperatureUnitCtoF(_ updateTemperature: () -> Void) {
+        if let weather = currentWeatherList.first,
+              weather.temperatureUnit == .C {
+            for index in 0...numberOfCurrentWeatherList-1 {
+                currentWeatherList[index].temperatureUnit = .F
+                let temperature = currentWeatherList[index].weather.temperature
+                currentWeatherList[index].weather.temperature = temperature.convertTemperatureCtoF()
+            }
+            guard let temperture = locationWeather?.weather.temperature else {
+                return }
+            locationWeather?.weather.temperature = temperture.convertTemperatureCtoF()
+            updateTemperature()
         }
-        guard let temperture = locationWeather?.weather.temperature else {
-            return }
-        locationWeather?.weather.temperature = temperture.convertTemperatureCtoF()
-        temperature()
     }
     
     func loadEachCurrentWeather() {
-        (userDefaults.array(forKey: "cityNameList") as? [String])?.forEach({ (cityName) in
-            loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                    currentWeather.cityName == weather.cityName
-                })
-                self.append(weather)
+        if (userDefaults.array(forKey: "cityNameList") as? [String])?.count == 0 {
+            City.nameList.forEach { (cityName) in
+                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
+                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                         currentWeather.cityName == weather.cityName
+                    })
+                    self.append(weather)
+                }
             }
-        })
+        } else {
+            (userDefaults.array(forKey: "cityNameList") as? [String])?.forEach({ (cityName) in
+                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
+                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                        currentWeather.cityName == weather.cityName
+                    })
+                    self.append(weather)
+                }
+            })
+        }
     }
     
     

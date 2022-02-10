@@ -17,6 +17,14 @@ extension MainViewController: UISearchBarDelegate, SendErrorMessage {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         WeatherAPI.delegate = self
         guard let cityName = searchBar.text else { return }
+        temperatureSegmentControl.selectedSegmentIndex = 1
+        if let weather = mainViewModel.currentWeatherList.first {
+            if weather.temperatureUnit == .F {
+                mainViewModel.convertTemperatureUnitFtoC {
+                    cityTableView.reloadData()
+                }
+            }
+        }
         searchBar.searchTextField.textColor = .systemYellow
         mainViewModel.loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self ](weather) in
             self?.mainViewModel.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
