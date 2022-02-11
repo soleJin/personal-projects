@@ -30,11 +30,14 @@ class MainViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == "showDetailInButton" || segue.identifier == "showDetailInCell",
-              let location = sender as? Coordinate else { return }
         let detailViewController = segue.destination as? DetailViewController
-        detailViewController?.coord = location
-        dump(detailViewController?.coord)
+        if segue.identifier == "showDetailInCell",
+              let location = sender as? Coordinate {
+            detailViewController?.coord = location
+        }
+        if segue.identifier == "showDetailInButton" {
+            detailViewController?.coord = mainViewModel.locationWeather?.coordinate
+        }
     }
     
     override func viewDidLoad() {
@@ -126,10 +129,6 @@ class MainViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    @IBAction func tapLocationWeatherButton(_ sender: UIButton) {
-        performSegue(withIdentifier: "showDetailInButton", sender: mainViewModel.locationCoordinate)
     }
     
     @IBAction func tapSortButton(_ sender: UIButton) {

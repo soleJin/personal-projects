@@ -222,7 +222,6 @@
                                     <constraint firstAttribute="height" constant="140" id="dSs-Oe-5ZE"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="tapLocationWeatherButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xny-yr-Eea"/>
                                     <segue destination="be1-kK-h5r" kind="presentation" identifier="showDetailInButton" id="rdi-cY-Yby"/>
                                 </connections>
                             </button>
