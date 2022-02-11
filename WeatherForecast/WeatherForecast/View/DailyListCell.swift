@@ -23,8 +23,8 @@ class DailyListCell: UITableViewCell {
     func update(data: DailyWeather) {
         weatherIcon.image = data.icon
         dayLabel.text = data.dateTime.convertToDailyString()
-        maximumTemperatureLabel.text = "\(round(data.temperature.maximum*10)/10) \(WeatherSymbols.temperature)"
-        minimumTemperatureLabel.text = "\(round(data.temperature.minimum*10)/10) \(WeatherSymbols.temperature)"
+        maximumTemperatureLabel.text = "\(data.temperature.maximum.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+        minimumTemperatureLabel.text = "\(data.temperature.minimum.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
     }
     
 }

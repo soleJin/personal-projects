@@ -36,11 +36,11 @@ class DetailViewController: UIViewController {
                 self.dailyWeatherList = dailyWeatherData.daily
                 guard let current = self.currentWeather else { return }
                 DispatchQueue.main.async {
-                    self.temperatureLabel.text = "\(round(current.temperature*10)/10) \(WeatherSymbols.temperature)"
-                    self.feelsLikeTemperatureLabel.text = "\(round(current.feelsLike*10)/10) \(WeatherSymbols.temperature)"
+                    self.temperatureLabel.text = "\(current.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+                    self.feelsLikeTemperatureLabel.text = "\(current.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
                     self.pressureLabel.text = "\(current.pressure) \(WeatherSymbols.pressure)"
                     self.humidityLabel.text = "\(current.humidity) \(WeatherSymbols.humidity)"
-                    self.windSpeedLabel.text = "\(round(current.windSpeed*10)/10) \(WeatherSymbols.windSpeed)"
+                    self.windSpeedLabel.text = "\(current.windSpeed.toOneDecimalPlaceInString()) \(WeatherSymbols.windSpeed)"
                     self.hourlyCollectionView.reloadData()
                     self.dailyTableView.reloadData()
                 }

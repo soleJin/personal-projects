@@ -116,13 +116,13 @@ class MainViewController: UIViewController {
         if sender.selectedSegmentIndex == 0 {
             if weather.temperatureUnit == .C {
                 mainViewModel.convertTemperatureUnitCtoF {
-                    temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+                    temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
                 }
             }
         } else {
             if weather.temperatureUnit == .F {
                 mainViewModel.convertTemperatureUnitFtoC {
-                    temperatureLabel.text = "\(round(mainViewModel.locationTemperature*10)/10) \(WeatherSymbols.temperature)"
+                    temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
                 }
             }
         }

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreLocation
 
 protocol DataUpdatable: class {
     func reloadData()

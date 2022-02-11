@@ -28,6 +28,6 @@ class CityListCell: UITableViewCell {
         }
         currentWeatherIcon.image = data.weatherIcon
         currentHumidityLabel.text = "\(data.weather.humidity) \(WeatherSymbols.humidity)"
-        currentTemperatureLabel.text = "\(round(data.weather.temperature*10)/10) \(WeatherSymbols.temperature)"
+        currentTemperatureLabel.text = "\(data.weather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
     }
 }
