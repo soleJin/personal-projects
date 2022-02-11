@@ -9,26 +9,19 @@ import UIKit
 import CoreLocation
 
 class MainViewController: UIViewController {
-    @IBOutlet weak var searchBar: UISearchBar!
-    
+    @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var weatherIconImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
-    
     @IBOutlet weak var temperatureSegmentControl: UISegmentedControl!
     @IBOutlet weak var cityNameButton: UIButton!
     @IBOutlet weak var humidityButton: UIButton!
     @IBOutlet weak var temperatureButton: UIButton!
     @IBOutlet weak var cityTableView: UITableView!
-    
     var mainViewModel = MainViewModel()
     let locationManager = CLLocationManager()
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        searchBar.resignFirstResponder()
-    }
-    
+ 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let detailViewController = segue.destination as? DetailViewController
         if segue.identifier == "showDetailInCell",
@@ -43,16 +36,25 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         temperatureSegmentControl.selectedSegmentIndex = 1
+        setUpSerachButton()
         setUpMainViewModel()
-        setUpSearchBar()
         setUpButton()
         configureCurrentLocation()
         initRefresh()
+        dump(mainViewModel.currentWeatherList)
+        dump(UserDefaults.standard.array(forKey: "cityNameList") as? [String])
+    }
+    
+    private func setUpSerachButton() {
+        searchButton.layer.cornerRadius = 7
+        searchButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        searchButton.layer.shadowColor = UIColor.darkGray.cgColor
+        searchButton.layer.shadowOpacity = 1
     }
     
     private func setUpMainViewModel() {
         mainViewModel.delegate = self
-        mainViewModel.loadEachCurrentWeather()
+        mainViewModel.setUpDefaultValue()
     }
     
     private func initRefresh() {
@@ -65,7 +67,7 @@ class MainViewController: UIViewController {
     @objc private func updateUI(refresh: UIRefreshControl) {
         refresh.endRefreshing()
         setUpButton()
-        mainViewModel.loadEachCurrentWeather()
+        mainViewModel.setUpDefaultValue()
     }
     
     private func setUpButton() {
@@ -77,12 +79,6 @@ class MainViewController: UIViewController {
         temperatureButton.setImage(UIImage(systemName: "chevron.up"), for: .normal)
     }
     
-    private func setUpSearchBar() {
-        searchBar.showsCancelButton = true
-        searchBar.tintColor = .darkGray
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(string: "도시 이름을 검색하세요!", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-    }
-
     @IBAction func tapLabelButton(_ sender: UIButton) {
         cityNameButton.tintColor = .darkGray
         humidityButton.tintColor = .darkGray
@@ -115,18 +111,18 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
-        guard let weather = mainViewModel.currentWeatherList.first else { return }
+        guard mainViewModel.currentWeatherList.first != nil else { return }
+        let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
         if sender.selectedSegmentIndex == 0 {
-            if weather.temperatureUnit == .C {
-                mainViewModel.convertTemperatureUnitCtoF {
-                    temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-                }
+            guard temperatureUnit == TemperatureUnit.C.rawValue else { return }
+            mainViewModel.convertTemperatureUnitCtoF {
+                temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
             }
+            
         } else {
-            if weather.temperatureUnit == .F {
-                mainViewModel.convertTemperatureUnitFtoC {
-                    temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-                }
+            guard temperatureUnit == TemperatureUnit.F.rawValue else { return }
+            mainViewModel.convertTemperatureUnitFtoC {
+                temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
             }
         }
     }
@@ -144,6 +140,11 @@ extension MainViewController: DataUpdatable {
     func reloadData() {
         DispatchQueue.main.async {
             self.cityTableView.reloadData()
+        }
+    }
+    func updateSegmentControl() {
+        DispatchQueue.main.async {
+            self.temperatureSegmentControl.selectedSegmentIndex = 0
         }
     }
 }

@@ -22,18 +22,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="Q87-Qa-jNZ">
                                 <rect key="frame" x="0.0" y="-6" width="414" height="918"/>
                             </imageView>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="도시명을 검색해주세요" translatesAutoresizingMaskIntoConstraints="NO" id="lDu-vr-v2C">
-                                <rect key="frame" x="25" y="44" width="364" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="Qua-Qf-k5U"/>
-                                </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="OlH-HM-C7c"/>
-                                </connections>
-                            </searchBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="MD8-eu-ToN">
-                                <rect key="frame" x="0.0" y="104" width="414" height="145"/>
+                                <rect key="frame" x="0.0" y="124" width="414" height="145"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U1x-cP-Fur">
                                         <rect key="frame" x="176.5" y="0.0" width="61.5" height="40"/>
@@ -76,7 +66,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="zfS-Ap-mip">
-                                <rect key="frame" x="30" y="299" width="354" height="40"/>
+                                <rect key="frame" x="30" y="319" width="354" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AWd-Ed-aAe">
                                         <rect key="frame" x="0.0" y="9" width="224" height="22"/>
@@ -122,7 +112,7 @@
                                 </constraints>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JvG-ow-TFq">
-                                <rect key="frame" x="20" y="339" width="384" height="483"/>
+                                <rect key="frame" x="20" y="359" width="384" height="463"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CityListCell" id="cWh-Ml-qiO" customClass="CityListCell" customModule="WeatherForecast" customModuleProvider="target">
@@ -195,7 +185,7 @@
                                 </connections>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ipj-R6-jwf">
-                                <rect key="frame" x="327" y="268" width="57" height="32"/>
+                                <rect key="frame" x="327" y="288" width="57" height="32"/>
                                 <segments>
                                     <segment title="F"/>
                                     <segment title="C"/>
@@ -217,12 +207,28 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vb-b2-bER">
-                                <rect key="frame" x="0.0" y="104" width="414" height="140"/>
+                                <rect key="frame" x="0.0" y="124" width="414" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="140" id="dSs-Oe-5ZE"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="be1-kK-h5r" kind="presentation" identifier="showDetailInButton" id="rdi-cY-Yby"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.55000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bii-Dl-mjQ">
+                                <rect key="frame" x="25" y="54" width="364" height="45"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="RF2-TV-vyH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="  도시 이름으로 검색하세요">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <imageReference key="image" image="magnifyingglass" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <segue destination="ZUf-Rt-HgK" kind="presentation" id="Xx9-Qt-dZA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -231,18 +237,18 @@
                         <constraints>
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="09o-Rx-8A9"/>
                             <constraint firstItem="JvG-ow-TFq" firstAttribute="top" secondItem="zfS-Ap-mip" secondAttribute="bottom" id="2QH-cb-TJt"/>
+                            <constraint firstItem="Bii-Dl-mjQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="3vd-2O-UrZ"/>
                             <constraint firstItem="keE-02-Mbd" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="4vZ-4s-IS4"/>
                             <constraint firstItem="0vb-b2-bER" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="A0S-jB-peF"/>
-                            <constraint firstItem="lDu-vr-v2C" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-25" id="D1v-HM-lHN"/>
+                            <constraint firstItem="Bii-Dl-mjQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="EDY-l9-NFg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Is1-q4-6Gj" secondAttribute="trailing" constant="30" id="EUK-zh-sDS"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="50" id="G0F-lK-eU9"/>
-                            <constraint firstItem="0vb-b2-bER" firstAttribute="top" secondItem="lDu-vr-v2C" secondAttribute="bottom" constant="10" id="H4s-xO-0C9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JvG-ow-TFq" secondAttribute="trailing" constant="10" id="O00-Bh-Jby"/>
-                            <constraint firstItem="lDu-vr-v2C" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="O0u-fA-u1w"/>
                             <constraint firstItem="Q87-Qa-jNZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Oc6-6d-4KZ"/>
                             <constraint firstItem="ipj-R6-jwf" firstAttribute="trailing" secondItem="W6K-yM-kxx" secondAttribute="trailing" id="RSp-LR-PyG"/>
-                            <constraint firstItem="MD8-eu-ToN" firstAttribute="top" secondItem="lDu-vr-v2C" secondAttribute="bottom" constant="10" id="WYy-c7-oGt"/>
-                            <constraint firstItem="lDu-vr-v2C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="ZQU-iE-b4e"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bii-Dl-mjQ" secondAttribute="trailing" constant="25" id="YLo-ao-irO"/>
+                            <constraint firstItem="0vb-b2-bER" firstAttribute="top" secondItem="Bii-Dl-mjQ" secondAttribute="bottom" constant="25" id="aq6-ef-f94"/>
+                            <constraint firstItem="MD8-eu-ToN" firstAttribute="top" secondItem="Bii-Dl-mjQ" secondAttribute="bottom" constant="25" id="d4A-BX-qWv"/>
                             <constraint firstItem="zfS-Ap-mip" firstAttribute="top" secondItem="MD8-eu-ToN" secondAttribute="bottom" constant="50" id="e2a-4Z-Hpf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Q87-Qa-jNZ" secondAttribute="trailing" id="fQZ-co-ngn"/>
                             <constraint firstItem="Is1-q4-6Gj" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="10" id="hne-LC-EO9"/>
@@ -263,7 +269,7 @@
                         <outlet property="cityTableView" destination="JvG-ow-TFq" id="evK-oh-2dj"/>
                         <outlet property="descriptionLabel" destination="7Pm-JE-06j" id="muc-4E-6Pa"/>
                         <outlet property="humidityButton" destination="7IJ-6L-9EZ" id="IJn-yn-6af"/>
-                        <outlet property="searchBar" destination="lDu-vr-v2C" id="8jH-h5-JtQ"/>
+                        <outlet property="searchButton" destination="Bii-Dl-mjQ" id="zt9-eT-qbr"/>
                         <outlet property="temperatureButton" destination="W6K-yM-kxx" id="DSm-uW-fXG"/>
                         <outlet property="temperatureLabel" destination="Djc-Dv-IF5" id="KNF-I7-o6h"/>
                         <outlet property="temperatureSegmentControl" destination="ipj-R6-jwf" id="0oG-jq-ksf"/>
@@ -274,6 +280,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="302.89855072463769" y="77.678571428571431"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="za3-lc-JiX">
+            <objects>
+                <viewController id="ZUf-Rt-HgK" customClass="SearchViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ppq-oh-Uvf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ZCl-Ir-UUI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oh6-VN-P0S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1194" y="-587"/>
         </scene>
         <!--Detail View Controller-->
         <scene sceneID="gi5-ly-vmd">
@@ -675,6 +696,7 @@
         <image name="background" width="580" height="1031"/>
         <image name="chevron.up" catalog="system" width="128" height="72"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

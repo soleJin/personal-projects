@@ -9,16 +9,16 @@ import UIKit
 
 protocol DataUpdatable: class {
     func reloadData()
+    func updateSegmentControl()
 }
 
 class MainViewModel {
     weak var delegate: DataUpdatable?
-    let userDefaults = UserDefaults.standard
     var currentWeatherList = [CurrentWeather]() {
         didSet {
             delegate?.reloadData()
             let cityNameList = currentWeatherList.map { $0.cityName }
-            userDefaults.setValue(cityNameList, forKey: "cityNameList")
+            UserDefaults.standard.setValue(cityNameList, forKey: "cityNameList")
         }
     }
     var locationWeather: CurrentWeather?
@@ -75,10 +75,10 @@ class MainViewModel {
     }
     
     func convertTemperatureUnitFtoC(_ updateTemperature: (() -> Void)) {
-        if let weather = currentWeatherList.first,
-              weather.temperatureUnit == .F {
+        let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
+        if temperatureUnit == TemperatureUnit.F.rawValue {
+            UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
             for index in 0...numberOfCurrentWeatherList-1 {
-                currentWeatherList[index].temperatureUnit = .C
                 let temperature = currentWeatherList[index].weather.temperature
                 currentWeatherList[index].weather.temperature = temperature.convertTemperatureFtoC()
             }
@@ -90,40 +90,37 @@ class MainViewModel {
     }
     
     func convertTemperatureUnitCtoF(_ updateTemperature: () -> Void) {
-        if let weather = currentWeatherList.first,
-              weather.temperatureUnit == .C {
+        let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
+        if temperatureUnit == TemperatureUnit.C.rawValue {
+            UserDefaults.standard.setValue(TemperatureUnit.F.rawValue, forKey: "temperatureUnit")
             for index in 0...numberOfCurrentWeatherList-1 {
-                currentWeatherList[index].temperatureUnit = .F
                 let temperature = currentWeatherList[index].weather.temperature
                 currentWeatherList[index].weather.temperature = temperature.convertTemperatureCtoF()
             }
-            guard let temperture = locationWeather?.weather.temperature else {
-                return }
+            guard let temperture = locationWeather?.weather.temperature else { return }
             locationWeather?.weather.temperature = temperture.convertTemperatureCtoF()
             updateTemperature()
         }
     }
     
-    func loadEachCurrentWeather() {
-        if (userDefaults.array(forKey: "cityNameList") as? [String])?.count == 0 {
-            City.nameList.forEach { (cityName) in
-                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                         currentWeather.cityName == weather.cityName
-                    })
-                    self.append(weather)
-                }
-            }
+    func setUpDefaultValue() {
+        UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
+        if let cityNameList = UserDefaults.standard.array(forKey: "cityNameList") as? [String] {
+            loadEachCurrentWeather(cityNameList: cityNameList)
         } else {
-            (userDefaults.array(forKey: "cityNameList") as? [String])?.forEach({ (cityName) in
-                loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                    self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                        currentWeather.cityName == weather.cityName
-                    })
-                    self.append(weather)
-                }
-            })
+            loadEachCurrentWeather(cityNameList: City.nameList)
         }
+    }
+    
+    private func loadEachCurrentWeather(cityNameList: [String]) {
+        cityNameList.forEach({ (cityName) in
+            loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
+                self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
+                    currentWeather.cityName == weather.cityName
+                })
+                self.append(weather)
+            }
+        })
     }
     
     

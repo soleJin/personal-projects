@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TemperatureUnit {
+enum TemperatureUnit: String {
     case F
     case C
 }

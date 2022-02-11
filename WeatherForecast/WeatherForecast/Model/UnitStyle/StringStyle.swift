@@ -26,6 +26,7 @@ enum City {
         "Mokpo",
         "Seoul",
         "Suwon",
-        "Ulsan"
+        "Ulsan",
+        "Seogwipo"
     ]
 }

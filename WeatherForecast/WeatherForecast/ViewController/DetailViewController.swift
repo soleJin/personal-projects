@@ -26,7 +26,6 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dump("===================viewdidload=========\(coord)")
         guard let coord = coord else { return }
         WeatherAPI.fetchWeather(APIType.dailyWeather, nil, coord.latitude, coord.longitude) { (result: Result<DetailWeather, APIError>) in
             switch result {
