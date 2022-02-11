@@ -26,10 +26,10 @@ class MainViewController: UIViewController {
         let detailViewController = segue.destination as? DetailViewController
         if segue.identifier == "showDetailInCell",
               let location = sender as? Coordinate {
-            detailViewController?.coord = location
+            detailViewController?.detailViewModel.coord = location
         }
         if segue.identifier == "showDetailInButton" {
-            detailViewController?.coord = mainViewModel.locationWeather?.coordinate
+            detailViewController?.detailViewModel.coord = mainViewModel.locationWeather?.coordinate
         }
     }
     
@@ -41,8 +41,6 @@ class MainViewController: UIViewController {
         setUpButton()
         configureCurrentLocation()
         initRefresh()
-        dump(mainViewModel.currentWeatherList)
-        dump(UserDefaults.standard.array(forKey: "cityNameList") as? [String])
     }
     
     private func setUpSerachButton() {
@@ -136,7 +134,7 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: DataUpdatable {
+extension MainViewController: CurrentWeatherDataUpdatable {
     func reloadData() {
         DispatchQueue.main.async {
             self.cityTableView.reloadData()

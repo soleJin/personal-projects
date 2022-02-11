@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol DataUpdatable: class {
+protocol CurrentWeatherDataUpdatable: class {
     func reloadData()
     func updateSegmentControl()
 }
 
 class MainViewModel {
-    weak var delegate: DataUpdatable?
+    weak var delegate: CurrentWeatherDataUpdatable?
     var currentWeatherList = [CurrentWeather]() {
         didSet {
             delegate?.reloadData()
@@ -123,7 +123,6 @@ class MainViewModel {
         })
     }
     
-    
     func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeather, APIError>) in
             switch result {
@@ -134,9 +133,8 @@ class MainViewModel {
                     completion(weather)
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                print("Main View Networking Error: \(error.localizedDescription)")
             }
         }
     }
 }
-

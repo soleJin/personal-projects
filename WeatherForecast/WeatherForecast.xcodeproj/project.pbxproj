@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FD0BDF6B27B499510041A966 /* HourlyGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0BDF6A27B499510041A966 /* HourlyGridCell.swift */; };
+		FD20289527B7111800CCC93F /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD20289427B7111800CCC93F /* DetailViewModel.swift */; };
 		FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A6F27AC57A8005C7A05 /* AppDelegate.swift */; };
 		FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD3A9A7127AC57A8005C7A05 /* SceneDelegate.swift */; };
 		FD3A9A7727AC57A8005C7A05 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD3A9A7527AC57A8005C7A05 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 
 /* Begin PBXFileReference section */
 		FD0BDF6A27B499510041A966 /* HourlyGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyGridCell.swift; sourceTree = "<group>"; };
+		FD20289427B7111800CCC93F /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		FD3A9A6C27AC57A8005C7A05 /* WeatherForecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherForecast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD3A9A6F27AC57A8005C7A05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FD3A9A7127AC57A8005C7A05 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				FD3A9A9A27AC7495005C7A05 /* MainViewModel.swift */,
+				FD20289427B7111800CCC93F /* DetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */,
 				FD65A21827B34B7000E09316 /* CLLocationManager.swift in Sources */,
 				FD3A9AB227AD1468005C7A05 /* Unit.swift in Sources */,
+				FD20289527B7111800CCC93F /* DetailViewModel.swift in Sources */,
 				FD65A22327B3817600E09316 /* DetailViewController.swift in Sources */,
 				FD3A9AA827AC827E005C7A05 /* StringStyle.swift in Sources */,
 				FD3A9AA527AC7F3D005C7A05 /* WeatherAPI.swift in Sources */,

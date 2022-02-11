@@ -8,78 +8,53 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var feelsLikeTemperatureLabel: UILabel!
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var windSpeedLabel: UILabel!
+    @IBOutlet weak var detailWeatherTableView: UITableView!
     
-    @IBOutlet weak var hourlyCollectionView: UICollectionView!
-    @IBOutlet weak var dailyTableView: UITableView!
-    
-    var coord: Coordinate? = nil
-    var currentWeather: HourlyWeather? = nil
-    var hourlyWeatherList = [HourlyWeather]()
-    var dailyWeatherList = [DailyWeather]()
+    var detailViewModel = DetailViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let coord = coord else { return }
-        WeatherAPI.fetchWeather(APIType.dailyWeather, nil, coord.latitude, coord.longitude) { (result: Result<DetailWeather, APIError>) in
-            switch result {
-            case .success(let dailyWeatherData):
-                self.currentWeather = dailyWeatherData.current
-                self.hourlyWeatherList = dailyWeatherData.hourly
-                self.dailyWeatherList = dailyWeatherData.daily
-                guard let current = self.currentWeather else { return }
-                DispatchQueue.main.async {
-                    self.temperatureLabel.text = "\(current.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-                    self.feelsLikeTemperatureLabel.text = "\(current.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-                    self.pressureLabel.text = "\(current.pressure) \(WeatherSymbols.pressure)"
-                    self.humidityLabel.text = "\(current.humidity) \(WeatherSymbols.humidity)"
-                    self.windSpeedLabel.text = "\(current.windSpeed.toOneDecimalPlaceInString()) \(WeatherSymbols.windSpeed)"
-                    self.hourlyCollectionView.reloadData()
-                    self.dailyTableView.reloadData()
-                }
-            case .failure(let error):
-                print("--------Error--------\(error.localizedDescription)")
-            }
-        }
-        AddressManager.convertCityNameEnglishToKoreanInDetail(latitude: coord.latitude, longtitude: coord.longitude) { (adress) in
-            self.addressLabel.text = adress
-        }
-    }
-}
-
-extension DetailViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        hourlyWeatherList.count
+        setUpAddButton()
+        setUpDetailViewModel()
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HourlyGridCell", for: indexPath) as? HourlyGridCell else { return UICollectionViewCell() }
-        cell.update(data: hourlyWeatherList[indexPath.item])
-        return cell
-    }
-}
-
-extension DetailViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 80, height: 130)
-    }
-}
-
-extension DetailViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dailyWeatherList.count
+    private func setUpDetailViewModel() {
+        detailViewModel.delegate = self
+        detailViewModel.loadDetailWeather()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DailyListCell", for: indexPath) as? DailyListCell else { return UITableViewCell() }
-        cell.update(data: dailyWeatherList[indexPath.row])
-        return cell
+    private func setUpAddButton() {
+        addButton.isHidden = true
+        addButton.layer.cornerRadius = 5
+        addButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        addButton.layer.shadowColor = UIColor.darkGray.cgColor
+        addButton.layer.shadowOpacity = 1
     }
 }
+
+extension DetailViewController: DetailWeatherDataUpdatable {
+    func updateUI(hourlyWeather: HourlyWeather) {
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = "\(hourlyWeather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            self.feelsLikeTemperatureLabel.text = "\(hourlyWeather.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            self.pressureLabel.text = "\(hourlyWeather.pressure) \(WeatherSymbols.pressure)"
+            self.humidityLabel.text = "\(hourlyWeather.humidity) \(WeatherSymbols.humidity)"
+            self.windSpeedLabel.text = "\(hourlyWeather.windSpeed.toOneDecimalPlaceInString()) \(WeatherSymbols.windSpeed)"
+            guard let address = self.detailViewModel.address else { return }
+            self.addressLabel.text = "\(address)"
+        }
+    }
+    
+    func reloadData() {
+        //
+    }
+}
+
 
