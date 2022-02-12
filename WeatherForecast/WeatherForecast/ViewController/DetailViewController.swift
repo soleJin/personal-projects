@@ -12,9 +12,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var feelsLikeTemperatureLabel: UILabel!
-    @IBOutlet weak var pressureLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var detailWeatherTableView: UITableView!
     
     var detailViewModel = DetailViewModel()
@@ -58,9 +55,6 @@ extension DetailViewController: DetailWeatherDataUpdatable {
         DispatchQueue.main.async {
             self.temperatureLabel.text = "\(hourlyWeather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
             self.feelsLikeTemperatureLabel.text = "\(hourlyWeather.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-            self.pressureLabel.text = "\(hourlyWeather.pressure) \(WeatherSymbols.pressure)"
-            self.humidityLabel.text = "\(hourlyWeather.humidity) \(WeatherSymbols.humidity)"
-            self.windSpeedLabel.text = "\(hourlyWeather.windSpeed.toOneDecimalPlaceInString()) \(WeatherSymbols.windSpeed)"
             guard let address = self.detailViewModel.address else { return }
             self.addressLabel.text = "\(address)"
         }
@@ -115,9 +109,9 @@ extension DetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 150
+            return 140
         } else if indexPath.section == 1 {
-            return 350
+            return 370
         }
         return 0
     }

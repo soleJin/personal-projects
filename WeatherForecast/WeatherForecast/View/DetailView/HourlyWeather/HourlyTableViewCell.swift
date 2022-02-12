@@ -16,7 +16,6 @@ class HourlyTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         hourlyCollectionView.register(HourlyGridCell.nib(), forCellWithReuseIdentifier: HourlyGridCell.identifier)
-        hourlyCollectionView.delegate = self
         hourlyCollectionView.dataSource = self
     }
     
@@ -39,15 +38,5 @@ extension HourlyTableViewCell: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyGridCell.identifier, for: indexPath) as? HourlyGridCell else { return UICollectionViewCell() }
         cell.update(data: hourlyWeatherList[indexPath.item])
         return cell
-    }
-}
-
-extension HourlyTableViewCell: UICollectionViewDelegate {
-    
-}
-
-extension HourlyTableViewCell: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 70, height: 150)
     }
 }
