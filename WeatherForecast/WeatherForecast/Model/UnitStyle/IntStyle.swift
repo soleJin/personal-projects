@@ -8,21 +8,22 @@
 import Foundation
 
 extension Int {
-    func convertToHourlyString() -> String? {
-        guard let timeInterval = TimeInterval(String(self)) else { return nil }
-        let utcTime = Date(timeIntervalSince1970: timeInterval)
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_kR")
-        formatter.dateFormat = "HH시"
-        return formatter.string(from: utcTime)
+    func convertToDateString(_ expression: String) -> String? {
+        guard let time = setTime(self) else { return nil }
+        let formatter = setformatter(expression)
+        return formatter.string(from: time)
     }
     
-    func convertToDailyString() -> String? {
-        guard let timeInterval = TimeInterval(String(self)) else { return nil }
-        let utcTime = Date(timeIntervalSince1970: timeInterval)
+    private func setformatter(_ value: String) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_kR")
-        formatter.dateFormat = "eeee"
-        return formatter.string(from: utcTime)
+        formatter.dateFormat = value
+        return formatter
+    }
+    
+    private func setTime(_ value: Int) -> Date? {
+        guard let timeInterval = TimeInterval(String(self)) else { return nil }
+        let time = Date(timeIntervalSince1970: timeInterval)
+        return time
     }
 }

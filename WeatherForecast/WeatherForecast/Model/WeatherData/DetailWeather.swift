@@ -27,6 +27,8 @@ struct HourlyWeather: Decodable {
     let pressure: Int
     let humidity: Int
     let windSpeed: Double
+    let sunrise: Int?
+    let sunset: Int?
     private let weather: [Weather]
     let feelsLike: Double
     var weatherDescription: String {
@@ -42,7 +44,7 @@ struct HourlyWeather: Decodable {
         case temperature = "temp"
         case windSpeed = "wind_speed"
         case feelsLike = "feels_like"
-        case pressure, humidity, weather
+        case pressure, humidity, weather, sunrise, sunset
     }
 }
 

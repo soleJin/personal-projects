@@ -8,15 +8,15 @@
 import UIKit
 
 protocol DetailWeatherDataUpdatable: class {
-    func updateUI(hourlyWeather: HourlyWeather)
+    func updateWeather(data: HourlyWeather)
     func reloadData()
 }
 
 class DetailViewModel {
     weak var delegate: DetailWeatherDataUpdatable?
-    
     var coord: Coordinate? 
     var address: String?
+    var currnetWeather: HourlyWeather?
     var hourlyWeatherList = [HourlyWeather]()
     var dailyWeatherList = [DailyWeather]()
     var numberOfDailyWeatherList: Int {
@@ -33,7 +33,8 @@ class DetailViewModel {
             case .success(let dailyWeatherData):
                 self.hourlyWeatherList = dailyWeatherData.hourly
                 self.dailyWeatherList = dailyWeatherData.daily
-                self.delegate?.updateUI(hourlyWeather: dailyWeatherData.current)
+                self.currnetWeather = dailyWeatherData.current
+                self.delegate?.updateWeather(data: dailyWeatherData.current)
                 self.delegate?.reloadData()
             case .failure(let error):
                 print("Detail View Networking Error: \(error.localizedDescription)")
@@ -43,12 +44,4 @@ class DetailViewModel {
             self.address = adress
         }
     }
-//
-//    func dailyWeather(at index: Int) -> DailyWeather {
-//        return dailyWeatherList[index]
-//    }
-//
-//    func hourlyWeather(at index: Int) -> HourlyWeather {
-//        return hourlyWeatherList[index]
-//    }
 }

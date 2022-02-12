@@ -27,7 +27,7 @@ class DailyListCell: UITableViewCell {
     
     func update(data: DailyWeather) {
         weatherIcon.image = data.icon
-        dayLabel.text = data.dateTime.convertToDailyString()
+        dayLabel.text = data.dateTime.convertToDateString(TimeUnit.daily)
         maximumTemperatureLabel.text = "\(data.temperature.maximum.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
         minimumTemperatureLabel.text = "\(data.temperature.minimum.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
     }

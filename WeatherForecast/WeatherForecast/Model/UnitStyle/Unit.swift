@@ -19,6 +19,12 @@ enum WeatherSymbols {
     static let windSpeed = "m/s"
 }
 
+enum TimeUnit {
+    static let daily = "eeee"
+    static let hourly = "HH시"
+    static let minutely = "HH시 mm분"
+}
+
 extension Double {
     func convertTemperatureFtoC() -> Double {
         return (self - 32) * 5/9

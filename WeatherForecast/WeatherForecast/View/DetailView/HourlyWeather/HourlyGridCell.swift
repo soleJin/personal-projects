@@ -25,7 +25,7 @@ class HourlyGridCell: UICollectionViewCell {
     
     func update(data: HourlyWeather) {
         weatherIcon.image = data.icon
-        hourlyTimeLabel.text = data.dateTime.convertToHourlyString()
+        hourlyTimeLabel.text = data.dateTime.convertToDateString(TimeUnit.hourly)
         hourlyTemperatureLabel.text = "\(data.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
     }
 }
