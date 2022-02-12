@@ -28,17 +28,4 @@ struct AddressManager {
             completion("\(resultSiAddress) (\(resultAddress))")
         }
     }
-    
-    static func convertCityNameEnglishToKoreanInDetail(latitude: Double, longtitude: Double, completion: @escaping (String) -> Void) {
-        let findLocation = CLLocation(latitude: latitude, longitude: longtitude)
-        let geocoder = CLGeocoder()
-        let local = Locale(identifier: "Ko-kr")
-        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: local) { (placemarks, error) in
-            guard let placemark: [CLPlacemark] = placemarks,
-                  let siAddress = placemark.last?.locality,
-                  let dongAddress = placemark.last?.subLocality,
-                  let address = placemark.last?.administrativeArea else { return }
-            completion("\(String(address)) \(String(siAddress)) \(String(dongAddress))")
-        }
-    }
 }

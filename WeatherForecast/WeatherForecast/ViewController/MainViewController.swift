@@ -44,7 +44,7 @@ class MainViewController: UIViewController {
     }
     
     private func setUpSerachButton() {
-        searchButton.layer.cornerRadius = 7
+        searchButton.layer.cornerRadius = 5
         searchButton.layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
         searchButton.layer.shadowColor = UIColor.darkGray.cgColor
         searchButton.layer.shadowOpacity = 1

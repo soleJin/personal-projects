@@ -2,17 +2,22 @@
 //  DailyListCell.swift
 //  WeatherForecast
 //
-//  Created by sole on 2022/02/10.
+//  Created by sole on 2022/02/12.
 //
 
 import UIKit
 
 class DailyListCell: UITableViewCell {
+    static let identifier = "DailyListCell"
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var maximumTemperatureLabel: UILabel!
     @IBOutlet weak var minimumTemperatureLabel: UILabel!
     
+    static func nib() -> UINib {
+        return UINib(nibName: DailyListCell.identifier, bundle: nil)
+    }
+
     override func prepareForReuse() {
         weatherIcon.image = nil
         dayLabel.text = nil
@@ -26,5 +31,4 @@ class DailyListCell: UITableViewCell {
         maximumTemperatureLabel.text = "\(data.temperature.maximum.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
         minimumTemperatureLabel.text = "\(data.temperature.minimum.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
     }
-    
 }

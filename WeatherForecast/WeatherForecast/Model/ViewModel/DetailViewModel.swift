@@ -18,6 +18,12 @@ class DetailViewModel {
     var address: String?
     var hourlyWeatherList = [HourlyWeather]()
     var dailyWeatherList = [DailyWeather]()
+    var numberOfDailyWeatherList: Int {
+        return dailyWeatherList.count
+    }
+    var numberOfHourlyWeatherList: Int {
+        return hourlyWeatherList.count
+    }
     
     func loadDetailWeather() {
         guard let coord = coord else { return }
@@ -27,12 +33,21 @@ class DetailViewModel {
                 self.hourlyWeatherList = dailyWeatherData.hourly
                 self.dailyWeatherList = dailyWeatherData.daily
                 self.delegate?.updateUI(hourlyWeather: dailyWeatherData.current)
+                self.delegate?.reloadData()
             case .failure(let error):
                 print("Detail View Networking Error: \(error.localizedDescription)")
             }
         }
-        AddressManager.convertCityNameEnglishToKoreanInDetail(latitude: coord.latitude, longtitude: coord.longitude) { (adress) in
+        AddressManager.convertCityNameEnglishToKoreanSimply(latitude: coord.latitude, longtitude: coord.longitude) { (adress) in
             self.address = adress
         }
+    }
+    
+    func dailyWeather(at index: Int) -> DailyWeather {
+        return dailyWeatherList[index]
+    }
+    
+    func hourlyWeather(at index: Int) -> HourlyWeather {
+        return hourlyWeatherList[index]
     }
 }
