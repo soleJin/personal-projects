@@ -14,6 +14,7 @@ protocol DetailWeatherDataUpdatable: class {
 
 class DetailViewModel {
     weak var delegate: DetailWeatherDataUpdatable?
+    
     var coord: Coordinate? 
     var address: String?
     var hourlyWeatherList = [HourlyWeather]()
@@ -42,12 +43,12 @@ class DetailViewModel {
             self.address = adress
         }
     }
-    
-    func dailyWeather(at index: Int) -> DailyWeather {
-        return dailyWeatherList[index]
-    }
-    
-    func hourlyWeather(at index: Int) -> HourlyWeather {
-        return hourlyWeatherList[index]
-    }
+//
+//    func dailyWeather(at index: Int) -> DailyWeather {
+//        return dailyWeatherList[index]
+//    }
+//
+//    func hourlyWeather(at index: Int) -> HourlyWeather {
+//        return hourlyWeatherList[index]
+//    }
 }

@@ -49,7 +49,7 @@ class DetailViewController: UIViewController {
     }
     
     private func setUpAddButton() {
-//        addButton.isHidden = true
+        addButton.isHidden = true
     }
 }
 
@@ -86,11 +86,14 @@ extension DetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyTableViewCell.identifier, for: indexPath) as? HourlyTableViewCell else { return UITableViewCell() }
+            cell.update(detailViewModel.hourlyWeatherList)
             return cell
-        } else {
+        } else if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyTableViewCell.identifier, for: indexPath) as? DailyTableViewCell else { return UITableViewCell() }
+            cell.update(detailViewModel.dailyWeatherList)
             return cell
-        } 
+        }
+        return UITableViewCell()
     }
 }
 
@@ -99,14 +102,24 @@ extension DetailViewController: UITableViewDelegate {
         if section == 0 {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HourlyWeatherSectionHeaderView.identifier)
             return headerView
-        } else {
+        } else if section == 1 {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DailyWeatherSectionHeaderView.identifier)
             return headerView
         }
+        return UIView()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 150
+        } else if indexPath.section == 1 {
+            return 350
+        }
+        return 0
     }
 }
 
