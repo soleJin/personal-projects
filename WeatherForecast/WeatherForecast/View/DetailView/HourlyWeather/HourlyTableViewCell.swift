@@ -16,8 +16,7 @@ class HourlyTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         hourlyCollectionView.register(HourlyGridCell.nib(), forCellWithReuseIdentifier: HourlyGridCell.identifier)
-        hourlyCollectionView.dataSource = self
-    }
+        hourlyCollectionView.dataSource = self    }
     
     static func nib() -> UINib {
         return UINib(nibName: HourlyTableViewCell.identifier, bundle: nil)
@@ -40,3 +39,4 @@ extension HourlyTableViewCell: UICollectionViewDataSource {
         return cell
     }
 }
+

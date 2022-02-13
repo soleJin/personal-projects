@@ -57,5 +57,7 @@
 	<string>현재 위치의 날씨정보를 요청하기 위해 위치 접근 허용이 필요합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>현재 위치의 날씨정보를 요청하기 위해 위치 접근 허용이 필요합니다.</string>
+	<key>NSLocationUsageDescription</key>
+	<string></string>
 </dict>
 </plist>

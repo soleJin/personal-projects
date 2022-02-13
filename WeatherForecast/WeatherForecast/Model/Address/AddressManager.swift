@@ -17,15 +17,19 @@ struct AddressManager {
             guard let placemark: [CLPlacemark] = placemarks,
                   let address = placemark.last?.administrativeArea,
                   let siAddress = placemark.last?.locality else { return }
-            var resultAddress = String(address).components(separatedBy: ["특", "별", "시", "광", "역", "남", "북"]).joined()
-            if resultAddress == "주" {
-                resultAddress.insert("광", at: resultAddress.startIndex)
+            if address.contains("특별시") || address.contains("광역시") {
+                var resultAddress = String(address).trimmingCharacters(in: ["특", "별", "시", "광", "역"])
+                if resultAddress == "주" {
+                    resultAddress.insert("광", at: resultAddress.startIndex)
+                }
+                completion(resultAddress)
+            } else {
+                var resultSiAddress = String(siAddress).trimmingCharacters(in: ["시"])
+                if resultSiAddress == "흥" {
+                    resultSiAddress.insert("시", at: resultSiAddress.startIndex)
+                }
+                completion(resultSiAddress)
             }
-            var resultSiAddress = String(siAddress).trimmingCharacters(in: ["시"])
-            if resultSiAddress == "흥" {
-                resultSiAddress.insert("시", at: resultSiAddress.startIndex)
-            }
-            completion("\(resultSiAddress) (\(resultAddress))")
         }
     }
 }

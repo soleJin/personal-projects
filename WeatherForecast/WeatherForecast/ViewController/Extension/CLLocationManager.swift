@@ -38,7 +38,7 @@ extension MainViewController: CLLocationManagerDelegate {
         switch status {
         case .denied, .restricted:
             present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
-            mainViewModel.loadCurrentWeather(cityName: nil, latitude: 37.62746, longtitude: 126.98547) { [weak self] (weather) in
+            mainViewModel.loadCurrentWeather(cityName: nil, latitude: InitialLocation.latitude, longtitude: InitialLocation.longtitude) { [weak self] (weather) in
                 DispatchQueue.main.async {
                     self?.updateCurrentLocationUI(weather: weather)
                 }

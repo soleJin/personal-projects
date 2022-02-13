@@ -30,3 +30,8 @@ enum City {
         "Seogwipo"
     ]
 }
+
+enum InitialLocation {
+    static let latitude: Double = 37.62746
+    static let longtitude: Double = 126.98547
+}

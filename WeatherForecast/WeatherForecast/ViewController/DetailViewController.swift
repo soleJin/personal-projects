@@ -13,7 +13,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var feelsLikeTemperatureLabel: UILabel!
     @IBOutlet weak var detailWeatherTableView: UITableView!
-    
     var detailViewModel = DetailViewModel()
     
     override func viewDidLoad() {
@@ -72,7 +71,6 @@ extension DetailViewController: DetailWeatherDataUpdatable {
 }
 
 extension DetailViewController: UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
        return 3
     }
@@ -82,38 +80,40 @@ extension DetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        switch indexPath.section {
+        case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrentTableViewCell.identifier, for: indexPath) as? CurrentTableViewCell else { return UITableViewCell() }
             if let currentWeather = detailViewModel.currnetWeather {
                 cell.update(data: currentWeather)
             }
             return cell
-        } else if indexPath.section == 1 {
+        case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyTableViewCell.identifier, for: indexPath) as? HourlyTableViewCell else { return UITableViewCell() }
             cell.update(detailViewModel.hourlyWeatherList)
             return cell
-        } else if indexPath.section == 2{
+        case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyTableViewCell.identifier, for: indexPath) as? DailyTableViewCell else { return UITableViewCell() }
             cell.update(detailViewModel.dailyWeatherList)
             return cell
+        default: return UITableViewCell()
         }
-        return UITableViewCell()
     }
 }
 
 extension DetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
+        switch section {
+        case 0:
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: CurrentWeatherSectionHeaderView.identifier)
             return headerView
-        } else if section == 1 {
+        case 1:
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: HourlyWeatherSectionHeaderView.identifier)
             return headerView
-        } else if section == 2 {
+        case 2:
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DailyWeatherSectionHeaderView.identifier)
             return headerView
+        default: return UIView()
         }
-        return UIView()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -122,7 +122,7 @@ extension DetailViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 140
+            return 130
         } else if indexPath.section == 1 {
             return 140
         } else if indexPath.section == 2{

@@ -32,7 +32,8 @@ struct HourlyWeather: Decodable {
     private let weather: [Weather]
     let feelsLike: Double
     var weatherDescription: String {
-        return weather.description
+        guard let description = weather.first?.description else { return String() }
+        return description
     }
     var icon: UIImage {
         guard let iconPath = weather.first?.iconPath else { return UIImage() }

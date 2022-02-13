@@ -20,8 +20,8 @@ struct AlertManager {
         return alert
     }
     
-    static func promptForWrongCityName() -> UIAlertController {
-        let alert = UIAlertController(title: "도시 이름을 확인해주세요.", message: nil, preferredStyle: .alert)
+    static func deliverNotice(message: String) -> UIAlertController {
+        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
         let settingsAction = UIAlertAction(title: "확인", style: .default, handler: nil)
         alert.addAction(settingsAction)
         alert.preferredAction = settingsAction
