@@ -438,6 +438,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="날씨" id="EhK-hk-3z7"/>
+                    <connections>
+                        <segue destination="be1-kK-h5r" kind="presentation" identifier="showDetailInSearch" id="v87-tv-4IP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c5V-ty-PQR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -471,7 +474,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="K4k-Gw-bP5"/>
+        <segue reference="v87-tv-4IP"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="580" height="1031"/>

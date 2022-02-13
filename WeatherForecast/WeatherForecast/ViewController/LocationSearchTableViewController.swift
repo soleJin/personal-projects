@@ -13,6 +13,15 @@ class LocationSearchTableViewController: UITableViewController {
     private let searchCompleter = MKLocalSearchCompleter()
     private var searchCompleterResults = [MKLocalSearchCompletion]()
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "showDetailInSearch" else { return }
+        let detailViewController = segue.destination as? DetailViewController
+        if let coordinate = sender as? CLLocation {
+            let coordinate = Coordinate(longitude: coordinate.coordinate.longitude, latitude: coordinate.coordinate.latitude)
+            detailViewController?.detailViewModel.coord = coordinate
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSearchController()
@@ -45,9 +54,26 @@ class LocationSearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchListCell.identifier) as? SearchListCell else { return UITableViewCell() }
         let selectedItem = searchCompleterResults[indexPath.row]
-        dump(selectedItem)
         cell.titleLabel.text = selectedItem.title
         return cell
+    }
+    
+    // MARK: - Table View Delegate
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedData = searchCompleterResults[indexPath.row]
+        let request = MKLocalSearch.Request(completion: selectedData)
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            guard let response = response else {
+                print("----------------------------------noresponse")
+                return
+            }
+            for item in response.mapItems {
+                if let location = item.placemark.location {
+                    self.performSegue(withIdentifier: "showDetailInSearch", sender: location)
+                }
+            }
+        }
     }
 }
 
