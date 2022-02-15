@@ -33,6 +33,7 @@ extension Double {
     func convertTemperatureCtoF() -> Double {
         return self * 9/5 + 32
     }
+    
     func toOneDecimalPlaceInString() -> String {
          return String(format: "%.1f", self)
      }

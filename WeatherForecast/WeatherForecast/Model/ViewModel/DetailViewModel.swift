@@ -14,7 +14,7 @@ protocol DetailWeatherDataUpdatable: AnyObject {
 
 class DetailViewModel {
     weak var delegate: DetailWeatherDataUpdatable?
-    var coord: Coordinate? 
+    var coord: Coordinate?
     var address: String?
     var currnetWeather: HourlyWeather?
     var hourlyWeatherList = [HourlyWeather]()
@@ -36,6 +36,23 @@ class DetailViewModel {
         }
         AddressManager.convertCityNameEnglishToKoreanSimply(latitude: coord.latitude, longtitude: coord.longitude) { [weak self] (adress) in
             self?.address = adress
+        }
+    }
+    
+    func getCityNameAndSetUserDefaults() {
+        guard let coord = coord else { return }
+        WeatherAPI.fetchWeather(APIType.currentWeather, nil, coord.latitude, coord.longitude) { (result: Result<CurrentWeather, APIError>) in
+            switch result {
+            case .success(let currentWeather):
+                let cityName = currentWeather.cityName
+                var cityNameList = UserDefaults.standard.array(forKey: "cityNameList") as? [String]
+                cityNameList?.append(cityName)
+                UserDefaults.standard.set(cityNameList, forKey: "cityNameList")
+                return
+            case .failure(let error):
+                print(error.localizedDescription)
+                return
+            }
         }
     }
 }

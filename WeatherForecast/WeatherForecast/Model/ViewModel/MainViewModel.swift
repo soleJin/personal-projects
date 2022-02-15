@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CurrentWeatherDataUpdatable: class {
+protocol CurrentWeatherDataUpdatable: AnyObject {
     func reloadData()
     func updateSegmentControl()
 }

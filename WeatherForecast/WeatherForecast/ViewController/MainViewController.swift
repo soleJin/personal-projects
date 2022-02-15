@@ -27,6 +27,7 @@ class MainViewController: UIViewController {
         if segue.identifier == "showDetailInCell",
               let location = sender as? Coordinate {
             detailViewController?.detailViewModel.coord = location
+            detailViewController?.addButtonIsOff = true
         }
         if segue.identifier == "showDetailInButton" {
             detailViewController?.detailViewModel.coord = mainViewModel.locationWeather?.coordinate

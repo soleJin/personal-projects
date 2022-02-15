@@ -14,12 +14,21 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var feelsLikeTemperatureLabel: UILabel!
     @IBOutlet weak var detailWeatherTableView: UITableView!
     var detailViewModel = DetailViewModel()
-    
+    var addButtonIsOff: Bool = false
+  
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpAddButton()
         setUpDetailViewModel()
         setUpDetailTableView()
+        setUpAddbutton()
+    }
+
+    private func setUpAddbutton() {
+        if addButtonIsOff {
+            addButton.isHidden = true
+        } else {
+            addButton.isHidden = false
+        }
     }
     
     private func setUpDetailTableView() {
@@ -48,9 +57,11 @@ class DetailViewController: UIViewController {
         detailViewModel.loadDetailWeather()
     }
     
-    private func setUpAddButton() {
-        addButton.isHidden = true
+    @IBAction func tapAddButton(_ sender: UIButton) {
+        detailViewModel.getCityNameAndSetUserDefaults()
+        present(AlertManager.deliverNotice(message: "즐겨찾기는 도시에 추가되었습니다."), animated: true, completion: nil)
     }
+    
 }
 
 extension DetailViewController: DetailWeatherDataUpdatable {

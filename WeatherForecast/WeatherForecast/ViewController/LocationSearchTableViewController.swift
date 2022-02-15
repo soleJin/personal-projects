@@ -25,20 +25,15 @@ class LocationSearchTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpSearchController()
-        setUpTableView()
         setUpSearchCompleter()
     }
     
     private func setUpSearchController() {
         self.navigationItem.searchController = searchController
         searchController.searchBar.searchTextField.textColor = .white
-        searchController.searchBar.placeholder = "도시 이름을 검색하세요."
+        searchController.searchBar.placeholder = "지역명을 검색하세요."
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-    }
-    
-    private func setUpTableView() {
-        tableView.register(SearchListCell.nib(), forCellReuseIdentifier: SearchListCell.identifier)
     }
     
     private func setUpSearchCompleter() {
@@ -52,9 +47,9 @@ class LocationSearchTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchListCell.identifier) as? SearchListCell else { return UITableViewCell() }
-        let selectedItem = searchCompleterResults[indexPath.row]
-        cell.titleLabel.text = selectedItem.title
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let title = searchCompleterResults[indexPath.row].title
+        cell.textLabel?.text = title
         return cell
     }
     

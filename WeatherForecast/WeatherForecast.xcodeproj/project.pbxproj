@@ -46,8 +46,6 @@
 		FD65A21F27B37DC400E09316 /* DetailWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A21E27B37DC400E09316 /* DetailWeather.swift */; };
 		FD65A22327B3817600E09316 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD65A22227B3817600E09316 /* DetailViewController.swift */; };
 		FDA524F427B8D443002B1A33 /* LocationSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA524F327B8D443002B1A33 /* LocationSearchTableViewController.swift */; };
-		FDA524FC27B91CF7002B1A33 /* SearchListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA524FA27B91CF7002B1A33 /* SearchListCell.swift */; };
-		FDA524FD27B91CF7002B1A33 /* SearchListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDA524FB27B91CF7002B1A33 /* SearchListCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,8 +90,6 @@
 		FD65A21E27B37DC400E09316 /* DetailWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWeather.swift; sourceTree = "<group>"; };
 		FD65A22227B3817600E09316 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		FDA524F327B8D443002B1A33 /* LocationSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewController.swift; sourceTree = "<group>"; };
-		FDA524FA27B91CF7002B1A33 /* SearchListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchListCell.swift; sourceTree = "<group>"; };
-		FDA524FB27B91CF7002B1A33 /* SearchListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchListCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,7 +237,6 @@
 			children = (
 				FD20289B27B71E2200CCC93F /* MainView */,
 				FD20289C27B71E3100CCC93F /* DetailView */,
-				FDA524F927B91CB8002B1A33 /* SearchView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -289,15 +284,6 @@
 				FD65A20727B1D06B00E09316 /* Error.swift */,
 			);
 			path = ETC;
-			sourceTree = "<group>";
-		};
-		FDA524F927B91CB8002B1A33 /* SearchView */ = {
-			isa = PBXGroup;
-			children = (
-				FDA524FA27B91CF7002B1A33 /* SearchListCell.swift */,
-				FDA524FB27B91CF7002B1A33 /* SearchListCell.xib */,
-			);
-			path = SearchView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -366,7 +352,6 @@
 				FD2028A727B71ED300CCC93F /* HourlyGridCell.xib in Resources */,
 				FD3A9A7727AC57A8005C7A05 /* Main.storyboard in Resources */,
 				FD20290E27B7FB0F00CCC93F /* HourlyTableViewCell.xib in Resources */,
-				FDA524FD27B91CF7002B1A33 /* SearchListCell.xib in Resources */,
 				FD20290127B7FA0600CCC93F /* DailyTableViewCell.xib in Resources */,
 				FD2028F327B78BC300CCC93F /* HourlyWeatherSectionHeaderView.xib in Resources */,
 			);
@@ -386,7 +371,6 @@
 				FD3A9A9027AC712B005C7A05 /* CurrentWeather.swift in Sources */,
 				FD65A20827B1D06B00E09316 /* Error.swift in Sources */,
 				FD3A9A7027AC57A8005C7A05 /* AppDelegate.swift in Sources */,
-				FDA524FC27B91CF7002B1A33 /* SearchListCell.swift in Sources */,
 				FD3A9A7227AC57A8005C7A05 /* SceneDelegate.swift in Sources */,
 				FD3C2DE127B8223E004D0550 /* CurrentTableViewCell.swift in Sources */,
 				FD65A21827B34B7000E09316 /* CLLocationManager.swift in Sources */,
