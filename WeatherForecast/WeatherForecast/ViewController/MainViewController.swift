@@ -155,7 +155,7 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CityListCell", for: indexPath) as? CityListCell else { return UITableViewCell() }
-        cell.update(data: mainViewModel.currentWeather(at: indexPath.row))
+        cell.update(weather: mainViewModel.currentWeather(at: indexPath.row))
         return cell
     }
     

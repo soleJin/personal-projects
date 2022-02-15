@@ -41,7 +41,7 @@ class DetailViewModel {
     
     func getCityNameAndSetUserDefaults() {
         guard let coord = coord else { return }
-        WeatherAPI.fetchWeather(APIType.currentWeather, nil, coord.latitude, coord.longitude) { (result: Result<CurrentWeather, APIError>) in
+        WeatherAPI.fetchWeather(APIType.currentWeather, nil, coord.latitude, coord.longitude) { (result: Result<CurrentWeatherResponse, APIError>) in
             switch result {
             case .success(let currentWeather):
                 let cityName = currentWeather.cityName

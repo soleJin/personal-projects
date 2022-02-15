@@ -7,28 +7,27 @@
 
 import UIKit
 
-struct CurrentWeather: Decodable {
+struct CurrentWeather {
     let coordinate: Coordinate
-    private let additionalInformation: [Weather]
+    let cityName: String
+    let cityNameInKorean: String
+    let icon: UIImage
+    let description: String
+    let humidity: Int
+    var temperature: Double
+}
+
+struct CurrentWeatherResponse: Decodable {
+    let coordinate: Coordinate
+    let additionalInformation: [Weather]
     var weather: Main
     let cityName: String
-    var cityNameInKorean: String?
-    var weatherIcon: UIImage {
-        guard let iconPath = additionalInformation.first?.iconPath else { return UIImage() }
-        let icon = ImageManager.getImage(iconPath)
-        return icon
-    }
-    var weatherDescription: String {
-        guard let description = additionalInformation.first?.description else { return String() }
-        return description
-    }
     
     enum CodingKeys: String, CodingKey {
         case additionalInformation = "weather"
         case weather = "main"
         case coordinate = "coord"
         case cityName = "name"
-        case cityNameInKorean
     }
 }
 

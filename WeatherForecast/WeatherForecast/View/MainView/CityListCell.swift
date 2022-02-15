@@ -22,15 +22,12 @@ class CityListCell: UITableViewCell {
         currentHumidityLabel.text = nil
     }
     
-    func update(data: CurrentWeather) {
+    func update(weather: CurrentWeather) {
         setUpCellBackgroundView()
-        cityNameLabel.text = data.cityNameInKorean
-        if data.cityNameInKorean == nil {
-            cityNameLabel.text = data.cityName
-        }
-        currentWeatherIcon.image = data.weatherIcon
-        currentHumidityLabel.text = "\(data.weather.humidity) \(WeatherSymbols.humidity)"
-        currentTemperatureLabel.text = "\(data.weather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+        cityNameLabel.text = weather.cityNameInKorean
+        currentWeatherIcon.image = weather.icon
+        currentHumidityLabel.text = "\(weather.humidity) \(WeatherSymbols.humidity)"
+        currentTemperatureLabel.text = "\(weather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
     }
     
     private func setUpCellBackgroundView() {
