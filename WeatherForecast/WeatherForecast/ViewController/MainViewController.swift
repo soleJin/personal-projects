@@ -34,6 +34,11 @@ class MainViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        cityTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         temperatureSegmentControl.selectedSegmentIndex = 1

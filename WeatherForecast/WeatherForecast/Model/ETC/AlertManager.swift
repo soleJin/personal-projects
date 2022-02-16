@@ -20,8 +20,8 @@ struct AlertManager {
         return alert
     }
     
-    static func deliverNotice(message: String) -> UIAlertController {
-        let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+    static func deliverNotice(title: String, message: String?) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let settingsAction = UIAlertAction(title: "확인", style: .default, handler: nil)
         alert.addAction(settingsAction)
         alert.preferredAction = settingsAction

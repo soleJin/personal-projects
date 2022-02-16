@@ -58,10 +58,19 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func tapAddButton(_ sender: UIButton) {
-        detailViewModel.getCityNameAndSetUserDefaults()
-        present(AlertManager.deliverNotice(message: "즐겨찾기는 도시에 추가되었습니다."), animated: true, completion: nil)
+        let alert = UIAlertController(title: "즐겨 찾는 도시에 추가되었습니다.", message: "메인 화면으로 이동합니다.", preferredStyle: .alert)
+        let settingAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            guard let mainViewController = self?.storyboard?.instantiateViewController(withIdentifier: "MainView") as? MainViewController else { return }
+            mainViewController.mainViewModel.loadCurrentWeather(cityName: nil, latitude: self?.detailViewModel.coord?.latitude, longtitude: self?.detailViewModel.coord?.longitude) { weather in
+                mainViewController.mainViewModel.append(weather)
+            }
+            mainViewController.modalPresentationStyle = .fullScreen
+            mainViewController.modalTransitionStyle = .flipHorizontal
+            self?.present(mainViewController, animated: true, completion: nil)
+        }
+        alert.addAction(settingAction)
+        present(alert, animated: true, completion: nil)
     }
-    
 }
 
 extension DetailViewController: DetailWeatherDataUpdatable {

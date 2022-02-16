@@ -13,7 +13,7 @@
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainView" id="BYZ-38-t0r" customClass="MainViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -294,7 +294,7 @@
         <!--Detail View Controller-->
         <scene sceneID="gi5-ly-vmd">
             <objects>
-                <viewController id="be1-kK-h5r" customClass="DetailViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailView" id="be1-kK-h5r" customClass="DetailViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="acL-sT-Dfr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -318,7 +318,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="white" dataMode="prototypes" style="plain" separatorStyle="none" sectionIndexMinimumDisplayRowCount="3" allowsSelection="NO" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1hZ-Uv-U3T">
-                                <rect key="frame" x="0.0" y="240" width="414" height="602"/>
+                                <rect key="frame" x="0.0" y="250" width="414" height="592"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -338,8 +338,8 @@
                                     <outlet property="delegate" destination="be1-kK-h5r" id="FTE-sN-RfH"/>
                                 </connections>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="kxx-R6-tPG">
-                                <rect key="frame" x="139" y="70" width="136" height="120"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="kxx-R6-tPG">
+                                <rect key="frame" x="139" y="70" width="136" height="130"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wuq-lP-e99">
                                         <rect key="frame" x="43" y="0.0" width="50" height="20"/>
@@ -351,7 +351,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Um-zE-abB">
-                                        <rect key="frame" x="8.5" y="25" width="119" height="70"/>
+                                        <rect key="frame" x="8.5" y="30" width="119" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="AEl-Pk-e2P"/>
                                         </constraints>
@@ -360,7 +360,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="wZn-Ep-EKL">
-                                        <rect key="frame" x="0.0" y="100" width="136" height="20"/>
+                                        <rect key="frame" x="0.0" y="110" width="136" height="20"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="체감온도: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xvi-Hf-I7O">
                                                 <rect key="frame" x="0.0" y="0.0" width="76" height="20"/>
@@ -414,7 +414,7 @@
         <!--날씨-->
         <scene sceneID="NsG-a2-QT8">
             <objects>
-                <tableViewController storyboardIdentifier="SearchTableViewController" id="Af5-pX-KWh" customClass="LocationSearchTableViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SearchView" id="Af5-pX-KWh" customClass="LocationSearchTableViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="43" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="5gQ-Iv-S6S">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -487,7 +487,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="v87-tv-4IP"/>
+        <segue reference="K4k-Gw-bP5"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="background" width="580" height="1031"/>
