@@ -49,7 +49,8 @@ class LocationSearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let title = searchCompleterResults[indexPath.row].title
-        cell.textLabel?.text = title
+        let rangeArray = searchCompleterResults[indexPath.row].titleHighlightRanges
+        cell.textLabel?.attributedText = title.convertToNSMutableAttributedString(ranges: rangeArray)
         return cell
     }
     

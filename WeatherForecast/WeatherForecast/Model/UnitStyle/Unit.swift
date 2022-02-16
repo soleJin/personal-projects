@@ -5,7 +5,7 @@
 //  Created by sole on 2022/02/04.
 //
 
-import Foundation
+import UIKit
 
 enum TemperatureUnit: String {
     case F
@@ -37,4 +37,18 @@ extension Double {
     func toOneDecimalPlaceInString() -> String {
          return String(format: "%.1f", self)
      }
+}
+
+extension String {
+    func convertToNSMutableAttributedString(ranges: [NSValue]) -> NSMutableAttributedString {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 18, weight: .semibold),
+            .foregroundColor: UIColor.white
+        ]
+        let attributedString = NSMutableAttributedString(string: self)
+        if let range = ranges.first as? NSRange {
+            attributedString.addAttributes(attributes, range: range)
+        }
+        return attributedString
+    }
 }
