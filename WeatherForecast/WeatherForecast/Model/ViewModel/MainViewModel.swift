@@ -9,7 +9,6 @@ import UIKit
 
 protocol CurrentWeatherDataUpdatable: AnyObject {
     func reloadData()
-    func updateSegmentControl()
 }
 
 class MainViewModel {
@@ -19,8 +18,10 @@ class MainViewModel {
             delegate?.reloadData()
             let cityNameList = currentWeatherList.map { $0.cityName }
             UserDefaults.standard.setValue(cityNameList, forKey: "cityNameList")
+            dump("----------mainview namelist \(cityNameList)")
         }
     }
+    
     var locationWeather: CurrentWeather?
     
     var locationCoordinate: Coordinate? {
@@ -109,19 +110,29 @@ class MainViewModel {
     func setUpDefaultValue() {
         UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
         if let cityNameList = UserDefaults.standard.array(forKey: "cityNameList") as? [String] {
-            loadEachCurrentWeather(cityNameList: cityNameList)
+            loadEachCurrentWeatherAndSortByUser(cityNameList: cityNameList)
         } else {
-            loadEachCurrentWeather(cityNameList: City.nameList)
+            loadEachCurrentWeatherAndSortByUser(cityNameList: City.nameList)
         }
     }
     
-    private func loadEachCurrentWeather(cityNameList: [String]) {
+    private func loadEachCurrentWeatherAndSortByUser(cityNameList: [String]) {
+        var weatherList = [CurrentWeather]()
         cityNameList.forEach({ (cityName) in
-            loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { (weather) in
-                self.currentWeatherList.removeAll(where: { (currentWeather) -> Bool in
-                    currentWeather.cityName == weather.cityName
-                })
-                self.append(weather)
+            loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self] (weather) in
+                guard let self = self else { return }
+                weatherList.append(weather)
+                if weatherList.count == cityNameList.count {
+                    print("있니?")
+                    for name in cityNameList {
+                        if let index = weatherList.firstIndex(where: { name == $0.cityName }) {
+                            self.currentWeatherList.removeAll { currentWeather in
+                                currentWeather.cityName == weatherList[index].cityName
+                            }
+                            self.append(weatherList[index])
+                        }
+                    }
+                }
             }
         })
     }

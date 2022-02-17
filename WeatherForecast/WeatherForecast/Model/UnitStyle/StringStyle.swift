@@ -18,16 +18,15 @@ enum City {
         "Cheonan",
         "Cheongju",
         "Daegu",
-        "Daejeon",
-        "Gongju",
-        "Gwangju",
-        "Jeju",
-        "Jeonju",
-        "Mokpo",
-        "Seoul",
-        "Suwon",
-        "Ulsan",
-        "Seogwipo"
+        "Daejeon"
+//        "Gongju",
+//        "Gwangju",
+//        "Jeju",
+//        "Jeonju",
+//        "Mokpo",
+//        "Seoul",
+//        "Suwon",
+//        "Ulsan"
     ]
 }
 

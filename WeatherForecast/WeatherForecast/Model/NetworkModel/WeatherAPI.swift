@@ -7,13 +7,7 @@
 
 import Foundation
 
-protocol SendErrorMessage: NSObject {
-    func sendErrorMessage()
-}
-
 class WeatherAPI {
-    weak static var delegate: SendErrorMessage?
-    
     static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ latitude: Double?, _ longitude: Double?, completion: @escaping (Result<T, APIError>) -> Void) {
         let session = URLSession(configuration: .default)
         
@@ -50,7 +44,6 @@ class WeatherAPI {
             return nil
         case (400...499):
             print("Response: \(response)")
-            delegate?.sendErrorMessage()
             return APIError.clientError
         case (500...599):
             print("Response: \(response)")

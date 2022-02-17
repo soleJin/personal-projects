@@ -64,9 +64,7 @@ class DetailViewController: UIViewController {
             mainViewController.mainViewModel.loadCurrentWeather(cityName: nil, latitude: self?.detailViewModel.coord?.latitude, longtitude: self?.detailViewModel.coord?.longitude) { weather in
                 mainViewController.mainViewModel.append(weather)
             }
-            mainViewController.modalPresentationStyle = .fullScreen
-            mainViewController.modalTransitionStyle = .flipHorizontal
-            self?.present(mainViewController, animated: true, completion: nil)
+            self?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         }
         alert.addAction(settingAction)
         present(alert, animated: true, completion: nil)
@@ -75,17 +73,17 @@ class DetailViewController: UIViewController {
 
 extension DetailViewController: DetailWeatherDataUpdatable {
     func updateWeather(data: HourlyWeather) {
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = "\(data.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-            self.feelsLikeTemperatureLabel.text = "\(data.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-            guard let address = self.detailViewModel.address else { return }
-            self.addressLabel.text = "\(address)"
+        DispatchQueue.main.async { [weak self] in
+            self?.temperatureLabel.text = "\(data.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            guard let address = self?.detailViewModel.address else { return }
+            self?.addressLabel.text = "\(address)"
         }
     }
 
     func reloadData() {
-        DispatchQueue.main.async {
-            self.detailWeatherTableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.detailWeatherTableView.reloadData()
         }
     }
 }

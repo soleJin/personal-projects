@@ -33,12 +33,7 @@ class MainViewController: UIViewController {
             detailViewController?.detailViewModel.coord = mainViewModel.locationWeather?.coordinate
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        cityTableView.reloadData()
-    }
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         temperatureSegmentControl.selectedSegmentIndex = 1
@@ -142,13 +137,8 @@ class MainViewController: UIViewController {
 
 extension MainViewController: CurrentWeatherDataUpdatable {
     func reloadData() {
-        DispatchQueue.main.async {
-            self.cityTableView.reloadData()
-        }
-    }
-    func updateSegmentControl() {
-        DispatchQueue.main.async {
-            self.temperatureSegmentControl.selectedSegmentIndex = 0
+        DispatchQueue.main.async { [weak self] in
+            self?.cityTableView.reloadData()
         }
     }
 }
