@@ -7,18 +7,17 @@
 
 import UIKit
 
-protocol CurrentWeatherDataUpdatable: AnyObject {
+protocol CurrentWeatherListDataUpdatable: AnyObject {
     func reloadData()
 }
 
 class MainViewModel {
-    weak var delegate: CurrentWeatherDataUpdatable?
+    weak var delegate: CurrentWeatherListDataUpdatable?
     var currentWeatherList = [CurrentWeather]() {
         didSet {
             delegate?.reloadData()
             let cityNameList = currentWeatherList.map { $0.cityName }
             UserDefaults.standard.setValue(cityNameList, forKey: "cityNameList")
-            dump("----------mainview namelist \(cityNameList)")
         }
     }
     

@@ -23,10 +23,14 @@ class DailyTableViewCell: UITableViewCell {
     static func nib() ->UINib {
         return UINib(nibName: DailyTableViewCell.identifier, bundle: nil)
     }
-    
-    func update(_ dailyWeatherList: [DailyWeather]) {
+}
+
+extension DailyTableViewCell: DailyWeatherListDataUpdatable {
+    func update(dailyWeatherList: [DailyWeather]) {
         self.dailyWeatherList = dailyWeatherList
-        dailyTableView.reloadData()
+        DispatchQueue.main.async {
+            self.dailyTableView.reloadData()
+        }
     }
 }
 

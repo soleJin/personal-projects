@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD20289527B7111800CCC93F /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD20289427B7111800CCC93F /* DetailViewModel.swift */; };
 		FD2028A627B71ED300CCC93F /* HourlyGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2028A427B71ED300CCC93F /* HourlyGridCell.swift */; };
 		FD2028A727B71ED300CCC93F /* HourlyGridCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD2028A527B71ED300CCC93F /* HourlyGridCell.xib */; };
 		FD2028AC27B71FF000CCC93F /* DailyListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2028AA27B71FF000CCC93F /* DailyListCell.swift */; };
@@ -49,7 +48,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FD20289427B7111800CCC93F /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		FD2028A427B71ED300CCC93F /* HourlyGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyGridCell.swift; sourceTree = "<group>"; };
 		FD2028A527B71ED300CCC93F /* HourlyGridCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HourlyGridCell.xib; sourceTree = "<group>"; };
 		FD2028AA27B71FF000CCC93F /* DailyListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyListCell.swift; sourceTree = "<group>"; };
@@ -207,7 +205,6 @@
 			isa = PBXGroup;
 			children = (
 				FD3A9A9A27AC7495005C7A05 /* MainViewModel.swift */,
-				FD20289427B7111800CCC93F /* DetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -377,7 +374,6 @@
 				FD20290027B7FA0600CCC93F /* DailyTableViewCell.swift in Sources */,
 				FD3A9AB227AD1468005C7A05 /* Unit.swift in Sources */,
 				FD2028E727B76FA000CCC93F /* DailyWeatherSectionHeaderView.swift in Sources */,
-				FD20289527B7111800CCC93F /* DetailViewModel.swift in Sources */,
 				FD65A22327B3817600E09316 /* DetailViewController.swift in Sources */,
 				FD3A9AA827AC827E005C7A05 /* StringStyle.swift in Sources */,
 				FD3C2DE627B822C9004D0550 /* CurrentWeatherSectionHeaderView.swift in Sources */,

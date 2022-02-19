@@ -26,11 +26,11 @@ class MainViewController: UIViewController {
         let detailViewController = segue.destination as? DetailViewController
         if segue.identifier == "showDetailInCell",
               let location = sender as? Coordinate {
-            detailViewController?.detailViewModel.coord = location
+            detailViewController?.coord = location
             detailViewController?.addButtonIsOff = true
         }
         if segue.identifier == "showDetailInButton" {
-            detailViewController?.detailViewModel.coord = mainViewModel.locationWeather?.coordinate
+            detailViewController?.coord = mainViewModel.locationWeather?.coordinate
         }
     }
  
@@ -135,7 +135,7 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: CurrentWeatherDataUpdatable {
+extension MainViewController: CurrentWeatherListDataUpdatable {
     func reloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.cityTableView.reloadData()

@@ -21,10 +21,14 @@ class HourlyTableViewCell: UITableViewCell {
     static func nib() -> UINib {
         return UINib(nibName: HourlyTableViewCell.identifier, bundle: nil)
     }
-    
-    func update(_ hourlyWeatherList: [HourlyWeather]) {
+}
+
+extension HourlyTableViewCell: HourlyWeatherListDataUpdatable {
+    func update(hourlyWeatherList: [HourlyWeather]) {
         self.hourlyWeatherList = hourlyWeatherList
-        hourlyCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.hourlyCollectionView.reloadData()
+        }
     }
 }
 

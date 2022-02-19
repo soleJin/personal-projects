@@ -7,20 +7,66 @@
 
 import UIKit
 
+protocol CurrentWeatherDataUpdatable: AnyObject {
+    func update(currentWeather: HourlyWeather)
+}
+
+protocol HourlyWeatherListDataUpdatable: AnyObject {
+    func update(hourlyWeatherList: [HourlyWeather])
+}
+
+protocol DailyWeatherListDataUpdatable: AnyObject {
+    func update(dailyWeatherList: [DailyWeather])
+}
+
 class DetailViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var feelsLikeTemperatureLabel: UILabel!
     @IBOutlet weak var detailWeatherTableView: UITableView!
-    var detailViewModel = DetailViewModel()
+    var coord: Coordinate?
+    var address: String?
     var addButtonIsOff: Bool = false
+    weak var currentWeatherDelegate: CurrentWeatherDataUpdatable?
+    weak var hourlyWeatherListDelegate: HourlyWeatherListDataUpdatable?
+    weak var dailyWeatherListDelegate: DailyWeatherListDataUpdatable?
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpDetailViewModel()
         setUpDetailTableView()
         setUpAddbutton()
+        loadDetailWeather()
+    }
+    
+    private func loadDetailWeather() {
+        guard let coord = coord else { return }
+        WeatherAPI.fetchWeather(APIType.dailyWeather, nil, coord.latitude, coord.longitude) { [weak self] (result: Result<DetailWeather, APIError>) in
+            switch result {
+            case .success(let dailyWeatherData):
+                self?.hourlyWeatherListDelegate?.update(hourlyWeatherList: dailyWeatherData.hourly)
+                self?.dailyWeatherListDelegate?.update(dailyWeatherList: dailyWeatherData.daily)
+                self?.currentWeatherDelegate?.update(currentWeather: dailyWeatherData.current)
+                self?.updateWeather(data: dailyWeatherData.current)
+                DispatchQueue.main.async {
+                    self?.detailWeatherTableView.reloadData()
+                }
+            case .failure(let error):
+                print("Detail View Networking Error: \(error.localizedDescription)")
+            }
+        }
+        AddressManager.convertCityNameEnglishToKoreanSimply(latitude: coord.latitude, longtitude: coord.longitude) { [weak self] (adress) in
+            self?.address = adress
+        }
+    }
+    
+    private func updateWeather(data: HourlyWeather) {
+        DispatchQueue.main.async { [weak self] in
+            self?.temperatureLabel.text = "\(data.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            guard let address = self?.address else { return }
+            self?.addressLabel.text = "\(address)"
+        }
     }
 
     private func setUpAddbutton() {
@@ -51,40 +97,18 @@ class DetailViewController: UIViewController {
         
         detailWeatherTableView.register(DailyTableViewCell.nib(), forCellReuseIdentifier: DailyTableViewCell.identifier)
     }
-    
-    private func setUpDetailViewModel() {
-        detailViewModel.delegate = self
-        detailViewModel.loadDetailWeather()
-    }
-    
+
     @IBAction func tapAddButton(_ sender: UIButton) {
         let alert = UIAlertController(title: "즐겨 찾는 도시에 추가되었습니다.", message: "메인 화면으로 이동합니다.", preferredStyle: .alert)
         let settingAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             guard let mainViewController = self?.storyboard?.instantiateViewController(withIdentifier: "MainView") as? MainViewController else { return }
-            mainViewController.mainViewModel.loadCurrentWeather(cityName: nil, latitude: self?.detailViewModel.coord?.latitude, longtitude: self?.detailViewModel.coord?.longitude) { weather in
+            mainViewController.mainViewModel.loadCurrentWeather(cityName: nil, latitude: self?.coord?.latitude, longtitude: self?.coord?.longitude) { weather in
                 mainViewController.mainViewModel.append(weather)
             }
             self?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         }
         alert.addAction(settingAction)
         present(alert, animated: true, completion: nil)
-    }
-}
-
-extension DetailViewController: DetailWeatherDataUpdatable {
-    func updateWeather(data: HourlyWeather) {
-        DispatchQueue.main.async { [weak self] in
-            self?.temperatureLabel.text = "\(data.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-            self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-            guard let address = self?.detailViewModel.address else { return }
-            self?.addressLabel.text = "\(address)"
-        }
-    }
-
-    func reloadData() {
-        DispatchQueue.main.async { [weak self] in
-            self?.detailWeatherTableView.reloadData()
-        }
     }
 }
 
@@ -101,17 +125,16 @@ extension DetailViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CurrentTableViewCell.identifier, for: indexPath) as? CurrentTableViewCell else { return UITableViewCell() }
-            if let currentWeather = detailViewModel.currnetWeather {
-                cell.update(data: currentWeather)
-            }
+            currentWeatherDelegate = cell
+            cell.update()
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: HourlyTableViewCell.identifier, for: indexPath) as? HourlyTableViewCell else { return UITableViewCell() }
-            cell.update(detailViewModel.hourlyWeatherList)
+            hourlyWeatherListDelegate = cell
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DailyTableViewCell.identifier, for: indexPath) as? DailyTableViewCell else { return UITableViewCell() }
-            cell.update(detailViewModel.dailyWeatherList)
+            dailyWeatherListDelegate = cell
             return cell
         default: return UITableViewCell()
         }
