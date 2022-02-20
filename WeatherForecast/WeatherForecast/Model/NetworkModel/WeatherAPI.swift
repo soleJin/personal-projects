@@ -7,11 +7,22 @@
 
 import Foundation
 
+enum APIError: Error {
+    case error
+    case unknwon
+    case invalidURL
+    case noData
+    case noResponse
+    case clientError
+    case ServerError
+    case dataDecodingError
+}
+
 class WeatherAPI {
-    static func fetchWeather<T: Decodable>(_ apiType: String, _ cityName: String?, _ latitude: Double?, _ longitude: Double?, completion: @escaping (Result<T, APIError>) -> Void) {
+    static func fetchWeather<T: Decodable>(_ apiType: String, _ latitude: Double, _ longitude: Double, completion: @escaping (Result<T, APIError>) -> Void) {
         let session = URLSession(configuration: .default)
         
-        let requestUrl = URLManager.getRequestUrl(apiType, cityName, latitude, longitude)
+        let requestUrl = URLManager.getRequestUrl(apiType, latitude, longitude)
         guard let url = requestUrl else {
             completion(Result.failure(.invalidURL))
             return }

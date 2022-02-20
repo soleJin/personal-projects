@@ -39,6 +39,7 @@ class LocationSearchTableViewController: UITableViewController {
     private func setUpSearchCompleter() {
         searchCompleter.delegate = self
         searchCompleter.resultTypes = .address
+        
     }
 
     // MARK: - Table view data source

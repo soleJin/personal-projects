@@ -41,7 +41,7 @@ class DetailViewController: UIViewController {
     
     private func loadDetailWeather() {
         guard let coord = coord else { return }
-        WeatherAPI.fetchWeather(APIType.dailyWeather, nil, coord.latitude, coord.longitude) { [weak self] (result: Result<DetailWeather, APIError>) in
+        WeatherAPI.fetchWeather(APIType.dailyWeather, coord.latitude, coord.longitude) { [weak self] (result: Result<DetailWeather, APIError>) in
             switch result {
             case .success(let dailyWeatherData):
                 self?.hourlyWeatherListDelegate?.update(hourlyWeatherList: dailyWeatherData.hourly)
@@ -102,8 +102,10 @@ class DetailViewController: UIViewController {
         let alert = UIAlertController(title: "즐겨 찾는 도시에 추가되었습니다.", message: "메인 화면으로 이동합니다.", preferredStyle: .alert)
         let settingAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             guard let mainViewController = self?.storyboard?.instantiateViewController(withIdentifier: "MainView") as? MainViewController else { return }
-            mainViewController.mainViewModel.loadCurrentWeather(cityName: nil, latitude: self?.coord?.latitude, longtitude: self?.coord?.longitude) { weather in
-                mainViewController.mainViewModel.append(weather)
+            guard let coordinate = self?.coord else { return }
+            mainViewController.mainViewModel.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { weather in
+//                mainViewController.mainViewModel.currentWeatherList.append(weather)
+                mainViewController.mainViewModel.currentWeatherList.insert(weather, at: 0)
             }
             self?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         }

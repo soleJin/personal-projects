@@ -37,10 +37,10 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         temperatureSegmentControl.selectedSegmentIndex = 1
-        setUpSerachButton()
         setUpMainViewModel()
-        setUpButton()
-        configureCurrentLocation()
+        setUpSerachButton()
+        setUpSortingButtons()
+        setUpCurrentLocation()
         initRefresh()
     }
     
@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
     }
     
     private func setUpMainViewModel() {
-        mainViewModel.delegate = self
+        mainViewModel.currentWeatherListDelegate = self
         mainViewModel.setUpDefaultValue()
     }
     
@@ -65,11 +65,11 @@ class MainViewController: UIViewController {
     
     @objc private func updateUI(refresh: UIRefreshControl) {
         refresh.endRefreshing()
-        setUpButton()
+        setUpSortingButtons()
         mainViewModel.setUpDefaultValue()
     }
     
-    private func setUpButton() {
+    private func setUpSortingButtons() {
         cityNameButton.tintColor = .darkGray
         humidityButton.tintColor = .darkGray
         temperatureButton.tintColor = .darkGray
@@ -136,7 +136,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: CurrentWeatherListDataUpdatable {
-    func reloadData() {
+    func mainTableViewReloadData() {
         DispatchQueue.main.async { [weak self] in
             self?.cityTableView.reloadData()
         }

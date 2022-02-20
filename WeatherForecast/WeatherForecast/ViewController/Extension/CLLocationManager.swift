@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 extension MainViewController: CLLocationManagerDelegate {
-    func configureCurrentLocation() {
+    func setUpCurrentLocation() {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -19,7 +19,7 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         locationManager.stopUpdatingLocation()
-        mainViewModel.loadCurrentWeather(cityName: nil, latitude: location.coordinate.latitude, longtitude: location.coordinate.longitude) { [weak self](weather) in
+        mainViewModel.loadCurrentWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self](weather) in
             self?.mainViewModel.locationWeather = weather
             DispatchQueue.main.async {
                 self?.updateCurrentLocationUI(weather: weather)
@@ -38,7 +38,7 @@ extension MainViewController: CLLocationManagerDelegate {
         switch status {
         case .denied, .restricted:
             present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
-            mainViewModel.loadCurrentWeather(cityName: nil, latitude: InitialLocation.latitude, longtitude: InitialLocation.longtitude) { [weak self] (weather) in
+            mainViewModel.loadCurrentWeather(latitude: InitialLocation.latitude, longitude: InitialLocation.longtitude) { [weak self] (weather) in
                 DispatchQueue.main.async {
                     self?.updateCurrentLocationUI(weather: weather)
                 }

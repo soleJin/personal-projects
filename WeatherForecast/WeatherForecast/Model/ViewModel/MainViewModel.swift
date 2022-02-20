@@ -8,31 +8,26 @@
 import UIKit
 
 protocol CurrentWeatherListDataUpdatable: AnyObject {
-    func reloadData()
+    func mainTableViewReloadData()
 }
 
 class MainViewModel {
-    weak var delegate: CurrentWeatherListDataUpdatable?
+    weak var currentWeatherListDelegate: CurrentWeatherListDataUpdatable?
     var currentWeatherList = [CurrentWeather]() {
         didSet {
-            delegate?.reloadData()
-            let cityNameList = currentWeatherList.map { $0.cityName }
-            UserDefaults.standard.setValue(cityNameList, forKey: "cityNameList")
+            currentWeatherListDelegate?.mainTableViewReloadData()
+            UserDefaults.standard.saveCoordinate(of: currentWeatherList)
         }
     }
-    
     var locationWeather: CurrentWeather?
-    
     var locationCoordinate: Coordinate? {
         guard let coordinate = locationWeather?.coordinate else { return nil }
         return coordinate
     }
-
     var locationTemperature: Double {
         guard let temperature = locationWeather?.temperature else { return 0.0 }
         return temperature
     }
-
     var numberOfCurrentWeatherList: Int {
         return currentWeatherList.count
     }
@@ -108,25 +103,28 @@ class MainViewModel {
     
     func setUpDefaultValue() {
         UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
-        if let cityNameList = UserDefaults.standard.array(forKey: "cityNameList") as? [String] {
-            loadEachCurrentWeatherAndSortByUser(cityNameList: cityNameList)
+        if (UserDefaults.standard.object(forKey: "cityList") as? [[String: Any]]) != nil {
+            guard let cityList = UserDefaults.standard.loadCityList() else { return }
+            loadEachCurrentWeatherAndSortByUser(cityList: cityList)
         } else {
-            loadEachCurrentWeatherAndSortByUser(cityNameList: City.nameList)
+            loadEachCurrentWeatherAndSortByUser(cityList: City.list)
         }
     }
     
-    private func loadEachCurrentWeatherAndSortByUser(cityNameList: [String]) {
+    private func loadEachCurrentWeatherAndSortByUser(cityList: [Coordinate]) {
         var weatherList = [CurrentWeather]()
-        cityNameList.forEach({ (cityName) in
-            loadCurrentWeather(cityName: cityName, latitude: nil, longtitude: nil) { [weak self] (weather) in
+        cityList.forEach({ (coordinate) in
+            loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
                 guard let self = self else { return }
                 weatherList.append(weather)
-                if weatherList.count == cityNameList.count {
-                    print("있니?")
-                    for name in cityNameList {
-                        if let index = weatherList.firstIndex(where: { name == $0.cityName }) {
+                if weatherList.count == cityList.count {
+                    for coordinate in cityList {
+                        if let index = weatherList.firstIndex(where: {
+                            coordinate.latitude == $0.coordinate.latitude && coordinate.longitude == $0.coordinate.longitude
+                        }) {
                             self.currentWeatherList.removeAll { currentWeather in
-                                currentWeather.cityName == weatherList[index].cityName
+                                currentWeather.coordinate.latitude == weatherList[index].coordinate.latitude &&
+                                currentWeather.coordinate.longitude == weatherList[index].coordinate.longitude
                             }
                             self.append(weatherList[index])
                         }
@@ -136,8 +134,8 @@ class MainViewModel {
         })
     }
     
-    func loadCurrentWeather(cityName: String?, latitude: Double?, longtitude: Double?, completion: @escaping (CurrentWeather) -> Void) {
-        WeatherAPI.fetchWeather(APIType.currentWeather, cityName, latitude, longtitude) { (result: Result<CurrentWeatherResponse, APIError>) in
+    func loadCurrentWeather(latitude: Double, longitude: Double, completion: @escaping (CurrentWeather) -> Void) {
+        WeatherAPI.fetchWeather(APIType.currentWeather, latitude, longitude) { (result: Result<CurrentWeatherResponse, APIError>) in
             switch result {
             case .success(let currentWeather):
                 guard let iconPath = currentWeather.additionalInformation.first?.iconPath,
