@@ -103,22 +103,25 @@ class MainViewModel {
     
     func setUpDefaultValue() {
         UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
-        if (UserDefaults.standard.object(forKey: "cityList") as? [[String: Any]]) != nil {
-            guard let cityList = UserDefaults.standard.loadCityList() else { return }
-            loadEachCurrentWeatherAndSortByUser(cityList: cityList)
+        if let coordinateList = UserDefaults.standard.loadCoordinateList() {
+            loadEachCurrentWeatherAndSortByUser(with: coordinateList)
         } else {
-            loadEachCurrentWeatherAndSortByUser(cityList: City.list)
+            City.coordinateList.forEach { coordinate in
+                loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
+                    self?.currentWeatherList.append(weather)
+                }
+            }
         }
     }
     
-    private func loadEachCurrentWeatherAndSortByUser(cityList: [Coordinate]) {
+    private func loadEachCurrentWeatherAndSortByUser(with loadCoordinateList: [Coordinate]) {
         var weatherList = [CurrentWeather]()
-        cityList.forEach({ (coordinate) in
+        loadCoordinateList.forEach({ (coordinate) in
             loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
                 guard let self = self else { return }
                 weatherList.append(weather)
-                if weatherList.count == cityList.count {
-                    for coordinate in cityList {
+                if weatherList.count == loadCoordinateList.count {
+                    for coordinate in loadCoordinateList {
                         if let index = weatherList.firstIndex(where: {
                             coordinate.latitude == $0.coordinate.latitude && coordinate.longitude == $0.coordinate.longitude
                         }) {

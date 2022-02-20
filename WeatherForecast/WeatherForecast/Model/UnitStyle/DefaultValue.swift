@@ -23,11 +23,11 @@ enum InitialLocation {
 }
 
 enum City {
-    static let list = [
-        Coordinate(longitude: 127.1835899, latitude: 37.7017495),
-        Coordinate(longitude: 127.5590436, latitude: 36.4999476),
-        Coordinate(longitude: 128.7632175, latitude: 36.0172826),
-        Coordinate(longitude: 129.3344242, latitude: 35.3874414),
-        Coordinate(longitude: 126.9979894, latitude: 34.053171)
+    static let coordinateList = [
+        Coordinate(longitude: 126.97695098645846, latitude: 37.57618771836739),
+        Coordinate(longitude: 129.1389218303688, latitude: 35.17163341218876),
+        Coordinate(longitude: 126.49135339800695, latitude: 33.51062817354088),
+        Coordinate(longitude: 127.34347950510119, latitude: 36.31445337078671),
+        Coordinate(longitude: -121.87699723454615, latitude: 37.34214984128922)
     ]
 }
