@@ -8,7 +8,7 @@
 import Foundation
 
 extension UserDefaults {
-    func saveCoordinate(of weatherList: [CurrentWeather]) {
+    func save(of weatherList: [CurrentWeather]) {
         let data = weatherList.map {
             [
                 "latitude": $0.coordinate.latitude,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol CurrentWeatherDataUpdatable: AnyObject {
     func update(currentWeather: HourlyWeather)
@@ -101,12 +102,8 @@ class DetailViewController: UIViewController {
     @IBAction func tapAddButton(_ sender: UIButton) {
         let alert = UIAlertController(title: "즐겨 찾는 도시에 추가되었습니다.", message: "메인 화면으로 이동합니다.", preferredStyle: .alert)
         let settingAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            guard let mainViewController = self?.storyboard?.instantiateViewController(withIdentifier: "MainView") as? MainViewController else { return }
             guard let coordinate = self?.coord else { return }
-            mainViewController.mainViewModel.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { weather in
-//                mainViewController.mainViewModel.currentWeatherList.append(weather)
-                mainViewController.mainViewModel.currentWeatherList.insert(weather, at: 0)
-            }
+            NotificationCenter.default.post(name: NSNotification.Name("addWeatherData"), object: coordinate)
             self?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         }
         alert.addAction(settingAction)

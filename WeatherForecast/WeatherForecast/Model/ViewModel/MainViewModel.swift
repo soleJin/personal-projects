@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol CurrentWeatherListDataUpdatable: AnyObject {
     func mainTableViewReloadData()
@@ -16,7 +17,7 @@ class MainViewModel {
     var currentWeatherList = [CurrentWeather]() {
         didSet {
             currentWeatherListDelegate?.mainTableViewReloadData()
-            UserDefaults.standard.saveCoordinate(of: currentWeatherList)
+            UserDefaults.standard.save(of: currentWeatherList)
         }
     }
     var locationWeather: CurrentWeather?
@@ -112,6 +113,18 @@ class MainViewModel {
                 }
             }
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(addWeatherData(_:)), name: NSNotification.Name("addWeatherData"), object: nil)
+    }
+    
+    @objc private func addWeatherData(_ notification: Notification) {
+        guard let coordinate = notification.object as? Coordinate else { return }
+        loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (addWeather) in
+            self?.currentWeatherList.insert(addWeather, at: 0)
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func loadEachCurrentWeatherAndSortByUser(with loadCoordinateList: [Coordinate]) {
