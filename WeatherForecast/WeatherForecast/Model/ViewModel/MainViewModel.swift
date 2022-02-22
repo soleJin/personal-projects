@@ -105,13 +105,9 @@ class MainViewModel {
     func setUpDefaultValue() {
         UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
         if let coordinateList = UserDefaults.standard.loadCoordinateList() {
-            loadEachCurrentWeatherAndSortByUser(with: coordinateList)
+            loadEachCurrentWeather(with: coordinateList)
         } else {
-            City.coordinateList.forEach { coordinate in
-                loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
-                    self?.currentWeatherList.append(weather)
-                }
-            }
+            loadEachCurrentWeather(with: City.coordinateList)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(addWeatherData(_:)), name: NSNotification.Name("addWeatherData"), object: nil)
     }
@@ -122,30 +118,15 @@ class MainViewModel {
             self?.currentWeatherList.insert(addWeather, at: 0)
         }
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
-    private func loadEachCurrentWeatherAndSortByUser(with loadCoordinateList: [Coordinate]) {
-        var weatherList = [CurrentWeather]()
+    private func loadEachCurrentWeather(with loadCoordinateList: [Coordinate]) {
         loadCoordinateList.forEach({ (coordinate) in
             loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
-                guard let self = self else { return }
-                weatherList.append(weather)
-                if weatherList.count == loadCoordinateList.count {
-                    for coordinate in loadCoordinateList {
-                        if let index = weatherList.firstIndex(where: {
-                            coordinate.latitude == $0.coordinate.latitude && coordinate.longitude == $0.coordinate.longitude
-                        }) {
-                            self.currentWeatherList.removeAll { currentWeather in
-                                currentWeather.coordinate.latitude == weatherList[index].coordinate.latitude &&
-                                currentWeather.coordinate.longitude == weatherList[index].coordinate.longitude
-                            }
-                            self.append(weatherList[index])
-                        }
-                    }
-                }
+                self?.append(weather)
             }
         })
     }
@@ -169,6 +150,15 @@ class MainViewModel {
             case .failure(let error):
                 print("Main View Networking Error: \(error.localizedDescription)")
             }
+        }
+    }
+}
+
+extension MainViewModel: UserAddWeatherDataUpdatable {
+    func add(coordinate: Coordinate) {
+        print("받았어!")
+        loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] addWeather in
+            self?.currentWeatherList.insert(addWeather, at: 0)
         }
     }
 }

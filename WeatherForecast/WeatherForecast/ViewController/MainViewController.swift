@@ -33,6 +33,11 @@ class MainViewController: UIViewController {
             detailViewController?.coord = mainViewModel.locationWeather?.coordinate
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(#function)
+    }
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +47,7 @@ class MainViewController: UIViewController {
         setUpSortingButtons()
         setUpCurrentLocation()
         initRefresh()
+        print(#function)
     }
     
     private func setUpSerachButton() {

@@ -20,6 +20,10 @@ protocol DailyWeatherListDataUpdatable: AnyObject {
     func update(dailyWeatherList: [DailyWeather])
 }
 
+protocol UserAddWeatherDataUpdatable: AnyObject {
+    func add(coordinate: Coordinate)
+}
+
 class DetailViewController: UIViewController {
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
@@ -32,6 +36,7 @@ class DetailViewController: UIViewController {
     weak var currentWeatherDelegate: CurrentWeatherDataUpdatable?
     weak var hourlyWeatherListDelegate: HourlyWeatherListDataUpdatable?
     weak var dailyWeatherListDelegate: DailyWeatherListDataUpdatable?
+    weak var addWeatehrDelegate: UserAddWeatherDataUpdatable?
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,9 +106,10 @@ class DetailViewController: UIViewController {
 
     @IBAction func tapAddButton(_ sender: UIButton) {
         let alert = UIAlertController(title: "즐겨 찾는 도시에 추가되었습니다.", message: "메인 화면으로 이동합니다.", preferredStyle: .alert)
+        guard let coordinate = coord else { return }
+        addWeatehrDelegate?.add(coordinate: coordinate)
+        NotificationCenter.default.post(name: NSNotification.Name("addWeatherData"), object: coordinate)
         let settingAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            guard let coordinate = self?.coord else { return }
-            NotificationCenter.default.post(name: NSNotification.Name("addWeatherData"), object: coordinate)
             self?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         }
         alert.addAction(settingAction)

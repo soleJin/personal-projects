@@ -9,24 +9,13 @@ import Foundation
 
 extension UserDefaults {
     func save(of weatherList: [CurrentWeather]) {
-        let data = weatherList.map {
-            [
-                "latitude": $0.coordinate.latitude,
-                "longitude": $0.coordinate.longitude
-            ]
-        }
-        let userDefaults = UserDefaults.standard
-        userDefaults.set(data, forKey: "coordinateList")
+        let data = weatherList.map { $0.coordinate }
+        set(try? JSONEncoder().encode(data), forKey: "coordinateList")
     }
     
     func loadCoordinateList() -> [Coordinate]? {
-        let userDefaults = UserDefaults.standard
-        guard let data = userDefaults.object(forKey: "coordinateList") as? [[String: Any]] else { return nil }
-        let coordinateList: [Coordinate] = data.compactMap {
-            guard let latitude = $0["latitude"] as? Double else { return nil }
-            guard let longitude = $0["longitude"] as? Double else { return nil }
-            return Coordinate(longitude: longitude, latitude: latitude)
-        }
+        guard let data = object(forKey: "coordinateList") as? Data else { return nil }
+        guard let coordinateList = try? JSONDecoder().decode([Coordinate].self, from: data) else { return nil }
         return coordinateList
     }
 }
