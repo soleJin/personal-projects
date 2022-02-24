@@ -114,6 +114,9 @@ class MainViewModel {
     private func loadEachCurrentWeather(with loadCoordinateList: [Coordinate]) {
         loadCoordinateList.forEach({ (coordinate) in
             loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
+                self?.currentWeatherList.removeAll { currentweather in
+                    weather.cityName == currentweather.cityName
+                }
                 self?.append(weather)
             }
         })
