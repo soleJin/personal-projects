@@ -109,18 +109,6 @@ class MainViewModel {
         } else {
             loadEachCurrentWeather(with: City.coordinateList)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(addWeatherData(_:)), name: NSNotification.Name("addWeatherData"), object: nil)
-    }
-    
-    @objc private func addWeatherData(_ notification: Notification) {
-        guard let coordinate = notification.object as? Coordinate else { return }
-        loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (addWeather) in
-            self?.currentWeatherList.insert(addWeather, at: 0)
-        }
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
     
     private func loadEachCurrentWeather(with loadCoordinateList: [Coordinate]) {
@@ -156,7 +144,6 @@ class MainViewModel {
 
 extension MainViewModel: UserAddWeatherDataUpdatable {
     func add(coordinate: Coordinate) {
-        print("받았어!")
         loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] addWeather in
             self?.currentWeatherList.insert(addWeather, at: 0)
         }

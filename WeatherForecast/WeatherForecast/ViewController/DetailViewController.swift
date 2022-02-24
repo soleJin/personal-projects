@@ -107,10 +107,11 @@ class DetailViewController: UIViewController {
     @IBAction func tapAddButton(_ sender: UIButton) {
         let alert = UIAlertController(title: "즐겨 찾는 도시에 추가되었습니다.", message: "메인 화면으로 이동합니다.", preferredStyle: .alert)
         guard let coordinate = coord else { return }
+        let mainViewController = presentingViewController?.presentingViewController as? MainViewController
+        addWeatehrDelegate = mainViewController?.mainViewModel
         addWeatehrDelegate?.add(coordinate: coordinate)
-        NotificationCenter.default.post(name: NSNotification.Name("addWeatherData"), object: coordinate)
-        let settingAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            self?.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+        let settingAction = UIAlertAction(title: "확인", style: .default) { _ in
+            mainViewController?.dismiss(animated: true, completion: nil)
         }
         alert.addAction(settingAction)
         present(alert, animated: true, completion: nil)
