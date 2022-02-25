@@ -31,12 +31,16 @@ struct CurrentWeatherResponse: Decodable {
     }
 }
 
-struct Coordinate: Codable {
+struct Coordinate: Codable, Equatable {
     let longitude, latitude: Double
     
     enum CodingKeys: String, CodingKey {
         case longitude = "lon"
         case latitude = "lat"
+    }
+    
+    static func == (lhs: Coordinate, rhs: Coordinate) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude ? true : false
     }
 }
 

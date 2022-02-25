@@ -63,7 +63,7 @@ class LocationSearchTableViewController: UITableViewController {
         let search = MKLocalSearch(request: request)
         search.start { response, error in
             guard let response = response else {
-                print("----------------------------------noresponse")
+                print("noresponse Error: \(String(describing: error?.localizedDescription))")
                 return
             }
             for item in response.mapItems {

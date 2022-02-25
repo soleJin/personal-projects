@@ -115,7 +115,7 @@ class MainViewModel {
         loadCoordinateList.forEach({ (coordinate) in
             loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
                 self?.currentWeatherList.removeAll { currentweather in
-                    weather.cityName == currentweather.cityName
+                    weather.coordinate == currentweather.coordinate
                 }
                 self?.append(weather)
             }
