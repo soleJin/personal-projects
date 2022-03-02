@@ -68,8 +68,8 @@ class DetailViewController: UIViewController {
     
     private func updateWeather(data: HourlyWeather) {
         DispatchQueue.main.async { [weak self] in
-            self?.temperatureLabel.text = "\(data.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
-            self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+            self?.temperatureLabel.text = "\(data.temperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+            self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
             guard let address = self?.address else { return }
             self?.addressLabel.text = "\(address)"
         }

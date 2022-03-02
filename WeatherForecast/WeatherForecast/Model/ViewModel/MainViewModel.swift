@@ -47,7 +47,7 @@ class MainViewModel {
     
     func descendingOrderCityNameInKorean() {
         currentWeatherList = currentWeatherList.sorted(by: {
-            $0.cityNameInKorean.compare($1.cityNameInKorean) == .orderedDescending
+            $0.cityName.compare($1.cityName) == .orderedDescending
         })
     }
     
@@ -61,7 +61,7 @@ class MainViewModel {
     
     func ascendingOrderCityNameInKorean() {
         currentWeatherList = currentWeatherList.sorted(by: {
-            $0.cityNameInKorean.compare($1.cityNameInKorean) == .orderedAscending
+            $0.cityName.compare($1.cityName) == .orderedAscending
         })
     }
     
@@ -75,43 +75,43 @@ class MainViewModel {
     
     func convertTemperatureUnitFtoC(_ updateTemperature: (() -> Void)) {
         let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
-        if temperatureUnit == TemperatureUnit.F.rawValue {
-            UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
+        if temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
+            UserDefaults.standard.setValue(TemperatureUnit.celsius.rawValue, forKey: "temperatureUnit")
             for index in 0...numberOfCurrentWeatherList-1 {
                 let temperature = currentWeatherList[index].temperature
-                currentWeatherList[index].temperature = temperature.convertTemperatureFtoC()
+                currentWeatherList[index].temperature = temperature.inCelsius
             }
             guard let temperture = locationWeather?.temperature else {
                 return }
-            locationWeather?.temperature = temperture.convertTemperatureFtoC()
+            locationWeather?.temperature = temperture.inCelsius
             updateTemperature()
         }
     }
     
     func convertTemperatureUnitCtoF(_ updateTemperature: () -> Void) {
         let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
-        if temperatureUnit == TemperatureUnit.C.rawValue {
-            UserDefaults.standard.setValue(TemperatureUnit.F.rawValue, forKey: "temperatureUnit")
+        if temperatureUnit == TemperatureUnit.celsius.rawValue {
+            UserDefaults.standard.setValue(TemperatureUnit.fahrenheit.rawValue, forKey: "temperatureUnit")
             for index in 0...numberOfCurrentWeatherList-1 {
                 let temperature = currentWeatherList[index].temperature
-                currentWeatherList[index].temperature = temperature.convertTemperatureCtoF()
+                currentWeatherList[index].temperature = temperature.inFahrenheit
             }
             guard let temperture = locationWeather?.temperature else { return }
-            locationWeather?.temperature = temperture.convertTemperatureCtoF()
+            locationWeather?.temperature = temperture.inFahrenheit
             updateTemperature()
         }
     }
     
     func setUpDefaultValue() {
-        UserDefaults.standard.setValue(TemperatureUnit.C.rawValue, forKey: "temperatureUnit")
+        UserDefaults.standard.setValue(TemperatureUnit.celsius.rawValue, forKey: "temperatureUnit")
         if let coordinateList = UserDefaults.standard.loadCoordinateList() {
-            loadEachCurrentWeather(with: coordinateList)
+            loadEachCurrentWeatherAndSort(with: coordinateList)
         } else {
-            loadEachCurrentWeather(with: City.coordinateList)
+            loadEachCurrentWeatherAndSort(with: City.coordinateList)
         }
     }
     
-    private func loadEachCurrentWeather(with loadCoordinateList: [Coordinate]) {
+    private func loadEachCurrentWeatherAndSort(with loadCoordinateList: [Coordinate]) {
         loadCoordinateList.forEach({ (coordinate) in
             loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
                 self?.currentWeatherList.removeAll { currentweather in
@@ -122,6 +122,18 @@ class MainViewModel {
         })
     }
     
+//    private func andSortByUserDefaults(with weatherList: [CurrentWeather], with coordinateList: [Coordinate]) -> [CurrentWeather] {
+//        var currentWeatherList = [CurrentWeather]()
+//        for coordinate in coordinateList {
+//            for weather in weatherList {
+//                if weather.coordinate == coordinate {
+//                    currentWeatherList.append(weather)
+//                }
+//            }
+//        }
+//        return currentWeatherList
+//    }
+    
     func loadCurrentWeather(latitude: Double, longitude: Double, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, latitude, longitude) { (result: Result<CurrentWeatherResponse, APIError>) in
             switch result {
@@ -130,8 +142,7 @@ class MainViewModel {
                       let description = currentWeather.additionalInformation.first?.description else { return }
                 AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { updateCityName in
                     let weather: CurrentWeather = CurrentWeather(coordinate: currentWeather.coordinate,
-                                         cityName: currentWeather.cityName,
-                                         cityNameInKorean: updateCityName,
+                                         cityName: updateCityName,
                                          icon: ImageManager.getImage(iconPath),
                                          description: description,
                                          humidity: currentWeather.weather.humidity,

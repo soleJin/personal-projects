@@ -42,8 +42,8 @@ extension MainViewController: CLLocationManagerDelegate {
     }
     
     private func updateCurrentLocationUI(weather: CurrentWeather) {
-        addressLabel.text = weather.cityNameInKorean
-        temperatureLabel.text = "\(weather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+        addressLabel.text = weather.cityName
+        temperatureLabel.text = "\(weather.temperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
         descriptionLabel.text = weather.description
         self.weatherIconImageView.image = weather.icon
     }

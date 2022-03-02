@@ -8,8 +8,8 @@
 import UIKit
 
 enum TemperatureUnit: String {
-    case F
-    case C
+    case fahrenheit
+    case celsius
 }
 
 enum WeatherSymbols {
@@ -26,24 +26,25 @@ enum TimeUnit {
 }
 
 extension Double {
-    func convertTemperatureFtoC() -> Double {
-        return (self - 32) * 5/9
-    }
     
-    func convertTemperatureCtoF() -> Double {
+    var inFahrenheit: Double {
         return self * 9/5 + 32
     }
     
-    func toOneDecimalPlaceInString() -> String {
-         return String(format: "%.1f", self)
-     }
+    var inCelsius: Double {
+        return (self - 32) * 5/9
+    }
+    
+    var oneDecimalPlaceInString: String {
+        return String(format: "%.1f", self)
+    }
 }
 
 extension String {
-    func convertToNSMutableAttributedString(ranges: [NSValue]) -> NSMutableAttributedString {
+    func convertToNSMutableAttributedString(ranges: [NSValue], fontSize: CGFloat, fontWeight: UIFont.Weight, fontColor: CGColor) -> NSMutableAttributedString {
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: 18, weight: .semibold),
-            .foregroundColor: UIColor.white
+            .font: UIFont.systemFont(ofSize: fontSize, weight: fontWeight),
+            .foregroundColor: fontColor
         ]
         let attributedString = NSMutableAttributedString(string: self)
         if let range = ranges.first as? NSRange {

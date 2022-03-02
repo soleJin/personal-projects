@@ -24,10 +24,10 @@ class CityListCell: UITableViewCell {
     
     func update(weather: CurrentWeather) {
         setUpCellBackgroundView()
-        cityNameLabel.text = weather.cityNameInKorean
+        cityNameLabel.text = weather.cityName
         currentWeatherIcon.image = weather.icon
         currentHumidityLabel.text = "\(weather.humidity) \(WeatherSymbols.humidity)"
-        currentTemperatureLabel.text = "\(weather.temperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+        currentTemperatureLabel.text = "\(weather.temperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
     }
     
     private func setUpCellBackgroundView() {

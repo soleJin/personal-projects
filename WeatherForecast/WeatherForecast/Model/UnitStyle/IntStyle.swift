@@ -8,9 +8,9 @@
 import Foundation
 
 extension Int {
-    func convertToDateString(_ expression: String) -> String? {
+    func convertToDateString(_ timeUnit: String) -> String? {
         guard let time = setTime(self) else { return nil }
-        let formatter = setformatter(expression)
+        let formatter = setformatter(timeUnit)
         return formatter.string(from: time)
     }
     

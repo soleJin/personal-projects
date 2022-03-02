@@ -10,7 +10,6 @@ import UIKit
 struct CurrentWeather {
     let coordinate: Coordinate
     let cityName: String
-    let cityNameInKorean: String
     let icon: UIImage
     let description: String
     let humidity: Int

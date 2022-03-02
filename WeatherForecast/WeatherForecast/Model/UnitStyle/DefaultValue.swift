@@ -7,16 +7,6 @@
 
 import Foundation
 
-//enum City {
-//    static let nameList: [String] = [
-//        "Cheonan",
-//        "Cheongju",
-//        "Daegu",
-//        "Daejeon",
-//        "Seoul"
-//    ]
-//}
-
 enum InitialLocation {
     static let latitude: Double = 37.62746
     static let longtitude: Double = 126.98547

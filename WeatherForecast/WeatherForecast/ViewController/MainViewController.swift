@@ -119,15 +119,15 @@ class MainViewController: UIViewController {
         guard mainViewModel.currentWeatherList.first != nil else { return }
         let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
         if sender.selectedSegmentIndex == 0 {
-            guard temperatureUnit == TemperatureUnit.C.rawValue else { return }
+            guard temperatureUnit == TemperatureUnit.celsius.rawValue else { return }
             mainViewModel.convertTemperatureUnitCtoF {
-                temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+                temperatureLabel.text = "\(mainViewModel.locationTemperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
             }
             
         } else {
-            guard temperatureUnit == TemperatureUnit.F.rawValue else { return }
+            guard temperatureUnit == TemperatureUnit.fahrenheit.rawValue else { return }
             mainViewModel.convertTemperatureUnitFtoC {
-                temperatureLabel.text = "\(mainViewModel.locationTemperature.toOneDecimalPlaceInString()) \(WeatherSymbols.temperature)"
+                temperatureLabel.text = "\(mainViewModel.locationTemperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
             }
         }
     }

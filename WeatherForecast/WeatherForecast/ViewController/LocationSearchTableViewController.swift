@@ -52,7 +52,7 @@ class LocationSearchTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let title = searchCompleterResults[indexPath.row].title
         let rangeArray = searchCompleterResults[indexPath.row].titleHighlightRanges
-        cell.textLabel?.attributedText = title.convertToNSMutableAttributedString(ranges: rangeArray)
+        cell.textLabel?.attributedText = title.convertToNSMutableAttributedString(ranges: rangeArray, fontSize: 18, fontWeight: .semibold, fontColor: UIColor.white.cgColor)
         return cell
     }
     
