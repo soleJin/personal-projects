@@ -28,11 +28,11 @@ enum TimeUnit {
 extension Double {
     
     var inFahrenheit: Double {
-        return self * 9/5 + 32
+        return (self - 273.15) * 9/5 + 32
     }
     
     var inCelsius: Double {
-        return (self - 32) * 5/9
+        return self - 273.15
     }
     
     var oneDecimalPlaceInString: String {

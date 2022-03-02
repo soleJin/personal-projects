@@ -73,37 +73,7 @@ class MainViewModel {
         currentWeatherList.sort {( $0.temperature > $1.temperature )}
     }
     
-    func convertTemperatureUnitFtoC(_ updateTemperature: (() -> Void)) {
-        let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
-        if temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
-            UserDefaults.standard.setValue(TemperatureUnit.celsius.rawValue, forKey: "temperatureUnit")
-            for index in 0...numberOfCurrentWeatherList-1 {
-                let temperature = currentWeatherList[index].temperature
-                currentWeatherList[index].temperature = temperature.inCelsius
-            }
-            guard let temperture = locationWeather?.temperature else {
-                return }
-            locationWeather?.temperature = temperture.inCelsius
-            updateTemperature()
-        }
-    }
-    
-    func convertTemperatureUnitCtoF(_ updateTemperature: () -> Void) {
-        let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
-        if temperatureUnit == TemperatureUnit.celsius.rawValue {
-            UserDefaults.standard.setValue(TemperatureUnit.fahrenheit.rawValue, forKey: "temperatureUnit")
-            for index in 0...numberOfCurrentWeatherList-1 {
-                let temperature = currentWeatherList[index].temperature
-                currentWeatherList[index].temperature = temperature.inFahrenheit
-            }
-            guard let temperture = locationWeather?.temperature else { return }
-            locationWeather?.temperature = temperture.inFahrenheit
-            updateTemperature()
-        }
-    }
-    
     func setUpDefaultValue() {
-        UserDefaults.standard.setValue(TemperatureUnit.celsius.rawValue, forKey: "temperatureUnit")
         if let coordinateList = UserDefaults.standard.loadCoordinateList() {
             loadEachCurrentWeatherAndSort(with: coordinateList)
         } else {
@@ -137,16 +107,16 @@ class MainViewModel {
     func loadCurrentWeather(latitude: Double, longitude: Double, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, latitude, longitude) { (result: Result<CurrentWeatherResponse, APIError>) in
             switch result {
-            case .success(let currentWeather):
-                guard let iconPath = currentWeather.additionalInformation.first?.iconPath,
-                      let description = currentWeather.additionalInformation.first?.description else { return }
-                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeather.coordinate.latitude, longtitude: currentWeather.coordinate.longitude) { updateCityName in
-                    let weather: CurrentWeather = CurrentWeather(coordinate: currentWeather.coordinate,
+            case .success(let currentWeatherResponse):
+                guard let iconPath = currentWeatherResponse.additionalInformation.first?.iconPath,
+                      let description = currentWeatherResponse.additionalInformation.first?.description else { return }
+                AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeatherResponse.coordinate.latitude, longtitude: currentWeatherResponse.coordinate.longitude) { updateCityName in
+                    let weather: CurrentWeather = CurrentWeather(coordinate: currentWeatherResponse.coordinate,
                                          cityName: updateCityName,
                                          icon: ImageManager.getImage(iconPath),
                                          description: description,
-                                         humidity: currentWeather.weather.humidity,
-                                         temperature: currentWeather.weather.temperature)
+                                         humidity: currentWeatherResponse.weather.humidity,
+                                         temperature: currentWeatherResponse.weather.temperature)
                     completion(weather)
                 }
             case .failure(let error):

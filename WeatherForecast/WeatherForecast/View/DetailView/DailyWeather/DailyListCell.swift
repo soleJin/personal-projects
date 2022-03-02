@@ -28,7 +28,13 @@ class DailyListCell: UITableViewCell {
     func update(data: DailyWeather) {
         weatherIcon.image = data.icon
         dayLabel.text = data.dateTime.convertToDateString(TimeUnit.daily)
-        maximumTemperatureLabel.text = "\(data.temperature.maximum.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
-        minimumTemperatureLabel.text = "\(data.temperature.minimum.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
+           temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
+            maximumTemperatureLabel.text = "\(data.temperature.maximum.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+            minimumTemperatureLabel.text = "\(data.temperature.minimum.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        } else {
+            maximumTemperatureLabel.text = "\(data.temperature.maximum.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+            minimumTemperatureLabel.text = "\(data.temperature.minimum.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        }
     }
 }

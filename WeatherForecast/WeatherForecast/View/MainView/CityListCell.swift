@@ -27,7 +27,12 @@ class CityListCell: UITableViewCell {
         cityNameLabel.text = weather.cityName
         currentWeatherIcon.image = weather.icon
         currentHumidityLabel.text = "\(weather.humidity) \(WeatherSymbols.humidity)"
-        currentTemperatureLabel.text = "\(weather.temperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
+           temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
+            currentTemperatureLabel.text = "\(weather.temperature.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        } else {
+            currentTemperatureLabel.text = "\(weather.temperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        }
     }
     
     private func setUpCellBackgroundView() {

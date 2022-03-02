@@ -31,23 +31,27 @@ class MainViewController: UIViewController {
         }
         if segue.identifier == "showDetailInButton" {
             detailViewController?.coord = mainViewModel.locationWeather?.coordinate
+            detailViewController?.addButtonIsOff = true
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print(#function)
     }
  
     override func viewDidLoad() {
         super.viewDidLoad()
-        temperatureSegmentControl.selectedSegmentIndex = 1
+        setUpTemperatureSegmentControl()
         setUpMainViewModel()
         setUpSerachButton()
         setUpSortingButtons()
         setUpCurrentLocation()
         initRefresh()
-        print(#function)
+    }
+    
+    private func setUpTemperatureSegmentControl() {
+        if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
+           temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
+            temperatureSegmentControl.selectedSegmentIndex = 0
+        } else {
+            temperatureSegmentControl.selectedSegmentIndex = 1
+        }
     }
     
     private func setUpSerachButton() {
@@ -117,18 +121,14 @@ class MainViewController: UIViewController {
     
     @IBAction func tapSegmentedControl(_ sender: UISegmentedControl) {
         guard mainViewModel.currentWeatherList.first != nil else { return }
-        let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String
         if sender.selectedSegmentIndex == 0 {
-            guard temperatureUnit == TemperatureUnit.celsius.rawValue else { return }
-            mainViewModel.convertTemperatureUnitCtoF {
-                temperatureLabel.text = "\(mainViewModel.locationTemperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
-            }
-            
-        } else {
-            guard temperatureUnit == TemperatureUnit.fahrenheit.rawValue else { return }
-            mainViewModel.convertTemperatureUnitFtoC {
-                temperatureLabel.text = "\(mainViewModel.locationTemperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
-            }
+            UserDefaults.standard.setValue(TemperatureUnit.fahrenheit.rawValue, forKey: "temperatureUnit")
+            temperatureLabel.text = "\(mainViewModel.locationTemperature.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+            cityTableView.reloadData()
+        } else if sender.selectedSegmentIndex == 1 {
+            UserDefaults.standard.setValue(TemperatureUnit.celsius.rawValue, forKey: "temperatureUnit")
+            temperatureLabel.text = "\(mainViewModel.locationTemperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+            cityTableView.reloadData()
         }
     }
     

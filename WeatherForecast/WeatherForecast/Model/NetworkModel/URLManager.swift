@@ -18,10 +18,9 @@ struct URLManager {
         var urlComponents = URLComponents(string: apiType)
         let appIdQuery = URLQueryItem(name: "appid", value: "179f9f1734b59fcdd8627cb64e9fae5d")
         let languageQuery = URLQueryItem(name: "lang", value: "kr")
-        let unitsQuery = URLQueryItem(name: "units", value: "metric")
         let latitudeQuery = URLQueryItem(name: "lat", value: "\(String(latitude))")
         let longitudeQuery = URLQueryItem(name: "lon", value: "\(String(longitude))")
-        urlComponents?.queryItems?.append(contentsOf: [languageQuery, appIdQuery, unitsQuery, latitudeQuery, longitudeQuery])
+        urlComponents?.queryItems?.append(contentsOf: [languageQuery, appIdQuery, latitudeQuery, longitudeQuery])
         guard let requesturl = urlComponents?.url else {
             print("-------------nourl")
             return nil

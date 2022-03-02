@@ -43,7 +43,12 @@ extension MainViewController: CLLocationManagerDelegate {
     
     private func updateCurrentLocationUI(weather: CurrentWeather) {
         addressLabel.text = weather.cityName
-        temperatureLabel.text = "\(weather.temperature.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
+           temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
+            temperatureLabel.text = "\(weather.temperature.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        } else {
+            temperatureLabel.text = "\(weather.temperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+        }
         descriptionLabel.text = weather.description
         self.weatherIconImageView.image = weather.icon
     }

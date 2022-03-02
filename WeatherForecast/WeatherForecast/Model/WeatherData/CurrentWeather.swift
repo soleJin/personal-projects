@@ -13,13 +13,13 @@ struct CurrentWeather {
     let icon: UIImage
     let description: String
     let humidity: Int
-    var temperature: Double
+    let temperature: Double
 }
 
 struct CurrentWeatherResponse: Decodable {
     let coordinate: Coordinate
     let additionalInformation: [Weather]
-    var weather: Main
+    let weather: Main
     let cityName: String
     
     enum CodingKeys: String, CodingKey {
@@ -44,7 +44,7 @@ struct Coordinate: Codable, Equatable {
 }
 
 struct Main: Decodable {
-    var temperature: Double
+    let temperature: Double
     let humidity: Int
 
     enum CodingKeys: String, CodingKey {
