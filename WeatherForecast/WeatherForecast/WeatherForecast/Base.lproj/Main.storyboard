@@ -213,7 +213,7 @@
                                     <imageReference key="image" image="line.horizontal.3" catalog="system" symbolScale="large"/>
                                 </state>
                                 <connections>
-                                    <action selector="tapSortButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Q1g-gQ-5ZK"/>
+                                    <action selector="tapCustomSortButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uam-Hs-vjb"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vb-b2-bER">
@@ -238,7 +238,7 @@
                                     <imageReference key="image" image="magnifyingglass" catalog="system" symbolScale="large"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Jik-xJ-qjf" kind="presentation" id="DiV-sN-cqS"/>
+                                    <segue destination="Jik-xJ-qjf" kind="presentation" modalPresentationStyle="fullScreen" id="DiV-sN-cqS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -399,6 +399,7 @@
                             <constraint firstItem="rPb-Q9-Y6e" firstAttribute="top" secondItem="acL-sT-Dfr" secondAttribute="top" constant="-50" id="zKX-Tz-hYu"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="R0r-xd-OpF"/>
                     <connections>
                         <outlet property="addButton" destination="HWf-OE-X8H" id="UR0-Wt-gcC"/>
                         <outlet property="addressLabel" destination="Wuq-lP-e99" id="V8M-a3-2Zz"/>
@@ -416,7 +417,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="SearchView" id="Af5-pX-KWh" customClass="LocationSearchTableViewController" customModule="WeatherForecast" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="43" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="5gQ-Iv-S6S">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -464,8 +465,9 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Jik-xJ-qjf" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="EWb-dp-Nrr"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="vQv-7c-sz4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

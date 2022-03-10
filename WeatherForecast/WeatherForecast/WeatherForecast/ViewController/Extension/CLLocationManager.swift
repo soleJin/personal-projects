@@ -22,6 +22,7 @@ enum LocationError: Error {
     }
 }
 
+// MARK: - LocationManager - protocol 방법 찾아보기
 extension MainViewController: CLLocationManagerDelegate {
     func setUpCurrentLocation() {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest

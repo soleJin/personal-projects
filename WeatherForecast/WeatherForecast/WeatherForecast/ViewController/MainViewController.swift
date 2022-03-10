@@ -132,7 +132,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    @IBAction func tapSortButton(_ sender: UIButton) {
+    @IBAction func tapCustomSortButton(_ sender: UIButton) {
         if cityTableView.isEditing {
             cityTableView.isEditing = false
         } else {

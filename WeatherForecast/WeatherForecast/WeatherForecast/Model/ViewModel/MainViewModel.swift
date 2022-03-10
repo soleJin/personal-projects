@@ -10,7 +10,7 @@ import CoreLocation
 
 protocol CurrentWeatherListDataUpdatable: AnyObject {
     func mainTableViewReloadData()
-}
+} 
 
 class MainViewModel {
     weak var currentWeatherListDelegate: CurrentWeatherListDataUpdatable?
@@ -26,7 +26,7 @@ class MainViewModel {
         return coordinate
     }
     var locationTemperature: Double {
-        guard let temperature = locationWeather?.temperature else { return 0.0 }
+        guard let temperature = locationWeather?.temperature else { return Double() }
         return temperature
     }
     var numberOfCurrentWeatherList: Int {
@@ -74,35 +74,27 @@ class MainViewModel {
     }
     
     func setUpDefaultValue() {
-        if let coordinateList = UserDefaults.standard.loadCoordinateList() {
-            loadEachCurrentWeatherAndSort(with: coordinateList)
-        } else {
-            loadEachCurrentWeatherAndSort(with: City.coordinateList)
+        DispatchQueue.global().async { [weak self] in
+            if let coordinateList = UserDefaults.standard.loadCoordinateList() {
+                self?.loadEachCurrentWeatherAndSort(with: coordinateList)
+            } else {
+                self?.loadEachCurrentWeatherAndSort(with: City.coordinateList)
+            }
         }
     }
     
     private func loadEachCurrentWeatherAndSort(with loadCoordinateList: [Coordinate]) {
         loadCoordinateList.forEach({ (coordinate) in
             loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
-                self?.currentWeatherList.removeAll { currentweather in
-                    weather.coordinate == currentweather.coordinate
-                }
+                self?.currentWeatherList.removeAll(where: { currentWeather in
+                    weather.cityName == currentWeather.cityName
+                })
                 self?.append(weather)
             }
         })
     }
     
-//    private func andSortByUserDefaults(with weatherList: [CurrentWeather], with coordinateList: [Coordinate]) -> [CurrentWeather] {
-//        var currentWeatherList = [CurrentWeather]()
-//        for coordinate in coordinateList {
-//            for weather in weatherList {
-//                if weather.coordinate == coordinate {
-//                    currentWeatherList.append(weather)
-//                }
-//            }
-//        }
-//        return currentWeatherList
-//    }
+    // MARK: - index 찾아서 정렬해봅시다
     
     func loadCurrentWeather(latitude: Double, longitude: Double, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, latitude, longitude) { (result: Result<CurrentWeatherResponse, APIError>) in
@@ -129,6 +121,9 @@ class MainViewModel {
 extension MainViewModel: UserAddWeatherDataUpdatable {
     func add(coordinate: Coordinate) {
         loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] addWeather in
+            self?.currentWeatherList.removeAll(where: { currentWeather in
+                addWeather.cityName == currentWeather.cityName
+            })
             self?.currentWeatherList.insert(addWeather, at: 0)
         }
     }

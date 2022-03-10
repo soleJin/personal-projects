@@ -12,8 +12,8 @@ struct AddressManager {
     static func convertCityNameEnglishToKoreanSimply(latitude: Double, longtitude: Double, completion: @escaping (String) -> Void) {
         let findLocation = CLLocation(latitude: latitude, longitude: longtitude)
         let geocoder = CLGeocoder()
-        let local = Locale(identifier: "Ko-kr")
-        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: local) { (placemarks, error) in
+        let locale = Locale(identifier: "Ko-kr")
+        geocoder.reverseGeocodeLocation(findLocation, preferredLocale: locale) { (placemarks, error) in
             guard let placemark: [CLPlacemark] = placemarks,
                   let address = placemark.first?.administrativeArea,
                   let siAddress = placemark.first?.locality else { return }

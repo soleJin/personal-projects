@@ -25,6 +25,7 @@ protocol UserAddWeatherDataUpdatable: AnyObject {
 }
 
 class DetailViewController: UIViewController {
+    // MARK: - autolayout 수정하기
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!

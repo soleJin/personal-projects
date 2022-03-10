@@ -26,7 +26,6 @@ enum TimeUnit {
 }
 
 extension Double {
-    
     var inFahrenheit: Double {
         return (self - 273.15) * 9/5 + 32
     }
