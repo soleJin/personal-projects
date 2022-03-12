@@ -13,9 +13,7 @@ enum APIError: Error {
     case invalidURL
     case noData
     case noResponse
-    case clientError
-    case ServerError
-    case dataDecodingError
+    case noParse
 }
 
 class WeatherAPI {
@@ -32,8 +30,12 @@ class WeatherAPI {
                 completion(Result.failure(.error))
                 return
             }
-            if let responseError = checkResponseStatusCode(response as! HTTPURLResponse) {
-                completion(Result.failure(responseError as! APIError))
+            guard let response = response as? HTTPURLResponse else {
+                completion(Result.failure(.noResponse))
+                return
+            }
+            guard (200...299) ~= response.statusCode else {
+                checkResponseStatusCode(response)
                 return
             }
             guard let safeData = data else {
@@ -41,7 +43,7 @@ class WeatherAPI {
                 return
             }
             guard let currentWeather = try? JSONDecoder().decode(T.self, from: safeData) else {
-                completion(Result.failure(.dataDecodingError))
+                completion(Result.failure(.noParse))
                 return
             }
             completion(Result.success(currentWeather))
@@ -49,19 +51,14 @@ class WeatherAPI {
         dataTask.resume()
     }
     
-    private static func checkResponseStatusCode(_ response: HTTPURLResponse) -> Error? {
+    private static func checkResponseStatusCode(_ response: HTTPURLResponse) {
         switch response.statusCode {
-        case (200...299):
-            return nil
         case (400...499):
-            print("Response: \(response)")
-            return APIError.clientError
+            print("4XX Response: \(response)")
         case (500...599):
-            print("Response: \(response)")
-            return APIError.ServerError
+            print("5XX Response: \(response)")
         default:
             print("Response: \(response)")
-            return APIError.unknwon
         }
     }
 }

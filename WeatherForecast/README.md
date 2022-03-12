@@ -35,16 +35,17 @@
     - detailWeatherTableView - cell noreuse 문제
     - CLLocationManager를 mainViewController가 소유하는 문제
     - autolayout 문제(가로모드)
-    - CLGeocoder 주소변환 에러
-- [회고](#회고) 
-- [공부한 내용](#공부한-내용) 
-    - CLLocationManager
-    - MapKit-Local Search
-    - ARC
-    - CLGeocoder
-    - Date
-    - UserDefaults
-    - 옵셔널타입 클로저 매개변수
+    - CLGeocoder 주소변환 문제
+- [공부한 내용](#공부한-내용)  
+    - [CLLocationManager](https://solejin.github.io/cllocation)
+    - [MapKit-Local Search](https://solejin.github.io/local-search)
+    - [ARC](https://solejin.github.io/arc)
+    - [CLGeocoder](https://solejin.github.io/clgeocoder)
+    - [Date](https://solejin.github.io/date)
+    - [String Format Specifiers](https://solejin.github.io/string-format-specifiers)
+    - [UserDefaults](https://solejin.github.io/user-defaults)
+    - [Networking](https://solejin.github.io/networking)
+
 <br>
 <br>
 
@@ -171,7 +172,8 @@
 
 ### MainViewModel  
 - MainViewController의 일을 덜어주기 위해 만든 모델
-- WeatherAPI를 통해 위도와 경도를 이용해 날씨정보를 받는다. 즐겨찾는 도시 목록이 많아지면 늦어질 수 있으므로 다른 스레드에서 처리할 수 있도록 DispatchQueue.global().async를 이용한다.    
+- WeatherAPI를 통해 위도와 경도를 이용해 날씨정보를 받는다. Networking ([공부한 내용](https://solejin.github.io/networking))
+- 즐겨찾는 도시 목록이 많아지면 늦어질 수 있으므로 다른 스레드에서 처리할 수 있도록 DispatchQueue.global().async를 이용한다.    
 - 받은 날씨정보를 `currentWeatherList`에 추가한다.
 - `currentWeatherList`는 값이 바뀔 때마다 property observer `didSet` 에서 delegate를 통해 mainViewController에게 알린다.  
 - `weak var currentWeatherListDelegate` 
@@ -260,22 +262,8 @@ cell의 재사용이 어떤 의미인지 다시 한 번 살펴봐야할 것 같�
 - autolayout을 잘 설정하지 못했다. 추가 공부가 필요하다.    
 <br>
 
-### CLGeocoder 주소변환 에러 
-- 주소를 변환하지 못하는 지역들이 있다.  
+### CLGeocoder 주소변환 문제 
+- 외국 주소 중 한글로 변환하지 못하는 지역들이 있다.  
 <br>
 <br>
 
-# <span style="font-weight: bold; color: #3C4C6C;">회고</span>
-이번 프로젝트는, 다시 시작한다는 자체로 의미가 크다.  
-아쉬움을 얘기하자면 끝이 없으니, 수정이 필요하다고 느꼈던 부분들까지만 다시 확인하고 새 프로젝트를 진행하는게 좋을 것 같다.  
-<br>
-<br>
-
-# 공부한 내용
-- [CLLocationManager](https://solejin.github.io/cllocation)
-- [MapKit-Local Search](https://solejin.github.io/local-search)
-- [ARC](https://solejin.github.io/arc)
-- [CLGeocoder](https://solejin.github.io/clgeocoder)
-- [Date](https://solejin.github.io/date)
-- [UserDefaults](https://solejin.github.io/user-defaults)
-- [옵셔널타입 클로저 매개변수]()  

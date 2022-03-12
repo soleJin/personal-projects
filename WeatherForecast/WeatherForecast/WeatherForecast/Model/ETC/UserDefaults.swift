@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 extension UserDefaults {
     func save(of weatherList: [CurrentWeather]) {
