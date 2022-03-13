@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ImageManager {
+final class ImageManager {
     static let cachedIcons = NSCache<NSString, UIImage>()
     
     static func getImage(_ path: String) -> UIImage {

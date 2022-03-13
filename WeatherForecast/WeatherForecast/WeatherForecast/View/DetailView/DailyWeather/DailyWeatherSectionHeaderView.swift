@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DailyWeatherSectionHeaderView: UITableViewHeaderFooterView {
+final class DailyWeatherSectionHeaderView: UITableViewHeaderFooterView {
     static let identifier = "DailyWeatherSectionHeaderView"
     static func nib() -> UINib {
         return UINib(nibName: DailyWeatherSectionHeaderView.identifier, bundle: nil)

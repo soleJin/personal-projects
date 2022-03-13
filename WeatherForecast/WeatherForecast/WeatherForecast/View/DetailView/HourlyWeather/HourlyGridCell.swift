@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HourlyGridCell: UICollectionViewCell {
+final class HourlyGridCell: UICollectionViewCell {
     static let identifier = "HourlyGridCell"
     @IBOutlet weak var weatherIcon: UIImageView!
     @IBOutlet weak var hourlyTimeLabel: UILabel!

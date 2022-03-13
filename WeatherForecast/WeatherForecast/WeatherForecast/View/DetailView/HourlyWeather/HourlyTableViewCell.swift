@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HourlyTableViewCell: UITableViewCell {
+final class HourlyTableViewCell: UITableViewCell {
     static let identifier = "HourlyTableViewCell"
     @IBOutlet weak var hourlyCollectionView: UICollectionView!
     var hourlyWeatherList = [HourlyWeather]()

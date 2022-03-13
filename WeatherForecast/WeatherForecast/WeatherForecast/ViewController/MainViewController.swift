@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!

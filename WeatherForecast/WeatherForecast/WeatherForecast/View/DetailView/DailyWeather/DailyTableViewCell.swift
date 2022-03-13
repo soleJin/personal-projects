@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DailyTableViewCell: UITableViewCell {
+final class DailyTableViewCell: UITableViewCell {
     static let identifier = "DailyTableViewCell"
     @IBOutlet weak var dailyTableView: UITableView!
     var dailyWeatherList = [DailyWeather]()

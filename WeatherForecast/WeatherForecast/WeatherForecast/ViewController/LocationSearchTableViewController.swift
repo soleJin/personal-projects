@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class LocationSearchTableViewController: UITableViewController {
+final class LocationSearchTableViewController: UITableViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     private let searchCompleter = MKLocalSearchCompleter()
     private var searchCompleterResults = [MKLocalSearchCompletion]()

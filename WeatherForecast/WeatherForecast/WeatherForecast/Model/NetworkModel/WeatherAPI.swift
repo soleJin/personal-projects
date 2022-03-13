@@ -16,7 +16,7 @@ enum APIError: Error {
     case noParse
 }
 
-class WeatherAPI {
+final class WeatherAPI {
     static func fetchWeather<T: Decodable>(_ apiType: String, _ latitude: Double, _ longitude: Double, completion: @escaping (Result<T, APIError>) -> Void) {
         let session = URLSession(configuration: .default)
         

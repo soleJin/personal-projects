@@ -12,7 +12,7 @@ protocol CurrentWeatherListDataUpdatable: AnyObject {
     func mainTableViewReloadData()
 } 
 
-class MainViewModel {
+final class MainViewModel {
     weak var currentWeatherListDelegate: CurrentWeatherListDataUpdatable?
     var currentWeatherList = [CurrentWeather]() {
         didSet {

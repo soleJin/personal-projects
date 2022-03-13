@@ -24,7 +24,7 @@ protocol UserAddWeatherDataUpdatable: AnyObject {
     func add(coordinate: Coordinate)
 }
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     // MARK: - autolayout 수정하기
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CurrentTableViewCell: UITableViewCell {
+final class CurrentTableViewCell: UITableViewCell {
     static let identifier = "CurrentTableViewCell"
     var currentWeather: HourlyWeather?
     @IBOutlet weak var sunriseLabel: UILabel!
