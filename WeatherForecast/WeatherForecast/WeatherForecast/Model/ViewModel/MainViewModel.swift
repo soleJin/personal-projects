@@ -74,22 +74,22 @@ final class MainViewModel {
     }
     
     func setUpDefaultValue() {
-        DispatchQueue.global().async { [weak self] in
-            if let coordinateList = UserDefaults.standard.loadCoordinateList() {
-                self?.loadEachCurrentWeatherAndSort(with: coordinateList)
-            } else {
-                self?.loadEachCurrentWeatherAndSort(with: City.coordinateList)
-            }
+        if let coordinateList = UserDefaults.standard.loadCoordinateList() {
+            loadEachCurrentWeatherAndSort(with: coordinateList)
+        } else {
+            loadEachCurrentWeatherAndSort(with: City.coordinateList)
         }
     }
     
     private func loadEachCurrentWeatherAndSort(with loadCoordinateList: [Coordinate]) {
         loadCoordinateList.forEach({ (coordinate) in
-            loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
-                self?.currentWeatherList.removeAll(where: { currentWeather in
-                    weather.cityName == currentWeather.cityName
-                })
-                self?.append(weather)
+            DispatchQueue.global().async { [weak self] in
+                self?.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
+                    self?.currentWeatherList.removeAll(where: { currentWeather in
+                        weather.cityName == currentWeather.cityName
+                    })
+                    self?.append(weather)
+                }
             }
         })
     }
