@@ -49,36 +49,40 @@ final class DetailViewController: UIViewController {
     private func loadDetailWeather() {
         guard let coord = coord else { return }
         WeatherAPI.fetchWeather(APIType.dailyWeather, coord.latitude, coord.longitude) { [weak self] (result: Result<DetailWeather, APIError>) in
+            guard let weakSelf = self else { return }
             switch result {
             case .success(let dailyWeatherData):
-                self?.hourlyWeatherListDelegate?.update(hourlyWeatherList: dailyWeatherData.hourly)
-                self?.dailyWeatherListDelegate?.update(dailyWeatherList: dailyWeatherData.daily)
-                self?.currentWeatherDelegate?.update(currentWeather: dailyWeatherData.current)
-                self?.updateWeather(data: dailyWeatherData.current)
-                DispatchQueue.main.async {
-                    self?.detailWeatherTableView.reloadData()
+                weakSelf.hourlyWeatherListDelegate?.update(hourlyWeatherList: dailyWeatherData.hourly)
+                weakSelf.dailyWeatherListDelegate?.update(dailyWeatherList: dailyWeatherData.daily)
+                weakSelf.currentWeatherDelegate?.update(currentWeather: dailyWeatherData.current)
+                weakSelf.updateWeather(data: dailyWeatherData.current)
+                DispatchQueue.main.async { [weak self] in
+                    guard let weakSelf = self else { return }
+                    weakSelf.detailWeatherTableView.reloadData()
                 }
             case .failure(let error):
                 print("Detail View Networking Error: \(error.localizedDescription)")
             }
         }
         AddressManager.convertCityNameEnglishToKoreanSimply(latitude: coord.latitude, longtitude: coord.longitude) { [weak self] (adress) in
-            self?.address = adress
+            guard let weakSelf = self else { return }
+            weakSelf.address = adress
         }
     }
     
     private func updateWeather(data: HourlyWeather) {
         DispatchQueue.main.async { [weak self] in
+            guard let weakSelf = self else { return }
             if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
                temperatureUnit == TemperatureUnit.fahrenheit.rawValue {
-                self?.temperatureLabel.text = "\(data.temperature.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
-                self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+                weakSelf.temperatureLabel.text = "\(data.temperature.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+                weakSelf.feelsLikeTemperatureLabel.text = "\(data.feelsLike.inFahrenheit.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
             } else {
-                self?.temperatureLabel.text = "\(data.temperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
-                self?.feelsLikeTemperatureLabel.text = "\(data.feelsLike.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+                weakSelf.temperatureLabel.text = "\(data.temperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
+                weakSelf.feelsLikeTemperatureLabel.text = "\(data.feelsLike.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
             }
             guard let address = self?.address else { return }
-            self?.addressLabel.text = "\(address)"
+            weakSelf.addressLabel.text = "\(address)"
         }
     }
 

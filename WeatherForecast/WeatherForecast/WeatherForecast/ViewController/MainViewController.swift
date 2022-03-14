@@ -144,7 +144,8 @@ final class MainViewController: UIViewController {
 extension MainViewController: CurrentWeatherListDataUpdatable {
     func mainTableViewReloadData() {
         DispatchQueue.main.async { [weak self] in
-            self?.cityTableView.reloadData()
+            guard let weakSelf = self else { return }
+            weakSelf.cityTableView.reloadData()
         }
     }
 }

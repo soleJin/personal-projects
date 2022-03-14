@@ -35,9 +35,11 @@ extension MainViewController: CLLocationManagerDelegate {
         guard let location = locations.first else { return }
         locationManager.stopUpdatingLocation()
         mainViewModel.loadCurrentWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self](weather) in
-            self?.mainViewModel.locationWeather = weather
-            DispatchQueue.main.async {
-                self?.updateCurrentLocationUI(weather: weather)
+            guard let weakSelf = self else { return }
+            weakSelf.mainViewModel.locationWeather = weather
+            DispatchQueue.main.async { [ weak self] in
+                guard let weakSelf = self else { return }
+                weakSelf.updateCurrentLocationUI(weather: weather)
             }
         }
     }
@@ -58,9 +60,10 @@ extension MainViewController: CLLocationManagerDelegate {
         switch status {
         case .denied, .restricted:
             present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
-            mainViewModel.loadCurrentWeather(latitude: InitialLocation.latitude, longitude: InitialLocation.longtitude) { [weak self] (weather) in
-                DispatchQueue.main.async {
-                    self?.updateCurrentLocationUI(weather: weather)
+            mainViewModel.loadCurrentWeather(latitude: InitialLocation.latitude, longitude: InitialLocation.longtitude) { (weather) in
+                DispatchQueue.main.async { [weak self] in
+                    guard let weakSelf = self else { return }
+                    weakSelf.updateCurrentLocationUI(weather: weather)
                 }
             }
         case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
