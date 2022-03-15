@@ -35,9 +35,9 @@ struct HourlyWeather: Decodable {
         guard let description = weather.first?.description else { return String() }
         return description
     }
-    var icon: UIImage {
-        guard let iconPath = weather.first?.iconPath else { return UIImage() }
-        return ImageManager.getImage(iconPath)
+    var iconPath: String {
+        guard let iconPath = weather.first?.iconPath else { return String() }
+        return iconPath
     }
     
     enum CodingKeys: String, CodingKey {
@@ -53,9 +53,9 @@ struct DailyWeather: Decodable {
     let dateTime: Int
     let temperature: Temperature
     let weather: [Weather]
-    var icon: UIImage {
-        guard let iconPath = weather.first?.iconPath else { return UIImage() }
-        return ImageManager.getImage(iconPath)
+    var iconPath: String {
+        guard let iconPath = weather.first?.iconPath else { return String() }
+        return iconPath
     }
     
     enum CodingKeys: String, CodingKey {

@@ -85,8 +85,7 @@ final class MainViewModel {
         loadCoordinateList.forEach({ (coordinate) in
             DispatchQueue.global().async { [weak self] in
                 guard let weakSelf = self else { return }
-                weakSelf.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { [weak self] (weather) in
-                    guard let weakSelf = self else { return }
+                weakSelf.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { (weather) in
                     weakSelf.currentWeatherList.removeAll(where: { currentWeather in
                         weather.cityName == currentWeather.cityName
                     })
@@ -107,7 +106,7 @@ final class MainViewModel {
                 AddressManager.convertCityNameEnglishToKoreanSimply(latitude: currentWeatherResponse.coordinate.latitude, longtitude: currentWeatherResponse.coordinate.longitude) { updateCityName in
                     let weather: CurrentWeather = CurrentWeather(coordinate: currentWeatherResponse.coordinate,
                                          cityName: updateCityName,
-                                         icon: ImageManager.getImage(iconPath),
+                                         iconPath: iconPath,
                                          description: description,
                                          humidity: currentWeatherResponse.weather.humidity,
                                          temperature: currentWeatherResponse.weather.temperature)

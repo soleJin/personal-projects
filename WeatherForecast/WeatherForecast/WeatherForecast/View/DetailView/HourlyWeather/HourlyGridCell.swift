@@ -24,7 +24,12 @@ final class HourlyGridCell: UICollectionViewCell {
     }
     
     func update(data: HourlyWeather) {
-        weatherIcon.image = data.icon
+        ImageManager.getImage(data.iconPath) { icon in
+            DispatchQueue.main.async { [weak self] in
+                guard let weakSelf = self else { return }
+                weakSelf.weatherIcon.image = icon
+            }
+        }
         hourlyTimeLabel.text = data.dateTime.convertToDateString(TimeUnit.hourly)
         if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
            temperatureUnit == TemperatureUnit.fahrenheit.rawValue {

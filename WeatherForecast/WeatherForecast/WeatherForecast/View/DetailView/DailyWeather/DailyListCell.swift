@@ -26,7 +26,12 @@ final class DailyListCell: UITableViewCell {
     }
     
     func update(data: DailyWeather) {
-        weatherIcon.image = data.icon
+        ImageManager.getImage(data.iconPath) { icon in
+            DispatchQueue.main.async { [weak self] in
+                guard let weakSelf = self else { return }
+                weakSelf.weatherIcon.image = icon
+            }
+        }
         dayLabel.text = data.dateTime.convertToDateString(TimeUnit.daily)
         if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
            temperatureUnit == TemperatureUnit.fahrenheit.rawValue {

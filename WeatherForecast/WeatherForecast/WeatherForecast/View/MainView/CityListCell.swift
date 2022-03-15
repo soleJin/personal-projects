@@ -25,7 +25,12 @@ class CityListCell: UITableViewCell {
     func update(weather: CurrentWeather) {
         setUpCellBackgroundView()
         cityNameLabel.text = weather.cityName
-        currentWeatherIcon.image = weather.icon
+        ImageManager.getImage(weather.iconPath) { icon in
+            DispatchQueue.main.async { [weak self] in
+                guard let weakSelf = self else { return }
+                weakSelf.currentWeatherIcon.image = icon
+            }
+        }
         currentHumidityLabel.text = "\(weather.humidity) \(WeatherSymbols.humidity)"
         if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
            temperatureUnit == TemperatureUnit.fahrenheit.rawValue {

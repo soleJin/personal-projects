@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 enum LocationError: Error {
     case locationManagerDidFail
@@ -53,7 +54,12 @@ extension MainViewController: CLLocationManagerDelegate {
             temperatureLabel.text = "\(weather.temperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
         }
         descriptionLabel.text = weather.description
-        self.weatherIconImageView.image = weather.icon
+        ImageManager.getImage(weather.iconPath) { icon in
+            DispatchQueue.main.async { [weak self] in
+                guard let weakSelf = self else { return }
+                weakSelf.weatherIconImageView.image = icon
+            }
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
