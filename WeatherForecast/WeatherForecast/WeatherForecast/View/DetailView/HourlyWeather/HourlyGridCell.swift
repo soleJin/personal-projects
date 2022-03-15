@@ -30,6 +30,7 @@ final class HourlyGridCell: UICollectionViewCell {
                 weakSelf.weatherIcon.image = icon
             }
         }
+
         hourlyTimeLabel.text = data.dateTime.convertToDateString(TimeUnit.hourly)
         if let temperatureUnit = UserDefaults.standard.value(forKey: "temperatureUnit") as? String,
            temperatureUnit == TemperatureUnit.fahrenheit.rawValue {

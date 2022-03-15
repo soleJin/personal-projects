@@ -82,15 +82,13 @@ final class MainViewModel {
     }
     
     private func loadEachCurrentWeatherAndSort(with loadCoordinateList: [Coordinate]) {
-        loadCoordinateList.forEach({ (coordinate) in
-            DispatchQueue.global().async { [weak self] in
-                guard let weakSelf = self else { return }
-                weakSelf.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { (weather) in
-                    weakSelf.currentWeatherList.removeAll(where: { currentWeather in
-                        weather.cityName == currentWeather.cityName
-                    })
-                    self?.append(weather)
-                }
+        loadCoordinateList.forEach({ [weak self](coordinate) in
+            guard let weakSelf = self else { return }
+            weakSelf.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { (weather) in
+                weakSelf.currentWeatherList.removeAll(where: { currentWeather in
+                    weather.cityName == currentWeather.cityName
+                })
+                weakSelf.append(weather)
             }
         })
     }
