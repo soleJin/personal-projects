@@ -60,11 +60,13 @@ extension MainViewController: CLLocationManagerDelegate {
         switch status {
         case .denied, .restricted:
             present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
-            mainViewModel.loadCurrentWeather(latitude: InitialLocation.latitude, longitude: InitialLocation.longtitude) { (weather) in
+            mainViewModel.loadCurrentWeather(latitude: InitialLocation.latitude, longitude: InitialLocation.longtitude) { [weak self] (weather) in
+                guard let weakSelf = self else { return }
                 DispatchQueue.main.async { [weak self] in
                     guard let weakSelf = self else { return }
                     weakSelf.updateCurrentLocationUI(weather: weather)
                 }
+                weakSelf.mainViewModel.locationWeather = weather
             }
         case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
             locationManager.startUpdatingLocation()

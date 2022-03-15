@@ -44,7 +44,7 @@ final class DetailViewController: UIViewController {
         setUpDetailTableView()
         setUpAddbutton()
         loadDetailWeather()
-    }
+}
     
     private func loadDetailWeather() {
         guard let coord = coord else { return }
