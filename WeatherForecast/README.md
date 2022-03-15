@@ -30,6 +30,7 @@
     - 정보전달
     - UserDefaults
     - MainView와 DetailView에서 달라지는 지역명
+    - GCD의 사용
 - [수정이 필요한 부분](#수정이-필요한-부분)
     - 정렬 문제
     - detailWeatherTableView - cell noreuse 문제
@@ -173,7 +174,6 @@
 ### MainViewModel  
 - MainViewController의 일을 덜어주기 위해 만든 모델
 - WeatherAPI를 통해 위도와 경도를 이용해 날씨정보를 받는다. Networking ([공부한 내용](https://solejin.github.io/networking))
-- 즐겨찾는 도시 목록이 많아지면 늦어질 수 있으므로 다른 스레드에서 처리할 수 있도록 DispatchQueue.global().async를 이용한다.    
 - 받은 날씨정보를 `currentWeatherList`에 추가한다.
 - `currentWeatherList`는 값이 바뀔 때마다 property observer `didSet` 에서 delegate를 통해 mainViewController에게 알린다.  
 - `weak var currentWeatherListDelegate` 
@@ -241,6 +241,15 @@ custom type을 데이터로 변환하여 저장하면 저장하려는 타입이 
 
 ### MainView와 DetailView에서 달라지는 지역명  
 - 처음 날씨데이터를 불러올 때 mainView는 cityName으로, detailView는 coordinate로 데이터를 받기 때문에 나타나는 현상이다. 그래서 때에 따라 cityName 혹은 coordinate로 받아오는 Weather API의 fetchWeather 메서드를 coordinate로만 받아오도록 수정했다.  
+<br>
+
+### GCD의 사용
+- **MainViewModel**  
+    - 도시목록의 날씨정보를 받아올 때 여러 개의 좌표로 네트워킹하기 때문에 오래걸리리지만, URLSession은 따로 설정해주지 않아도 비동기로 작동하기때문에 GCD를 사용하지 않았다.  
+    - 다만, `currentWeatherList` 프로퍼티에 여러 쓰레드에서 같이 접근하면 교착상태가 발생할 수 있으므로 `append` 부분만 `DispatchQueue(label: "serial").async {}`를 사용했다.  
+- **ImageManager**  
+    - 날씨아이콘을 받아오는 작업은 오래걸리기 때문에 `DispatchQueue.global().async {}`를 사용했다.  
+    - 날씨아이콘을 화면에 표시하는 작업은 바로 이루어져야 하기 때문에 `DispatchQueue.main.async {}`를 사용했다.  
 <br>
 <br>
 
