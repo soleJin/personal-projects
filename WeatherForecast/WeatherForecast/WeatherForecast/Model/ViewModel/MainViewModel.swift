@@ -88,7 +88,10 @@ final class MainViewModel {
                 weakSelf.currentWeatherList.removeAll(where: { currentWeather in
                     weather.cityName == currentWeather.cityName
                 })
-                weakSelf.append(weather)
+                DispatchQueue(label: "serial").async { [weak self] in
+                    guard let weakSelf = self else { return }
+                    weakSelf.append(weather)
+                }
             }
         })
     }
