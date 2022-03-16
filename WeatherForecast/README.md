@@ -2,7 +2,7 @@
 
 <br>
 
-<center><img src="https://user-images.githubusercontent.com/73588175/156944315-bccba6d9-856f-4cb3-990e-1e1105bbd9eb.gif" width="310"></center>
+<center><img src="https://user-images.githubusercontent.com/73588175/158507998-e5727882-1040-40d7-b77c-e050b6b80bd0.gif" width="310"></center>
 
 # Index
 - [기능](#기능)
