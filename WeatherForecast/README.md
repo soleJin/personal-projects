@@ -32,7 +32,6 @@
     - MainView와 DetailView에서 달라지는 지역명
     - GCD의 사용
 - [수정이 필요한 부분](#수정이-필요한-부분)
-    - 정렬 문제
     - detailWeatherTableView - cell noreuse 문제
     - CLLocationManager를 mainViewController가 소유하는 문제
     - autolayout 문제(가로모드)
@@ -154,15 +153,16 @@
     - **TemperatureUnit** - UserDefaults에 저장할 온도 단위값
     - **WeatherSymbols** - 날씨정보 단위 문자 모양 저장(예: %, º)
     - **TimeUnit** - 화면에 표시할 날짜 유형(예: 월요일, 03시, 05시 22분) Date ([공부한 내용](https://solejin.github.io/date))
-    - **extension Double**
+    - **ExtensionDouble**
         - `var inFahrenheit` - 화면에 표시할 때 K -> F로
         - `var inCelsius` - 화면에 표시할 때 K -> C로
         - `var oneDecimalPlaceInString` - 화면에 표시할 때 소숫점 첫번째 자리까지 표시
-    - **extension String**
-        - `func convertToNSMutableAttributedString(ranges:fontSize:fontWeight:fontColor:)` - SearchView에서 사용자가 검색한 텍스트의 글자만 속성 변환   
-- **IntStyle**  
-    - **extension Int**
+    - **ExtensionInt**  
         - `func converToDateString(_:)` - 네트워킹에서 받은 날씨 정보의 dateTime을 한국 시간에 맞게 변환   
+- **ExtensionString**  
+    - `func convertToNSMutableAttributedString(ranges:fontSize:fontWeight:fontColor:)` - SearchView에서 사용자가 검색한 텍스트의 글자만 속성 변환   
+- **ExtensionDictionary**  
+    - `func findIndex(for:)` - 값으로 키를 찾기 위한 메서드    
 <br>
 
 ### ETC
@@ -178,6 +178,7 @@
 - `currentWeatherList`는 값이 바뀔 때마다 property observer `didSet` 에서 delegate를 통해 mainViewController에게 알린다.  
 - `weak var currentWeatherListDelegate` 
 - 각 도시, 온도, 습도를 정렬한다.  
+- 앱을 껐다 켜도 사용자 정렬을 유지한다.
 - `protocol UserAddWeatherDataUpdatable`을 채택해 사용자가 추가한 weatherData를 currentWeatherList의 첫번째 index에 추가한다.  
 <br>
 
@@ -246,18 +247,16 @@ custom type을 데이터로 변환하여 저장하면 저장하려는 타입이 
 ### GCD의 사용
 - **MainViewModel**  
     - 도시목록의 날씨정보를 받아올 때 여러 개의 좌표로 네트워킹하기 때문에 오래걸리리지만, URLSession은 따로 설정해주지 않아도 비동기로 작동하기때문에 GCD를 사용하지 않았다.  
-    - 다만, `currentWeatherList` 프로퍼티에 여러 쓰레드에서 같이 접근하면 교착상태가 발생할 수 있으므로 `append` 부분만 `DispatchQueue(label: "serial").async {}`를 사용했다.  
+    - 다만, `currentWeatherList` 프로퍼티에 여러 쓰레드에서 같이 접근하면 교착상태가 발생할 수 있으므로 `append` 부분만 `DispatchQueue(label: "serial").sync {}`를 사용했다.  
+        - **즐겨찾는 도시목록을 사용자가 지정한 대로 정렬**하려면 append 후에 해야하기 때문에 `sync`를 사용했다.  
+        `async`를 사용하면 테이블뷰에서 index오류가 난다.  
 - **ImageManager**  
     - 날씨아이콘을 받아오는 작업은 오래걸리기 때문에 `DispatchQueue.global().async {}`를 사용했다.  
-    - 날씨아이콘을 화면에 표시하는 작업은 바로 이루어져야 하기 때문에 `DispatchQueue.main.async {}`를 사용했다.  
+    - 날씨아이콘을 화면에 표시하는 작업은 바로 이루어져야 하기 때문에 `DispatchQueue.main.async {}`를 사용했다.   
 <br>
 <br>
 
 # <span style="font-weight: bold; color: #3C4C6C;">수정이 필요한 부분</span>
-### 정렬 문제
-- UserDefaults를 사용해 사용자가 지정한 즐겨찾는 도시목록을 저장하는데는 성공했지만, 앱을 껐다 켰을 때 그 순서까지 그대로 받아오진 못한다.  
-<br>
-
 ### detailWeatherTableView - cell noreuse 문제  
 - 각 section마다 다른 cell을 사용하기 때문에 resuse를 하지 않아 경고가 떴다.  
 cell의 재사용이 어떤 의미인지 다시 한 번 살펴봐야할 것 같다.  

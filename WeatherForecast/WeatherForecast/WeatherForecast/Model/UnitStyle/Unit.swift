@@ -39,16 +39,23 @@ extension Double {
     }
 }
 
-extension String {
-    func convertToNSMutableAttributedString(ranges: [NSValue], fontSize: CGFloat, fontWeight: UIFont.Weight, fontColor: CGColor) -> NSMutableAttributedString {
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.systemFont(ofSize: fontSize, weight: fontWeight),
-            .foregroundColor: fontColor
-        ]
-        let attributedString = NSMutableAttributedString(string: self)
-        if let range = ranges.first as? NSRange {
-            attributedString.addAttributes(attributes, range: range)
-        }
-        return attributedString
+extension Int {
+    func convertToDateString(_ timeUnit: String) -> String? {
+        guard let time = setTime(self) else { return nil }
+        let formatter = setformatter(timeUnit)
+        return formatter.string(from: time)
+    }
+    
+    private func setformatter(_ value: String) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "ko_kR")
+        formatter.dateFormat = value
+        return formatter
+    }
+    
+    private func setTime(_ value: Int) -> Date? {
+        guard let timeInterval = TimeInterval(String(self)) else { return nil }
+        let time = Date(timeIntervalSince1970: timeInterval)
+        return time
     }
 }
