@@ -24,7 +24,9 @@ class CityListCell: UITableViewCell {
     
     func update(weather: CurrentWeather) {
         setUpCellBackgroundView()
-        cityNameLabel.text = weather.cityName
+        DispatchQueue.main.async {
+            self.cityNameLabel.text = weather.cityName
+        }
         ImageManager.getImage(weather.iconPath) { icon in
             DispatchQueue.main.async { [weak self] in
                 guard let weakSelf = self else { return }

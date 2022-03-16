@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
 protocol CurrentWeatherListDataUpdatable: AnyObject {
     func mainTableViewReloadData()
@@ -74,29 +75,44 @@ final class MainViewModel {
     }
     
     func setUpDefaultValue() {
-        if let coordinateList = UserDefaults.standard.loadCoordinateList() {
-            loadEachCurrentWeatherAndSort(with: coordinateList)
-        } else {
-            loadEachCurrentWeatherAndSort(with: City.coordinateList)
+        let coordinateList = getCoordinateList()
+        let coordinateDictionary = getinDictionary(with: coordinateList)
+        coordinateList.forEach { [weak self] coordinate in
+            guard let weakSelf = self else { return }
+            weakSelf.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { loadWeather in
+                weakSelf.currentWeatherList.removeAll(where: { currentWeather in
+                    loadWeather.cityName == currentWeather.cityName
+                })
+                var customWeather = loadWeather
+                guard let findIndex = coordinateDictionary.findKey(for: loadWeather.coordinate) else { return }
+                customWeather.index = findIndex
+                DispatchQueue(label: "serial").sync {
+                    weakSelf.append(customWeather)
+                    weakSelf.currentWeatherList.sort { $0.index < $1.index }
+                }
+            }
         }
     }
     
-    private func loadEachCurrentWeatherAndSort(with loadCoordinateList: [Coordinate]) {
-        loadCoordinateList.forEach({ [weak self](coordinate) in
-            guard let weakSelf = self else { return }
-            weakSelf.loadCurrentWeather(latitude: coordinate.latitude, longitude: coordinate.longitude) { (weather) in
-                weakSelf.currentWeatherList.removeAll(where: { currentWeather in
-                    weather.cityName == currentWeather.cityName
-                })
-                DispatchQueue(label: "serial").async { [weak self] in
-                    guard let weakSelf = self else { return }
-                    weakSelf.append(weather)
-                }
-            }
-        })
+    private func getCoordinateList() -> [Coordinate] {
+        var coordinateList = [Coordinate]()
+        if let userCoordinateList = UserDefaults.standard.loadCoordinateList() {
+            coordinateList = userCoordinateList
+        } else {
+            coordinateList = City.coordinateList
+        }
+        return coordinateList
     }
     
-    // MARK: - index 찾아서 정렬해봅시다
+    private func getinDictionary(with coordinateList: [Coordinate]) -> [Int: Coordinate] {
+        var coordinateDictionary = [Int: Coordinate]()
+        var count = 0
+        for coordinate in coordinateList {
+            coordinateDictionary.updateValue(coordinate, forKey: count)
+            count += 1
+        }
+        return coordinateDictionary
+    }
     
     func loadCurrentWeather(latitude: Double, longitude: Double, completion: @escaping (CurrentWeather) -> Void) {
         WeatherAPI.fetchWeather(APIType.currentWeather, latitude, longitude) { (result: Result<CurrentWeatherResponse, APIError>) in

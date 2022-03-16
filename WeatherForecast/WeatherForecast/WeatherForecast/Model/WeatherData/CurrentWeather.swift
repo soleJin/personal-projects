@@ -8,6 +8,7 @@
 import UIKit
 
 struct CurrentWeather {
+    var index: Int = 0
     let coordinate: Coordinate
     let cityName: String
     let iconPath: String
