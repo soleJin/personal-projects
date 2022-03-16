@@ -56,8 +56,7 @@ final class DetailViewController: UIViewController {
                 weakSelf.dailyWeatherListDelegate?.update(dailyWeatherList: dailyWeatherData.daily)
                 weakSelf.currentWeatherDelegate?.update(currentWeather: dailyWeatherData.current)
                 weakSelf.updateWeather(data: dailyWeatherData.current)
-                DispatchQueue.main.async { [weak self] in
-                    guard let weakSelf = self else { return }
+                DispatchQueue.main.async {
                     weakSelf.detailWeatherTableView.reloadData()
                 }
             case .failure(let error):

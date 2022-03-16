@@ -38,10 +38,7 @@ extension MainViewController: CLLocationManagerDelegate {
         mainViewModel.loadCurrentWeather(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) { [weak self](weather) in
             guard let weakSelf = self else { return }
             weakSelf.mainViewModel.locationWeather = weather
-            DispatchQueue.main.async { [ weak self] in
-                guard let weakSelf = self else { return }
-                weakSelf.updateCurrentLocationUI(weather: weather)
-            }
+            weakSelf.updateCurrentLocationUI(weather: weather)
         }
     }
     
@@ -54,9 +51,9 @@ extension MainViewController: CLLocationManagerDelegate {
             temperatureLabel.text = "\(weather.temperature.inCelsius.oneDecimalPlaceInString) \(WeatherSymbols.temperature)"
         }
         descriptionLabel.text = weather.description
-        ImageManager.getImage(weather.iconPath) { icon in
-            DispatchQueue.main.async { [weak self] in
-                guard let weakSelf = self else { return }
+        ImageManager.getImage(weather.iconPath) { [weak self] icon in
+            guard let weakSelf = self else { return }
+            DispatchQueue.main.async {
                 weakSelf.weatherIconImageView.image = icon
             }
         }
@@ -68,8 +65,7 @@ extension MainViewController: CLLocationManagerDelegate {
             present(AlertManager.promptForAuthorization(), animated: true, completion: nil)
             mainViewModel.loadCurrentWeather(latitude: InitialLocation.latitude, longitude: InitialLocation.longtitude) { [weak self] (weather) in
                 guard let weakSelf = self else { return }
-                DispatchQueue.main.async { [weak self] in
-                    guard let weakSelf = self else { return }
+                DispatchQueue.main.async {
                     weakSelf.updateCurrentLocationUI(weather: weather)
                 }
                 weakSelf.mainViewModel.locationWeather = weather

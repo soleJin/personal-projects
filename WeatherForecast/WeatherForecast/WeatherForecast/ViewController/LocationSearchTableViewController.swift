@@ -19,7 +19,6 @@ final class LocationSearchTableViewController: UITableViewController {
         if let coordinate = sender as? CLLocation {
             let coordinate = Coordinate(longitude: coordinate.coordinate.longitude, latitude: coordinate.coordinate.latitude)
             detailViewController?.coord = coordinate
-            
         }
     }
     

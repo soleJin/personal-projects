@@ -26,9 +26,9 @@ final class DailyListCell: UITableViewCell {
     }
     
     func update(data: DailyWeather) {
-        ImageManager.getImage(data.iconPath) { icon in
-            DispatchQueue.main.async { [weak self] in
-                guard let weakSelf = self else { return }
+        ImageManager.getImage(data.iconPath) { [weak self] icon in
+            guard let weakSelf = self else { return }
+            DispatchQueue.main.async {
                 weakSelf.weatherIcon.image = icon
             }
         }
