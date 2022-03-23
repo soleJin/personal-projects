@@ -38,8 +38,7 @@ final class LocationSearchTableViewController: UITableViewController {
     
     private func setUpSearchCompleter() {
         searchCompleter.delegate = self
-        searchCompleter.resultTypes = .address
-        
+        searchCompleter.resultTypes = .pointOfInterest
     }
 
     // MARK: - Table view data source
@@ -53,6 +52,7 @@ final class LocationSearchTableViewController: UITableViewController {
         let rangeArray = searchCompleterResults[indexPath.row].titleHighlightRanges
         cell.textLabel?.attributedText = title.convertToNSMutableAttributedString(ranges: rangeArray, fontSize: 18, fontWeight: .semibold, fontColor: UIColor.white.cgColor)
         return cell
+        
     }
     
     // MARK: - Table View Delegate
